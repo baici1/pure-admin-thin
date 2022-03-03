@@ -8,7 +8,7 @@
 
 精简版是基于[vue-pure-admin](https://github.com/xiaoxian521/vue-pure-admin)提炼出的架子，包含主体功能，更适合实际项目开发，打包后的大小仅 `2MB`多
 
-## 配套视频
+## 配套视频1
 
 - [点我查看教程](https://www.bilibili.com/video/BV1534y1S7HV)
 - [点我查看 UI 设计](https://www.bilibili.com/video/BV17g411T7rq)
