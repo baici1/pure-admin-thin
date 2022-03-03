@@ -24,6 +24,7 @@ import Location from "@iconify-icons/ep/location";
 import Tickets from "@iconify-icons/ep/tickets";
 import OfficeBuilding from "@iconify-icons/ep/office-building";
 import Notebook from "@iconify-icons/ep/notebook";
+import phoneFilled from "@iconify-icons/ep/phone-filled";
 addIcon("check", Check);
 addIcon("menu", Menu);
 addIcon("home-filled", HomeFilled);
@@ -46,6 +47,7 @@ addIcon("location", Location);
 addIcon("tickets", Tickets);
 addIcon("office-building", OfficeBuilding);
 addIcon("notebook", Notebook);
+addIcon("phone", phoneFilled);
 
 // remixicon
 import arrowRightSLine from "@iconify-icons/ri/arrow-right-s-line";
@@ -61,9 +63,11 @@ addIcon("node-tree", nodeTree);
 import faUser from "@iconify-icons/fa/user";
 import faLock from "@iconify-icons/fa/lock";
 import faSignOut from "@iconify-icons/fa/sign-out";
+import phoneIcon from "@iconify-icons/fa/phone";
 addIcon("fa-user", faUser);
 addIcon("fa-lock", faLock);
 addIcon("fa-sign-out", faSignOut);
+addIcon("fa-phone", phoneIcon);
 
 // Iconify Icon在Vue里离线使用（用于内网环境）https://docs.iconify.design/icon-components/vue/offline.html
 export default defineComponent({

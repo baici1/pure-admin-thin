@@ -31,7 +31,11 @@ import {
   ElAvatar,
   ElEmpty,
   ElCollapse,
+  ElForm,
+  ElFormItem,
   ElCollapseItem,
+  ElCheckbox,
+
   // 指令
   ElLoading,
   ElInfiniteScroll
@@ -71,6 +75,9 @@ const components = [
   ElTabPane,
   ElAvatar,
   ElEmpty,
+  ElCheckbox,
+  ElForm,
+  ElFormItem,
   ElCollapse,
   ElCollapseItem
 ];

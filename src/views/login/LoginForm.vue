@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { computed, unref } from "vue";
 import { useRouter } from "vue-router";
 import { initRouter } from "/@/router/utils";
 import { storageSession } from "/@/utils/storage";
-import { addClass, removeClass } from "/@/utils/operate";
-import bg from "/@/assets/login/bg.png";
-import avatar from "/@/assets/login/avatar.svg?component";
-import illustration from "/@/assets/login/illustration.svg?component";
-
+import {
+  useInputUtil,
+  FormStateEnum,
+  useFormState,
+  LoginForm,
+  rulesLoginForm
+} from "./useLogin";
 const router = useRouter();
-
-let user = ref("admin");
-let pwd = ref("123456");
+const { setFormState, getFormState } = useFormState();
 
 const onLogin = (): void => {
   storageSession.setItem("info", {
@@ -21,53 +21,17 @@ const onLogin = (): void => {
   initRouter("admin").then(() => {});
   router.push("/");
 };
-
-function onUserFocus() {
-  addClass(document.querySelector(".user"), "focus");
-}
-
-function onUserBlur() {
-  if (user.value.length === 0)
-    removeClass(document.querySelector(".user"), "focus");
-}
-
-function onPwdFocus() {
-  addClass(document.querySelector(".pwd"), "focus");
-}
-
-function onPwdBlur() {
-  if (pwd.value.length === 0)
-    removeClass(document.querySelector(".pwd"), "focus");
-}
+const { onInputFocus, onInputBlur } = useInputUtil();
+const getShow = computed(() => unref(getFormState) === FormStateEnum.LOGIN);
 </script>
 
 <template>
-  <img :src="bg" class="wave" />
-  <div class="login-container">
-    <div class="img">
-      <illustration />
-    </div>
-    <div class="login-box">
-      <div class="login-form">
-        <avatar class="avatar" />
-        <h2
-          v-motion
-          :initial="{
-            opacity: 0,
-            y: 100
-          }"
-          :enter="{
-            opacity: 1,
-            y: 0,
-            transition: {
-              delay: 100
-            }
-          }"
-        >
-          Pure Admin
-        </h2>
+  <div class="on-login" v-if="getShow">
+    <el-form ref="formRef" :model="LoginForm" :rules="rulesLoginForm">
+      <!-- 用户名 -->
+      <el-form-item prop="phone">
         <div
-          class="input-group user focus"
+          class="input-group phone"
           v-motion
           :initial="{
             opacity: 0,
@@ -89,14 +53,17 @@ function onPwdBlur() {
             <input
               type="text"
               class="input"
-              v-model="user"
-              @focus="onUserFocus"
-              @blur="onUserBlur"
+              v-model="LoginForm.phone"
+              @focus="onInputFocus('phone')"
+              @blur="onInputBlur(LoginForm.phone, 'phone')"
             />
           </div>
         </div>
+      </el-form-item>
+      <!-- 密码 -->
+      <el-form-item prop="password">
         <div
-          class="input-group pwd focus"
+          class="input-group pwd"
           v-motion
           :initial="{
             opacity: 0,
@@ -118,12 +85,38 @@ function onPwdBlur() {
             <input
               type="password"
               class="input"
-              v-model="pwd"
-              @focus="onPwdFocus"
-              @blur="onPwdBlur"
+              v-model="LoginForm.password"
+              @focus="onInputFocus('pwd')"
+              @blur="onInputBlur(LoginForm.password, 'pwd')"
             />
           </div>
         </div>
+      </el-form-item>
+      <el-row
+        justify="space-between"
+        v-motion
+        :initial="{
+          opacity: 0,
+          y: 100
+        }"
+        :enter="{
+          opacity: 1,
+          y: 0,
+          transition: {
+            delay: 300
+          }
+        }"
+      >
+        <el-col :span="4">
+          <el-checkbox label="记住我" size="large"></el-checkbox>
+        </el-col>
+        <el-col :span="5">
+          <el-button type="text" @click="setFormState(FormStateEnum.REGISTER)"
+            >注册</el-button
+          >
+        </el-col>
+      </el-row>
+      <el-form-item>
         <button
           class="btn"
           v-motion
@@ -135,18 +128,25 @@ function onPwdBlur() {
             opacity: 1,
             y: 0,
             transition: {
-              delay: 400
+              delay: 500
+            }
+          }"
+          :leave="{
+            y: -10,
+            opacity: 0,
+            transition: {
+              delay: 500
             }
           }"
           @click="onLogin"
         >
           登录
         </button>
-      </div>
-    </div>
+      </el-form-item>
+    </el-form>
   </div>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 @import url("/@/style/login.css");
 </style>

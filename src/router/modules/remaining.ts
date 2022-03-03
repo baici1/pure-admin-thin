@@ -5,7 +5,7 @@ const remainingRouter = [
   {
     path: "/login",
     name: "login",
-    component: () => import("/@/views/login.vue"),
+    component: () => import("/@/views/login/login.vue"),
     meta: {
       title: $t("menus.hslogin"),
       showLink: false,
