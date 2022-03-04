@@ -111,7 +111,9 @@
 .input-group.focus .icon svg {
   color: #5392f0;
 }
-
+.input-group.error .icon svg {
+  color: red;
+}
 .input-group.focus div h5 {
   top: -5px;
   font-size: 15px;
