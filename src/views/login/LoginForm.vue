@@ -2,25 +2,52 @@
 import { computed, unref } from "vue";
 import { useRouter } from "vue-router";
 import { initRouter } from "/@/router/utils";
-import { storageSession } from "/@/utils/storage";
+import { getLogin } from "/@/api/user";
+import { useUserStoreHook } from "/@/store/modules/user";
 import {
   useInputUtil,
   FormStateEnum,
   useFormState,
   LoginForm
 } from "./useLogin";
+import { storageLocal } from "/@/utils/storage";
+import { setToken } from "/@/utils/auth";
+const userStore = useUserStoreHook();
 const router = useRouter();
 const { setFormState, getFormState } = useFormState();
-
-const onLogin = (): void => {
-  storageSession.setItem("info", {
-    username: "admin",
-    accessToken: "eyJhbGciOiJIUzUxMiJ9.test"
-  });
+const { onInputFocus, onInputBlur, onInputErr } = useInputUtil();
+//用户登录函数
+const onLogin = async () => {
+  //参数校验 基础：保证已填写
+  LoginForm.value.phone = LoginForm.value.phone.trim();
+  if (LoginForm.value.phone.length == 0) {
+    onInputErr("phone");
+    return;
+  }
+  LoginForm.value.password = LoginForm.value.password.trim();
+  if (LoginForm.value.password.length == 0) {
+    onInputErr("pwd");
+    return;
+  }
+  //发起请求
+  const data = await getLogin(LoginForm.value);
+  console.log(
+    "%c 🍺 data: ",
+    "font-size:20px;background-color: #7F2B82;color:#fff;",
+    data
+  );
+  //localstorage和cookie存储权限
+  userStore.SET_INFO(
+    data.data.accessToken,
+    data.data.user.phone,
+    data.data.user.id
+  );
+  storageLocal.setItem("Info", data.data.user);
+  setToken(data.data);
+  //通过权限获取列表
   initRouter("admin").then(() => {});
-  router.push("/");
+  router.push({ name: "welcome" });
 };
-const { onInputFocus, onInputBlur } = useInputUtil();
 const getShow = computed(() => unref(getFormState) === FormStateEnum.LOGIN);
 </script>
 
@@ -118,13 +145,6 @@ const getShow = computed(() => unref(getFormState) === FormStateEnum.LOGIN);
       :enter="{
         opacity: 1,
         y: 0,
-        transition: {
-          delay: 500
-        }
-      }"
-      :leave="{
-        y: -10,
-        opacity: 0,
         transition: {
           delay: 500
         }

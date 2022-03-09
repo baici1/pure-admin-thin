@@ -11,10 +11,15 @@ export function useInputUtil() {
       "font-size:20px;background-color: #E41A6A;color:#fff;",
       classState
     );
-    if (classState.length === 0)
+    if (classState.length === 0) {
       removeClass(document.querySelector("." + ClassStr), "focus");
+      removeClass(document.querySelector("." + ClassStr), "err");
+    }
   }
-  return { onInputFocus, onInputBlur };
+  function onInputErr(ClassStr: String) {
+    addClass(document.querySelector("." + ClassStr), "err");
+  }
+  return { onInputFocus, onInputBlur, onInputErr };
 }
 
 export enum FormStateEnum {
@@ -39,8 +44,8 @@ export function useFormState() {
 }
 //登录表单
 export const LoginForm = ref({
-  phone: "",
-  password: ""
+  phone: "13337474745",
+  password: "123456"
 });
 //注册表单
 export const RegisterForm = ref({

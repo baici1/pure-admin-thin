@@ -112,7 +112,7 @@ const { onInputFocus, onInputBlur } = useInputUtil();
         opacity: 1,
         y: 0,
         transition: {
-          delay: 250
+          delay: 300
         }
       }"
     >
@@ -129,7 +129,7 @@ const { onInputFocus, onInputBlur } = useInputUtil();
         opacity: 1,
         y: 0,
         transition: {
-          delay: 250
+          delay: 300
         }
       }"
       @click="handleBackLogin"

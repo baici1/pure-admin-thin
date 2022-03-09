@@ -2,19 +2,23 @@ import { defineStore } from "pinia";
 import { store } from "/@/store";
 import { userType } from "./types";
 import { useRouter } from "vue-router";
-import { getLogin, refreshToken } from "/@/api/user";
+import { refreshToken } from "/@/api/user";
 import { storageLocal, storageSession } from "/@/utils/storage";
 import { getToken, setToken, removeToken } from "/@/utils/auth";
 import { useMultiTagsStoreHook } from "/@/store/modules/multiTags";
-
+//每次的一次启动页面的初始化
 const data = getToken();
 let token = "";
-let name = "";
+const name = "";
+let userid = 0;
+let phone = "";
 if (data) {
   const dataJson = JSON.parse(data);
   if (dataJson) {
     token = dataJson?.accessToken;
-    name = dataJson?.name ?? "admin";
+    userid = dataJson?.user.id;
+    phone = dataJson?.user.phone;
+    //name = dataJson?.name ?? "admin";
   }
 }
 
@@ -22,7 +26,9 @@ export const useUserStore = defineStore({
   id: "pure-user",
   state: (): userType => ({
     token,
-    name
+    name,
+    userid,
+    phone
   }),
   actions: {
     SET_TOKEN(token) {
@@ -31,25 +37,23 @@ export const useUserStore = defineStore({
     SET_NAME(name) {
       this.name = name;
     },
-    // 登入
-    async loginByUsername(data) {
-      return new Promise<void>((resolve, reject) => {
-        getLogin(data)
-          .then(data => {
-            if (data) {
-              setToken(data);
-              resolve();
-            }
-          })
-          .catch(error => {
-            reject(error);
-          });
-      });
+    SET_USERID(id) {
+      this.userid = id;
+    },
+    SET_PHONE(phone) {
+      this.phone = phone;
+    },
+    SET_INFO(token, phone, id) {
+      this.token = token;
+      this.phone = phone;
+      this.userid = id;
     },
     // 登出 清空缓存
     logOut() {
       this.token = "";
       this.name = "";
+      this.userid = 0;
+      this.phone = "";
       removeToken();
       storageLocal.clear();
       storageSession.clear();
