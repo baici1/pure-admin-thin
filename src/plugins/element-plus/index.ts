@@ -35,7 +35,7 @@ import {
   ElFormItem,
   ElCollapseItem,
   ElCheckbox,
-
+  ElAlert,
   // 指令
   ElLoading,
   ElInfiniteScroll
@@ -77,6 +77,7 @@ const components = [
   ElEmpty,
   ElCheckbox,
   ElForm,
+  ElAlert,
   ElFormItem,
   ElCollapse,
   ElCollapseItem

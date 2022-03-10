@@ -6,11 +6,6 @@ export function useInputUtil() {
     addClass(document.querySelector("." + ClassStr), "focus");
   }
   function onInputBlur(classState, ClassStr: String) {
-    console.log(
-      "%c 🍝 classState: ",
-      "font-size:20px;background-color: #E41A6A;color:#fff;",
-      classState
-    );
     if (classState.length === 0) {
       removeClass(document.querySelector("." + ClassStr), "focus");
       removeClass(document.querySelector("." + ClassStr), "err");

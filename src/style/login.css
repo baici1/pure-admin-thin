@@ -111,9 +111,7 @@
 .input-group.focus .icon svg {
   color: #5392f0;
 }
-.input-group.error .icon svg {
-  color: red;
-}
+
 .input-group.focus div h5 {
   top: -5px;
   font-size: 15px;
@@ -122,6 +120,21 @@
 .input-group.focus::after,
 .input-group.focus::before {
   width: 50%;
+}
+
+.input-group.err .icon svg {
+  color: red;
+}
+
+.input-group.err div h5 {
+  top: -5px;
+  font-size: 15px;
+}
+
+.input-group.err::after,
+.input-group.err::before {
+  width: 50%;
+  background-color: red;
 }
 
 .input {

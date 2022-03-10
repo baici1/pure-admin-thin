@@ -1,3 +1,4 @@
+import { storageLocal } from "./../utils/storage/index";
 import { isUrl } from "/@/utils/is";
 import { toRouteType } from "./types";
 import { openLink } from "/@/utils/link";
@@ -6,7 +7,6 @@ import { constantRoutes } from "./modules";
 import { findIndex } from "lodash-unified";
 import { transformI18n } from "/@/plugins/i18n";
 import remainingRouter from "./modules/remaining";
-import { storageSession } from "/@/utils/storage";
 import { Title } from "../../public/serverConfig.json";
 import { useMultiTagsStoreHook } from "/@/store/modules/multiTags";
 import { usePermissionStoreHook } from "/@/store/modules/permission";
@@ -51,7 +51,8 @@ router.beforeEach((to: toRouteType, _from, next) => {
       handleAliveRoute(newMatched);
     }
   }
-  const name = storageSession.getItem("info");
+  const name = storageLocal.getItem("info");
+  name.username = "admin";
   NProgress.start();
   const externalLink = isUrl(to?.name);
   if (!externalLink)

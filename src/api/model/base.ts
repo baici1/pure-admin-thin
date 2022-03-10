@@ -2,5 +2,10 @@
 export class BaseModel<T> {
   code: Number;
   msg: String;
-  data: T;
+  data?: T | any;
+}
+
+export interface BaseRes {
+  code: Number;
+  msg: String;
 }
