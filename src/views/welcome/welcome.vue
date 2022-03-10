@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { useRouter } from "vue-router";
 import { computed } from "vue";
 import { ReBar, RePie } from "/@/components/ReCharts/index";
 import { ReInfo, ReList } from "./components/index";
-import { loading, Info, get_student_info } from "./utils/welcome";
+import { loading, form, get_student_info } from "./utils/welcome";
+const router = useRouter();
 get_student_info();
 const date: Date = new Date();
 let greetings = computed(() => {
@@ -14,12 +16,15 @@ let greetings = computed(() => {
     return "折一根天使羽毛，愿拂去您的疲惫烦恼忧伤🌛！";
   }
 });
+const auth_update = async () => {
+  router.push("/info/update");
+};
 </script>
 <template>
   <div class="welcome">
     <el-card class="top-content">
       <div class="left-mark">
-        <el-image class="e-img" :src="Info?.avatar" />
+        <el-image class="e-img" :src="form?.avatar" />
         <span>{{ greetings }}</span>
       </div>
     </el-card>
@@ -48,12 +53,14 @@ let greetings = computed(() => {
           <template #header>
             <div class="card-header">
               <span style="font-size: 16px; font-weight: 500">个人信息</span>
-              <el-button class="button" type="text">编辑</el-button>
+              <el-button class="button" type="text" @click="auth_update">
+                编辑
+              </el-button>
             </div>
           </template>
           <el-skeleton animated :rows="7" :loading="loading">
             <template #default>
-              <ReInfo :info="Info" />
+              <ReInfo :info="form" />
             </template>
           </el-skeleton>
         </el-card>

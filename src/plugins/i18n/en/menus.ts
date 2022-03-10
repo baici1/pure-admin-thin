@@ -1,6 +1,7 @@
 export default {
   hshome: "Home",
   hslogin: "Login",
+  hsinfoUpdate: "Info Update",
   hssysManagement: "System Manage",
   hsBaseinfo: "Base Info",
   hserror: "Error Page",

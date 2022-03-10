@@ -21,6 +21,16 @@ const homeRouter = {
         title: $t("menus.hshome"),
         i18n: true
       }
+    },
+    {
+      path: "/info/update",
+      name: "authInfo",
+      component: () => import("/@/views/welcome/editor.vue"),
+      meta: {
+        title: $t("menus.hsinfoUpdate"),
+        i18n: true,
+        showLink: false
+      }
     }
   ]
 };

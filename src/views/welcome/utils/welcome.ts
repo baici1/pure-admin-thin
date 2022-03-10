@@ -9,7 +9,27 @@ export const loading = ref<boolean>(true);
 //获取个人id
 const info: UserInfo = storageLocal.getItem("Info");
 const uid = info.id;
-export const Info = ref<StudentInfo>();
+export const form = ref<StudentInfo>({
+  id: 0,
+  student_id: "",
+  u_id: 0,
+  nickname: "",
+  email: "",
+  avatar: "",
+  real_name: "",
+  gender: 1,
+  degree: "",
+  grade: "",
+  department: "",
+  major: "",
+  class_num: "",
+  specialty: "",
+  QQ: "",
+  wechat: "",
+  bank_name: "",
+  bank_card_number: "",
+  introduction: ""
+});
 
 export const get_student_info = async () => {
   try {
@@ -21,8 +41,8 @@ export const get_student_info = async () => {
       "font-size:20px;background-color: #EA7E5C;color:#fff;",
       data
     );
-    Info.value = data.data;
-    Info.value.lists = data.data.specialty.split(",");
+    form.value = data.data;
+    form.value.lists = data.data.specialty.split(",");
   } catch (error) {
     console.log(
       "%c 🥜 error: ",

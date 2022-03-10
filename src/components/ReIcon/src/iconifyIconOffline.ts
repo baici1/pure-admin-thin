@@ -28,6 +28,7 @@ import pictureRounded from "@iconify-icons/ep/picture-rounded";
 import messageIcon from "@iconify-icons/ep/message";
 import medalIcon from "@iconify-icons/ep/medal";
 import documentIcon from "@iconify-icons/ep/document";
+import plusIcon from "@iconify-icons/ep/plus";
 addIcon("check", Check);
 addIcon("menu", Menu);
 addIcon("home-filled", HomeFilled);
@@ -54,6 +55,7 @@ addIcon("picture-rounded", pictureRounded);
 addIcon("message-icon", messageIcon);
 addIcon("medal", medalIcon);
 addIcon("document", documentIcon);
+addIcon("plus", plusIcon);
 // remixicon
 import arrowRightSLine from "@iconify-icons/ri/arrow-right-s-line";
 import arrowLeftSLine from "@iconify-icons/ri/arrow-left-s-line";

@@ -81,6 +81,7 @@ specifiers:
   vite-plugin-windicss: ^1.8.2
   vite-svg-loader: 2.2.0
   vue: ^3.2.31
+  vue-cropper: ^1.0.2
   vue-eslint-parser: ^8.2.0
   vue-i18n: ^9.2.0-beta.30
   vue-router: ^4.0.13
@@ -113,6 +114,7 @@ dependencies:
   responsive-storage: 1.0.11_vue@3.2.31
   rgb-hex: 4.0.0
   vue: 3.2.31
+  vue-cropper: registry.npmmirror.com/vue-cropper/1.0.2
   vue-i18n: 9.2.0-beta.30_vue@3.2.31
   vue-router: registry.npmmirror.com/vue-router/4.0.13_vue@3.2.31
   vue-types: 4.1.1_vue@3.2.31
@@ -8074,6 +8076,17 @@ packages:
     optionalDependencies:
       fsevents: registry.npmmirror.com/fsevents/2.3.2
     dev: true
+
+  registry.npmmirror.com/vue-cropper/1.0.2:
+    resolution:
+      {
+        integrity: sha512-ZD1kl8OMMrDXJOS1ZRdnohh2BFfYjTeq+r7+yAahydQvrVOKbzXixx6f8LCoMjB+AgAf5BXnlWsZxmu964wJYA==,
+        registry: https://registry.npm.taobao.org/,
+        tarball: https://registry.npmmirror.com/vue-cropper/-/vue-cropper-1.0.2.tgz
+      }
+    name: vue-cropper
+    version: 1.0.2
+    dev: false
 
   registry.npmmirror.com/vue-router/4.0.13_vue@3.2.31:
     resolution:
