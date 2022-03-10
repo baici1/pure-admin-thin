@@ -24,7 +24,10 @@ import Location from "@iconify-icons/ep/location";
 import Tickets from "@iconify-icons/ep/tickets";
 import OfficeBuilding from "@iconify-icons/ep/office-building";
 import Notebook from "@iconify-icons/ep/notebook";
-import phoneFilled from "@iconify-icons/ep/phone-filled";
+import pictureRounded from "@iconify-icons/ep/picture-rounded";
+import messageIcon from "@iconify-icons/ep/message";
+import medalIcon from "@iconify-icons/ep/medal";
+import documentIcon from "@iconify-icons/ep/document";
 addIcon("check", Check);
 addIcon("menu", Menu);
 addIcon("home-filled", HomeFilled);
@@ -47,8 +50,10 @@ addIcon("location", Location);
 addIcon("tickets", Tickets);
 addIcon("office-building", OfficeBuilding);
 addIcon("notebook", Notebook);
-addIcon("phone", phoneFilled);
-
+addIcon("picture-rounded", pictureRounded);
+addIcon("message-icon", messageIcon);
+addIcon("medal", medalIcon);
+addIcon("document", documentIcon);
 // remixicon
 import arrowRightSLine from "@iconify-icons/ri/arrow-right-s-line";
 import arrowLeftSLine from "@iconify-icons/ri/arrow-left-s-line";

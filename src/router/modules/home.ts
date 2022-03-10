@@ -16,7 +16,7 @@ const homeRouter = {
     {
       path: "/welcome",
       name: "welcome",
-      component: () => import("/@/views/welcome.vue"),
+      component: () => import("/@/views/welcome/welcome.vue"),
       meta: {
         title: $t("menus.hshome"),
         i18n: true

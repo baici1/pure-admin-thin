@@ -1,5 +1,5 @@
 import { http } from "../utils/http";
-import { LoginRes } from "./model/user";
+import { LoginRes, StudentInfo } from "./model/user";
 import { BaseModel, BaseRes } from "./model/base";
 interface userType extends Promise<any> {
   svg?: string;
@@ -42,9 +42,13 @@ export const refreshToken = (data: object) => {
 // };
 //获取学生详情信息
 export const getStudentInfo = (params?: object) => {
-  return http.request("get", "http://127.0.0.1:20201/menage/student/read", {
-    params
-  });
+  return http.request<BaseModel<StudentInfo>>(
+    "get",
+    "http://127.0.0.1:20201/menage/student/read",
+    {
+      params
+    }
+  );
 };
 //修改学生详情信息
 export const updateStudentInfo = (data: Object) => {

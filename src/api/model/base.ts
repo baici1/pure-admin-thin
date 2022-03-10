@@ -1,11 +1,11 @@
 //一些基础类型
 export class BaseModel<T> {
-  code: Number;
-  msg: String;
-  data?: T | any;
+  code: number;
+  msg: string;
+  data?: T;
 }
 
 export interface BaseRes {
-  code: Number;
-  msg: String;
+  code: number;
+  msg: string;
 }

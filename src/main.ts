@@ -6,6 +6,8 @@ import { createApp, Directive } from "vue";
 import { usI18n } from "../src/plugins/i18n";
 import { MotionPlugin } from "@vueuse/motion";
 import { useElementPlus } from "../src/plugins/element-plus";
+import { useAntDesign } from "../src/plugins/ant-design";
+import "ant-design-vue/dist/antd.css";
 import { injectResponsiveStorage } from "/@/utils/storage/responsive";
 
 import "animate.css";
@@ -39,6 +41,6 @@ getServerConfig(app).then(async config => {
   await router.isReady();
   injectResponsiveStorage(app, config);
   setupStore(app);
-  app.use(MotionPlugin).use(useElementPlus).use(usI18n);
+  app.use(MotionPlugin).use(useElementPlus).use(useAntDesign).use(usI18n);
   app.mount("#app");
 });

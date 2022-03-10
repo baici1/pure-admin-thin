@@ -1,14 +1,7 @@
-//定义一些response的types
 export interface UserInfo {
   id: number;
   phone: string;
   salt: number;
-}
-
-export interface LoginRes {
-  accessToken: string;
-  expires: number;
-  user: UserInfo;
 }
 
 export interface StudentInfo {
@@ -31,4 +24,5 @@ export interface StudentInfo {
   bank_name: string;
   bank_card_number: string;
   introduction: string;
+  lists?: Array<string>;
 }
