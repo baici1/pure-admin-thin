@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  "@ant-design/icons-vue": ^6.0.1
   "@commitlint/cli": 13.1.0
   "@commitlint/config-conventional": 13.1.0
   "@ctrl/tinycolor": ^3.4.0
@@ -89,6 +90,7 @@ specifiers:
   windicss: ^3.5.1
 
 dependencies:
+  "@ant-design/icons-vue": registry.npmmirror.com/@ant-design/icons-vue/6.0.1_vue@3.2.31
   "@ctrl/tinycolor": 3.4.0
   "@vueuse/core": 7.6.2_vue@3.2.31
   "@vueuse/motion": 2.0.0-beta.9_vue@3.2.31

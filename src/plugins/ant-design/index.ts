@@ -1,10 +1,34 @@
 import { App, Component } from "vue";
-import { ListItemMeta, List, ListItem, Avatar } from "ant-design-vue";
+import {
+  ListItemMeta,
+  List,
+  ListItem,
+  Avatar,
+  Card,
+  CardMeta,
+  Button,
+  Descriptions,
+  DescriptionsItem,
+  Row,
+  Col
+} from "ant-design-vue";
 
 // Directives
 const plugins = [];
 
-const components = [ListItemMeta, List, ListItem, Avatar];
+const components = [
+  ListItemMeta,
+  List,
+  ListItem,
+  Avatar,
+  Card,
+  CardMeta,
+  Button,
+  Descriptions,
+  DescriptionsItem,
+  Row,
+  Col
+];
 
 export function useAntDesign(app: App) {
   // 注册组件

@@ -1,9 +1,15 @@
 import { http } from "../utils/http";
+import { BaseModel } from "./model/base";
+import { EntryDetail } from "./model/game";
 //获取团队信息
 export const getAllGameInfo = (params?: object) => {
-  return http.request("get", "http://127.0.0.1:20201/menage/entry/read", {
-    params
-  });
+  return http.request<BaseModel<Array<EntryDetail>>>(
+    "get",
+    "http://127.0.0.1:20201/menage/entry/read",
+    {
+      params
+    }
+  );
 };
 
 export const getAGameInfo = (params?: object) => {

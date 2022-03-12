@@ -30,6 +30,7 @@ import medalIcon from "@iconify-icons/ep/medal";
 import documentIcon from "@iconify-icons/ep/document";
 import plusIcon from "@iconify-icons/ep/plus";
 import questionFilled from "@iconify-icons/ep/question-filled";
+import moreFilled from "@iconify-icons/ep/more-filled";
 addIcon("check", Check);
 addIcon("menu", Menu);
 addIcon("home-filled", HomeFilled);
@@ -58,6 +59,7 @@ addIcon("medal", medalIcon);
 addIcon("document", documentIcon);
 addIcon("plus", plusIcon);
 addIcon("question", questionFilled);
+addIcon("more", moreFilled);
 // remixicon
 import arrowRightSLine from "@iconify-icons/ri/arrow-right-s-line";
 import arrowLeftSLine from "@iconify-icons/ri/arrow-left-s-line";

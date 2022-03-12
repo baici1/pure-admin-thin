@@ -29,6 +29,7 @@
     "not op_mini all"
   ],
   "dependencies": {
+    "@ant-design/icons-vue": "^6.0.1",
     "@ctrl/tinycolor": "^3.4.0",
     "@vueuse/core": "^7.6.2",
     "@vueuse/motion": "^2.0.0-beta.9",
