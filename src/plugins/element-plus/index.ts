@@ -61,6 +61,9 @@ import {
   ElCarousel,
   ElCarouselItem,
   ElCheckbox,
+  ElResult,
+  ElSteps,
+  ElStep,
   // 指令
   ElLoading,
   ElInfiniteScroll
@@ -128,6 +131,9 @@ const components = [
   ElCarousel,
   ElCarouselItem,
   ElUpload,
+  ElResult,
+  ElSteps,
+  ElStep,
   ElCheckbox,
   ElCollapseItem,
   ElTreeV2

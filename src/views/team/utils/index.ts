@@ -1,4 +1,5 @@
 import { storageLocal } from "/@/utils/storage/index";
+import { ElMessageBox } from "element-plus";
 import { ref } from "vue";
 import {
   getTeamInfo,
@@ -73,4 +74,16 @@ export const get_team_member_all = async () => {
     limit: 10
   });
   MemberBase.value = data.data;
+};
+//对话框
+export const dialogVisibleCompany = ref(false);
+export const dialogVisibleTeam = ref(false);
+export const handleClose = (done: () => void) => {
+  ElMessageBox.confirm("Are you sure to close this dialog?")
+    .then(() => {
+      done();
+    })
+    .catch(() => {
+      // catch error
+    });
 };

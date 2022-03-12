@@ -32,25 +32,17 @@ export const getCompanyInfo = (params?: object) => {
   );
 };
 
-//提交信息 true是创建 false是修改
-export const commitTeam = (data?: object, flagTeam?: boolean) => {
-  if (flagTeam) {
-    return http.request(
-      "post",
-      "http://127.0.0.1:20201/menage/teamInfo/create",
-      {
-        data
-      }
-    );
-  } else {
-    return http.request(
-      "post",
-      "http://127.0.0.1:20201/menage/teamInfo/update",
-      {
-        data
-      }
-    );
-  }
+//提交信息
+export const createTeam = (data?: object) => {
+  return http.request("post", "http://127.0.0.1:20201/menage/teamInfo/create", {
+    data
+  });
+};
+
+export const updateTeam = (data?: object) => {
+  return http.request("post", "http://127.0.0.1:20201/menage/teamInfo/update", {
+    data
+  });
 };
 
 //创建人作为团队的队长
@@ -85,4 +77,17 @@ export const getTeamMemberAll = (params?: object) => {
       params
     }
   );
+};
+
+//创建公司
+export const createCompany = (data?: object) => {
+  return http.request("post", "http://127.0.0.1:20201/menage/company/create", {
+    data
+  });
+};
+//修改公司
+export const updateCompany = (data?: object) => {
+  return http.request("post", "http://127.0.0.1:20201/menage/company/update", {
+    data
+  });
 };

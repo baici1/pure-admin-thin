@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { StudentInfo } from "/@/api/model/user";
 import { getStudentInfo } from "/@/api/user";
 import {
@@ -10,9 +10,15 @@ import {
   company,
   get_company_info,
   MemberBase,
-  get_team_member_all
+  get_team_member_all,
+  dialogVisibleCompany,
+  handleClose,
+  dialogVisibleTeam
 } from "./utils/index";
 import { timeFormatYMD } from "/@/utils/tools";
+//import { useRouter } from "vue-router";
+import companyVue from "./components/company.vue";
+import teamVue from "./components/team.vue";
 const MemberDetail = ref<Array<StudentInfo>>([]);
 const init = async () => {
   MemberDetail.value = [];
@@ -28,6 +34,18 @@ const init = async () => {
   }
 };
 init();
+const isEditor = computed(() => {
+  if (form.value.company_id) {
+    return true;
+  }
+  return false;
+});
+const isEditorStr = computed(() => {
+  if (form.value.company_id) {
+    return "修改公司";
+  }
+  return "创建公司";
+});
 </script>
 
 <template>
@@ -38,18 +56,23 @@ init();
     </el-card>
     <el-card class="team-card">
       <template #header>
-        <div class="item-title">
-          {{ form.name }}
-          <el-tooltip
-            class="box-item"
-            effect="dark"
-            content="如果信息有问题，请找管理员！"
-            placement="top"
+        <div class="item">
+          <div class="item-title">
+            团队基本信息
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="如果信息有问题，请找管理员！"
+              placement="top"
+            >
+              <el-button type="text" color="#fff">
+                <IconifyIconOffline icon="question"></IconifyIconOffline
+              ></el-button>
+            </el-tooltip>
+          </div>
+          <el-button type="text" @click="dialogVisibleTeam = true"
+            >编辑</el-button
           >
-            <el-button type="text" color="#fff">
-              <IconifyIconOffline icon="question"></IconifyIconOffline
-            ></el-button>
-          </el-tooltip>
         </div>
       </template>
       <div class="item-container">
@@ -77,21 +100,27 @@ init();
     </el-card>
     <el-card class="team-card">
       <template #header>
-        <div class="item-title">
-          {{ company.name }}
-          <el-tooltip
-            class="box-item"
-            effect="dark"
-            content="如果信息有问题，请找管理员！"
-            placement="top"
-          >
-            <el-button type="text" color="#fff">
-              <IconifyIconOffline icon="question"></IconifyIconOffline
-            ></el-button>
-          </el-tooltip>
+        <div class="item">
+          <div class="item-title">
+            企业基本信息
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="添加完成后，自行关闭！"
+              placement="top"
+            >
+              <el-button type="text" color="#fff">
+                <IconifyIconOffline icon="question"></IconifyIconOffline
+              ></el-button>
+            </el-tooltip>
+          </div>
+          <el-button type="text" @click="dialogVisibleCompany = true">{{
+            isEditor ? "编辑" : "创建"
+          }}</el-button>
         </div>
       </template>
-      <div class="item-container">
+      <el-empty description="无" v-if="!isEditor"></el-empty>
+      <div class="item-container" v-else>
         <el-descriptions direction="vertical" :column="3" :border="true">
           <el-descriptions-item label="编号">
             {{ company.id }}
@@ -105,7 +134,7 @@ init();
           <el-descriptions-item label="地址">
             {{ company.address }}
           </el-descriptions-item>
-          <el-descriptions-item label="团队介绍">
+          <el-descriptions-item label="公司介绍">
             {{ company.introduction }}
           </el-descriptions-item>
         </el-descriptions>
@@ -135,6 +164,32 @@ init();
         </el-table>
       </div>
     </el-card>
+    <el-dialog
+      v-model="dialogVisibleCompany"
+      :title="isEditorStr"
+      width="30%"
+      :before-close="handleClose"
+    >
+      <companyVue :is-editor="isEditor" :team_id="form.id"></companyVue>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogVisibleCompany = false">关闭</el-button>
+        </span>
+      </template>
+    </el-dialog>
+    <el-dialog
+      v-model="dialogVisibleTeam"
+      :title="isEditorStr"
+      width="30%"
+      :before-close="handleClose"
+    >
+      <team-vue></team-vue>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogVisibleTeam = false">关闭</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -168,20 +223,26 @@ init();
   .team-card {
     margin: 10px;
 
-    .item-title {
-      margin-left: 10px;
+    .item {
       display: flex;
+      justify-content: space-between;
       align-items: center;
-      font-weight: 400;
-      font-size: 18px;
 
-      svg {
-        margin-left: 5px;
-      }
+      .item-title {
+        margin-left: 10px;
+        display: flex;
+        align-items: center;
+        font-weight: 400;
+        font-size: 18px;
 
-      .box-item {
-        width: 110px;
-        margin-top: 10px;
+        svg {
+          margin-left: 5px;
+        }
+
+        .box-item {
+          width: 110px;
+          margin-top: 10px;
+        }
       }
     }
   }
