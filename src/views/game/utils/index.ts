@@ -10,7 +10,7 @@ const userinfo: UserInfo = storageLocal.getItem("Info");
 const uid = ref(userinfo.id);
 
 export const entryList = ref<Array<EntryDetail>>([]);
-
+//获取总共的所有的参赛表信息
 export const get_all_game_info = async () => {
   const data = await getAllGameInfo({
     u_id: uid.value

@@ -24,17 +24,27 @@ const gameRouter = {
         i18n: true,
         showLink: true
       }
+    },
+    {
+      path: "/game/detail/:id",
+      name: "gameDetail",
+      component: () => import("/@/views/game/detail.vue"),
+      meta: {
+        title: $t("menus.hsgameDetail"),
+        i18n: true,
+        showLink: false
+      }
+    },
+    {
+      path: "/game/editor",
+      name: "gameEditor",
+      component: () => import("/@/views/game/editor.vue"),
+      meta: {
+        title: $t("menus.hsgameEditor"),
+        i18n: true,
+        showLink: false
+      }
     }
-    // {
-    //   path: "/game/detail/:id",
-    //   name: "gameDetail",
-    //   component: () => import("/@/views/game/detail.vue"),
-    //   meta: {
-    //     title: $t("menus.hsgameManageInfo"),
-    //     i18n: true,
-    //     showLink: false
-    //   }
-    // }
   ]
 };
 

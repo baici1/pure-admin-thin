@@ -7,6 +7,7 @@ export interface EntryDetail {
 
 export interface Form {
   id: number;
+  name: string;
   cmp_id: number;
   p_id: number;
   rank: string;

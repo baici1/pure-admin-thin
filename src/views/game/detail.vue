@@ -1,0 +1,210 @@
+<script setup lang="ts">
+import { useRoute } from "vue-router";
+import { greetings, Info, get_a_game_info, isEdit } from "./utils/details";
+// import { Members } from "./utils/type";
+const route = useRoute();
+get_a_game_info(Number(route.params.id));
+</script>
+
+<template>
+  <div>
+    <el-card class="top">
+      <div class="top-content">
+        <p>{{ greetings }}</p>
+        <el-button v-if="!isEdit" @click="isEdit = true">编辑</el-button>
+        <el-button v-else>保存</el-button>
+      </div>
+    </el-card>
+    <el-card class="entry-detail">
+      <el-card class="detail-card" shadow="never">
+        <el-descriptions title="比赛信息" :column="2">
+          <el-descriptions-item label="比赛名称：">
+            <span>{{ Info.competition.com_info.c_name }}</span>
+          </el-descriptions-item>
+          <el-descriptions-item label="比赛级别：">
+            {{ Info.competition.com_sche.level }}
+          </el-descriptions-item>
+          <el-descriptions-item label="比赛届数：">
+            {{ Info.competition.com_sche.version }}
+          </el-descriptions-item>
+          <el-descriptions-item label="比赛类型：">
+            {{ Info.competition.com_info.c_type }}
+          </el-descriptions-item>
+          <el-descriptions-item label="比赛举办方：">
+            {{ Info.competition.com_info.organizer }}
+          </el-descriptions-item>
+        </el-descriptions>
+      </el-card>
+      <el-card class="detail-card" shadow="never">
+        <template #header>
+          <div class="card-header">参赛进度</div>
+        </template>
+        <el-steps
+          :active="2"
+          align-center
+          class="card-step"
+          finish-status="success"
+        >
+          <el-step
+            title="未开始"
+            description="比赛未开始，请详细关注通知！"
+          ></el-step>
+          <el-step title="报名中" description="请抓紧报名！"></el-step>
+          <el-step title="准备中" description="万全的准备是必要的！"></el-step>
+          <el-step title="参赛中" description="祝你比赛顺利！"></el-step>
+          <el-step
+            title="已结束"
+            description="祝你比赛结果超过你的预期！"
+          ></el-step>
+        </el-steps>
+      </el-card>
+      <el-divider></el-divider>
+      <el-card class="detail-card" shadow="never">
+        <el-descriptions title="参赛表信息" :column="2">
+          <el-descriptions-item label="队伍名称：">
+            <el-input
+              v-model="Info.form.name"
+              style="width: 200px"
+              v-if="isEdit"
+            />
+            <span v-else>
+              {{ Info.form.name }}
+            </span>
+          </el-descriptions-item>
+          <el-descriptions-item label="队伍人数："> 18 </el-descriptions-item>
+          <el-descriptions-item label="队长：">1111</el-descriptions-item>
+          <el-descriptions-item label="获奖情况：">
+            <el-tag size="small">{{
+              Info.form.rank.length == 0 ? "无" : Info.form.rank
+            }}</el-tag>
+          </el-descriptions-item>
+          <el-descriptions-item label="获奖名称：">
+            {{ Info.form.ach_name ? "无" : "Info.form.ach_name" }}
+          </el-descriptions-item>
+        </el-descriptions>
+      </el-card>
+      <el-divider></el-divider>
+      <el-card class="detail-card" shadow="never">
+        <el-descriptions title="项目信息" :column="2">
+          <el-descriptions-item label="项目编号：">
+            <el-input
+              v-model="Info.form.name"
+              style="width: 200px"
+              v-if="isEdit"
+            />
+            <span v-else> {{ Info.project.project_code }}</span>
+          </el-descriptions-item>
+          <el-descriptions-item label="项目名称：">
+            <el-input
+              v-model="Info.project.project_name"
+              style="width: 200px"
+              v-if="isEdit"
+            />
+            <span v-else>
+              {{ Info.project.project_name }}
+            </span>
+          </el-descriptions-item>
+          <el-descriptions-item label="项目介绍：">
+            <el-input
+              v-model="Info.project.introduction"
+              style="width: 200px"
+              v-if="isEdit"
+            />
+            <span v-else>{{ Info.project.introduction }}</span>
+          </el-descriptions-item>
+        </el-descriptions>
+      </el-card>
+      <el-card class="detail-card" shadow="never">
+        <template #header>
+          <div class="card-header">
+            <div class="card-title">队员信息</div>
+            <el-button size="small" type="primary" v-show="isEdit"
+              >新增队员</el-button
+            >
+          </div>
+        </template>
+        <el-table :data="(Info.members as any)" stripe style="width: 100%">
+          <el-table-column type="index" width="50" />
+          <el-table-column label="手机号">
+            <template #default="scope">
+              <el-input
+                v-model="scope.row.phone"
+                :disabled="scope.row.isEdit"
+                v-if="isEdit"
+              />
+              <span v-else>{{ scope.row.phone }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="职位">
+            <template #default="scope">
+              <el-select
+                v-model="scope.row.identify"
+                placeholder="请选择"
+                v-if="isEdit"
+              >
+                <el-option key="leader" :value="1" label="队长" />
+                <el-option key="member" :value="2" label="队员" />
+              </el-select>
+              <span v-else>{{ scope.row.identify }}</span>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-card>
+    </el-card>
+  </div>
+</template>
+
+<style scoped lang="scss">
+.main-content {
+  margin: 0 !important;
+}
+
+.top {
+  height: 60px;
+  background: #fff;
+  width: 100%;
+
+  .top-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    p {
+      margin-right: 12px;
+      margin-bottom: 0;
+      color: #000000d9;
+      font-weight: 600;
+      font-size: 20px;
+      line-height: 32px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+.detail-card {
+  border: none;
+  margin-bottom: 20px;
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .card-title {
+      color: var(--el-text-color-primary);
+      font-size: 16px;
+      font-weight: 700;
+    }
+  }
+
+  .card-step {
+    padding: 20px 0;
+  }
+}
+
+.entry-detail {
+  margin: 10px;
+}
+</style>

@@ -1,12 +1,13 @@
 export interface EntryDetail {
   form: Form;
   project: Project;
-  members?: Members;
+  members?: Members | Array<Members>;
   competition: Competition;
 }
 
 export interface Form {
   id: number;
+  name: string;
   cmp_id: number;
   p_id: number;
   rank: string;

@@ -11,11 +11,15 @@ export const getAllGameInfo = (params?: object) => {
     }
   );
 };
-
+//获得一个详情的参赛表信息
 export const getAGameInfo = (params?: object) => {
-  return http.request("get", "http://127.0.0.1:20201/menage/entry/Aread", {
-    params
-  });
+  return http.request<BaseModel<EntryDetail>>(
+    "get",
+    "http://127.0.0.1:20201/menage/entry/Aread",
+    {
+      params
+    }
+  );
 };
 
 export const getEntryFormDetail = (params?: object) => {

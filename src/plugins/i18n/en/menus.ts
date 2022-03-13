@@ -5,6 +5,8 @@ export default {
   hssysManagement: "System Manage",
   hsteamManagement: "Team Manage",
   hsteamManageInfo: "Info Manage",
+  hsgameDetail: "Game Detail",
+  hsgameEditor: "Game Editor",
   hsCreateteam: "Create Team",
   hsSucess: "sucess",
   hsBaseinfo: "Base Info",
