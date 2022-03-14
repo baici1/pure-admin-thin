@@ -1,5 +1,5 @@
 import { http } from "../utils/http";
-import { LoginRes, StudentInfo } from "./model/user";
+import { LoginRes, StudentInfo, StudentsBaseInfo } from "./model/user";
 import { BaseModel, BaseRes } from "./model/base";
 interface userType extends Promise<any> {
   svg?: string;
@@ -55,4 +55,14 @@ export const updateStudentInfo = (data: Object) => {
   return http.request("post", "http://127.0.0.1:20201/menage/student/update", {
     data
   });
+};
+
+export const ReadStudentsBaseInfo = (params: Object) => {
+  return http.request<BaseModel<StudentsBaseInfo>>(
+    "get",
+    "http://127.0.0.1:20201/menage/student/base",
+    {
+      params
+    }
+  );
 };

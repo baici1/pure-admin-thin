@@ -1,9 +1,22 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
-import { greetings, Info, get_a_game_info, isEdit } from "./utils/details";
-// import { Members } from "./utils/type";
+import {
+  greetings,
+  Info,
+  get_a_game_info,
+  isEdit,
+  read_student_base_info,
+  MembersInfo,
+  addMember,
+  deleteMember,
+  SaveInfo
+} from "./utils/details";
 const route = useRoute();
-get_a_game_info(Number(route.params.id));
+const init = async () => {
+  await get_a_game_info(Number(route.params.id));
+  await read_student_base_info();
+};
+init();
 </script>
 
 <template>
@@ -12,7 +25,7 @@ get_a_game_info(Number(route.params.id));
       <div class="top-content">
         <p>{{ greetings }}</p>
         <el-button v-if="!isEdit" @click="isEdit = true">编辑</el-button>
-        <el-button v-else>保存</el-button>
+        <el-button v-else @click="SaveInfo">保存</el-button>
       </div>
     </el-card>
     <el-card class="entry-detail">
@@ -61,7 +74,7 @@ get_a_game_info(Number(route.params.id));
       <el-divider></el-divider>
       <el-card class="detail-card" shadow="never">
         <el-descriptions title="参赛表信息" :column="2">
-          <el-descriptions-item label="队伍名称：">
+          <el-descriptions-item label="队伍名称：" :span="2">
             <el-input
               v-model="Info.form.name"
               style="width: 200px"
@@ -118,20 +131,21 @@ get_a_game_info(Number(route.params.id));
         <template #header>
           <div class="card-header">
             <div class="card-title">队员信息</div>
-            <el-button size="small" type="primary" v-show="isEdit"
-              >新增队员</el-button
+            <el-button
+              size="small"
+              type="primary"
+              v-show="isEdit"
+              @click="addMember"
             >
+              新增队员
+            </el-button>
           </div>
         </template>
-        <el-table :data="(Info.members as any)" stripe style="width: 100%">
-          <el-table-column type="index" width="50" />
+        <el-table :data="(MembersInfo as any)" stripe style="width: 100%">
+          <el-table-column type="index" width="50" label="#" />
           <el-table-column label="手机号">
             <template #default="scope">
-              <el-input
-                v-model="scope.row.phone"
-                :disabled="scope.row.isEdit"
-                v-if="isEdit"
-              />
+              <el-input v-model="scope.row.phone" v-if="isEdit" />
               <span v-else>{{ scope.row.phone }}</span>
             </template>
           </el-table-column>
@@ -142,10 +156,23 @@ get_a_game_info(Number(route.params.id));
                 placeholder="请选择"
                 v-if="isEdit"
               >
-                <el-option key="leader" :value="1" label="队长" />
-                <el-option key="member" :value="2" label="队员" />
+                <el-option key="leader" :value="2" label="副队长" />
+                <el-option key="member" :value="3" label="队员" />
               </el-select>
               <span v-else>{{ scope.row.identify }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="name" label="姓名" />
+          <el-table-column fixed="right" label="Operations" width="120">
+            <template #default="scope">
+              <el-button
+                type="text"
+                size="small"
+                @click="deleteMember(MembersInfo, scope.$index)"
+              >
+                删除
+              </el-button>
+              <el-button type="text" size="small">Edit</el-button>
             </template>
           </el-table-column>
         </el-table>

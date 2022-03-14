@@ -1,13 +1,22 @@
 <script setup lang="ts">
 import { EditOutlined, EllipsisOutlined } from "@ant-design/icons-vue";
 import { useRouter } from "vue-router";
-import { greetings, entryList, get_all_game_info } from "./utils/index";
+import {
+  greetings,
+  entryList,
+  get_all_game_info,
+  isload,
+  handleClose,
+  dialogVisible
+} from "./utils/index";
 import { checkComStatus } from "/@/utils/tools";
+import editorVue from "./editor.vue";
 get_all_game_info();
 const router = useRouter();
 const ToDetail = id => {
   router.push({ name: "gameDetail", params: { id: id as number } });
 };
+
 const ToEditor = (isEditor: boolean, id?: number) => {
   console.log(
     "%c 🍫 isEditor: ",
@@ -30,10 +39,10 @@ const ToEditor = (isEditor: boolean, id?: number) => {
     <el-card class="top">
       <div class="top-content">
         <p>{{ greetings }}</p>
-        <el-button type="success" @click="ToEditor(false)">增加</el-button>
+        <el-button type="success" @click="dialogVisible = true">增加</el-button>
       </div>
     </el-card>
-    <el-card class="entrys">
+    <el-card class="entrys" v-loading="isload">
       <a-row :gutter="10" justify="space-between">
         <template v-for="(item, index) in entryList" :key="index">
           <a-col :span="8">
@@ -62,7 +71,7 @@ const ToEditor = (isEditor: boolean, id?: number) => {
                   />
                 </el-tooltip>
               </template>
-              <a-descriptions title="User Info" layout="vertical">
+              <a-descriptions title="参赛表" layout="vertical">
                 <a-descriptions-item label="比赛名">
                   {{ item.competition.com_info.c_name }}-{{
                     item.competition.com_sche.level
@@ -107,6 +116,19 @@ const ToEditor = (isEditor: boolean, id?: number) => {
         </template>
       </a-row>
     </el-card>
+    <el-dialog
+      v-model="dialogVisible"
+      title="Tips"
+      width="40%"
+      :before-close="handleClose"
+    >
+      <editorVue></editorVue>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="dialogVisible = false">关闭</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -141,6 +163,7 @@ const ToEditor = (isEditor: boolean, id?: number) => {
 
 .entrys {
   margin: 10px 10px 0;
+  min-height: 500px;
 
   .entry-card {
     min-height: 300px;

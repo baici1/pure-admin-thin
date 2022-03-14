@@ -1,7 +1,13 @@
-export interface EntryDetail {
+export interface EntryAll {
   form: Form;
   project: Project;
   members: Members;
+  competition: Competition;
+}
+export interface EntryOne {
+  form: Form;
+  project: Project;
+  members: Array<Members>;
   competition: Competition;
 }
 

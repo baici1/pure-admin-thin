@@ -1,71 +1,64 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import { useRoute } from "vue-router";
-const route = useRoute();
-const getGreetings = computed(() => {
-  if (+route.query?.id > 0) {
-    return "修改参赛表";
-  } else {
-    return "创建参赛表";
-  }
-});
+import { ref } from "vue";
+import {
+  get_com_selectList,
+  cascaderOptions,
+  cascaderChange,
+  entry,
+  entryRules,
+  isProject
+} from "./utils/editor";
+import { ElForm, ElMessage } from "element-plus";
+import { createEntryFormDetail } from "/@/api/game";
+const elFormTeam = ref<FormInstance>();
+type FormInstance = InstanceType<typeof ElForm>;
+get_com_selectList();
+const commit = async (formEl: FormInstance | undefined) => {
+  formEl.validate(async valid => {
+    if (valid) {
+      await createEntryFormDetail(entry.value);
+      ElMessage.success("修改成功");
+    }
+  });
+};
 </script>
 
 <template>
   <div>
-    <el-card class="top">
-      <div class="top-content">
-        <p>{{ getGreetings }}</p>
-      </div>
-    </el-card>
-    <el-card
-      :span="24"
-      class="editor-card"
-      v-motion
-      :initial="{
-        opacity: 0,
-        y: 100
-      }"
-      :enter="{
-        opacity: 1,
-        y: 0,
-        transition: {
-          delay: 200
-        }
-      }"
-    >
-      <template #header>
-        <p>参赛表信息</p>
-      </template>
+    <el-card>
+      <el-form
+        ref="elFormTeam"
+        :model="entry"
+        :rules="entryRules"
+        class="demo-ruleForm"
+        label-position="top"
+      >
+        <el-form-item label="比赛" prop="cmp_id">
+          <el-cascader-panel
+            :options="cascaderOptions"
+            v-model="entry.cmp_id"
+            @change="cascaderChange"
+            style="margin-bottom: 10px"
+          />
+        </el-form-item>
+        <el-form-item label="是否需要创建项目">
+          <el-switch v-model="isProject" />
+        </el-form-item>
+        <el-form-item label="是否需要创建项目" v-if="isProject">
+          <el-input v-model="entry.project_name" placeholder="Please input" />
+        </el-form-item>
+        <el-form-item label="是否需要创建项目" v-if="isProject">
+          <el-input v-model="entry.introduction" placeholder="Please input" />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="commit(elFormTeam)"
+            >Create</el-button
+          >
+          <el-button>Cancel</el-button>
+        </el-form-item>
+      </el-form>
     </el-card>
   </div>
 </template>
 
-<style scoped lang="scss">
-.main-content {
-  margin: 0 !important;
-}
-
-.top {
-  height: 60px;
-  background: #fff;
-  width: 100%;
-
-  .top-content {
-    display: flex;
-    align-items: center;
-
-    p {
-      margin-right: 12px;
-      margin-bottom: 0;
-      color: #000000d9;
-      font-weight: 600;
-      font-size: 20px;
-      line-height: 32px;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
-  }
-}
-</style>
+<style scoped lang="scss"></style>

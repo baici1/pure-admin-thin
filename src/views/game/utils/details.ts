@@ -1,9 +1,11 @@
+import { ElMessage } from "element-plus";
 import { ref } from "vue";
-import { getAGameInfo } from "/@/api/game";
-import { EntryDetail } from "./type";
+import { getAGameInfo, updateEntryFormDetail } from "/@/api/game";
+import { ReadStudentsBaseInfo } from "/@/api/user";
+import { EntryOne, MembersRequest } from "./type";
 export const greetings = ref("参赛表详情");
 
-export const Info = ref<EntryDetail>({
+export const Info = ref<EntryOne>({
   form: {
     id: 1,
     name: "",
@@ -55,12 +57,66 @@ export const Info = ref<EntryDetail>({
     }
   }
 });
+
 //获取一个参赛表详情信息
 export const get_a_game_info = async (id: number) => {
   const data = await getAGameInfo({
     id: id
   });
+  console.log(
+    "%c 🥔 data: ",
+    "font-size:20px;background-color: #4b4b4b;color:#fff;",
+    data
+  );
   Info.value = data.data;
 };
 
 export const isEdit = ref(false);
+
+//参赛表队员
+export const MembersInfo = ref<Array<MembersRequest>>([]);
+
+export const read_student_base_info = async () => {
+  MembersInfo.value = [];
+  for (const item of Info.value.members) {
+    console.log(
+      "%c 🍩 item: ",
+      "font-size:20px;background-color: #FCA650;color:#fff;",
+      item
+    );
+    const data = await ReadStudentsBaseInfo({
+      u_id: item.u_id
+    });
+    MembersInfo.value.push({
+      u_id: item.u_id,
+      identify: item.identify,
+      phone: data.data.phone,
+      name: data.data.real_name
+    } as MembersRequest);
+  }
+};
+//增加
+export const addMember = () => {
+  MembersInfo.value.push({
+    u_id: 0,
+    identify: 3,
+    phone: "",
+    name: ""
+  } as MembersRequest);
+};
+//删除
+export const deleteMember = (val, index) => {
+  val.splice(index, 1);
+};
+
+export const SaveInfo = async () => {
+  await updateEntryFormDetail({
+    id: Info.value.form.id,
+    members: MembersInfo.value,
+    p_id: Info.value.project.id,
+    project_name: Info.value.project.project_name,
+    introduction: Info.value.project.introduction
+  });
+  ElMessage.success("恭喜你保存成功！");
+  isEdit.value = false;
+};

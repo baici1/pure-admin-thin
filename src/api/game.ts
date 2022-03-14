@@ -1,9 +1,9 @@
 import { http } from "../utils/http";
 import { BaseModel } from "./model/base";
-import { EntryDetail } from "./model/game";
+import { EntryAll, EntryOne } from "./model/game";
 //获取团队信息
 export const getAllGameInfo = (params?: object) => {
-  return http.request<BaseModel<Array<EntryDetail>>>(
+  return http.request<BaseModel<Array<EntryAll>>>(
     "get",
     "http://127.0.0.1:20201/menage/entry/read",
     {
@@ -13,7 +13,7 @@ export const getAllGameInfo = (params?: object) => {
 };
 //获得一个详情的参赛表信息
 export const getAGameInfo = (params?: object) => {
-  return http.request<BaseModel<EntryDetail>>(
+  return http.request<BaseModel<EntryOne>>(
     "get",
     "http://127.0.0.1:20201/menage/entry/Aread",
     {

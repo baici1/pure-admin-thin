@@ -11,6 +11,11 @@ export interface LoginRes {
   user: UserInfo;
 }
 
+export interface StudentsBaseInfo {
+  phone: string;
+  real_name: string;
+}
+
 export interface StudentInfo {
   id: number;
   student_id: string;

@@ -1,7 +1,13 @@
-export interface EntryDetail {
+export interface EntryAll {
   form: Form;
   project: Project;
-  members?: Members | Array<Members>;
+  members?: Members;
+  competition: Competition;
+}
+export interface EntryOne {
+  form: Form;
+  project: Project;
+  members?: Array<Members>;
   competition: Competition;
 }
 
@@ -24,8 +30,8 @@ export interface Project {
 }
 
 export interface Members {
-  form_id: number;
-  u_id: number;
+  form_id?: number;
+  u_id?: number;
   identify: number;
   order: number;
 }
@@ -53,4 +59,37 @@ export interface Com_info {
   organizer?: string;
   introduction?: string;
   url?: string;
+}
+
+export interface MembersRequest {
+  name?: string;
+  phone: string;
+  identify: number;
+  u_id: number;
+}
+
+export interface EntryInfo {
+  members: {
+    phone: string;
+    identify: number;
+  };
+  cmp_id: number;
+  project_name: string;
+  introduction: string;
+}
+
+export interface GameTreeList {
+  id: number;
+  label: string;
+  children: Children[];
+}
+
+export interface Children {
+  label: string;
+  children: Children1[];
+}
+
+export interface Children1 {
+  value: number;
+  label: string;
 }
