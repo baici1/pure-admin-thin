@@ -31,6 +31,11 @@ import documentIcon from "@iconify-icons/ep/document";
 import plusIcon from "@iconify-icons/ep/plus";
 import questionFilled from "@iconify-icons/ep/question-filled";
 import moreFilled from "@iconify-icons/ep/more-filled";
+import Rank from "@iconify-icons/ep/rank";
+import videoPlay from "@iconify-icons/ep/video-play";
+import Monitor from "@iconify-icons/ep/monitor";
+import Search from "@iconify-icons/ep/search";
+
 addIcon("check", Check);
 addIcon("menu", Menu);
 addIcon("home-filled", HomeFilled);
@@ -60,15 +65,35 @@ addIcon("document", documentIcon);
 addIcon("plus", plusIcon);
 addIcon("question", questionFilled);
 addIcon("more", moreFilled);
+addIcon("video-play", videoPlay);
+addIcon("rank", Rank);
+addIcon("monitor", Monitor);
+addIcon("search", Search);
 // remixicon
 import arrowRightSLine from "@iconify-icons/ri/arrow-right-s-line";
 import arrowLeftSLine from "@iconify-icons/ri/arrow-left-s-line";
 import logoutCircleRLine from "@iconify-icons/ri/logout-circle-r-line";
 import nodeTree from "@iconify-icons/ri/node-tree";
+import ubuntuFill from "@iconify-icons/ri/ubuntu-fill";
+import questionLine from "@iconify-icons/ri/question-line";
+import checkboxCircleLine from "@iconify-icons/ri/checkbox-circle-line";
+import informationLine from "@iconify-icons/ri/information-line";
+import closeCircleLine from "@iconify-icons/ri/close-circle-line";
+import arrowUpLine from "@iconify-icons/ri/arrow-up-line";
+import arrowDownLine from "@iconify-icons/ri/arrow-down-line";
+import bookmark2Line from "@iconify-icons/ri/bookmark-2-line";
 addIcon("arrow-right-s-line", arrowRightSLine);
 addIcon("arrow-left-s-line", arrowLeftSLine);
 addIcon("logout-circle-r-line", logoutCircleRLine);
 addIcon("node-tree", nodeTree);
+addIcon("ubuntu-fill", ubuntuFill);
+addIcon("question-line", questionLine);
+addIcon("checkbox-circle-line", checkboxCircleLine);
+addIcon("information-line", informationLine);
+addIcon("close-circle-line", closeCircleLine);
+addIcon("arrow-up-line", arrowUpLine);
+addIcon("arrow-down-line", arrowDownLine);
+addIcon("bookmark-2-line", bookmark2Line);
 
 // Font Awesome 4
 import faUser from "@iconify-icons/fa/user";
