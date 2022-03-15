@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { greetings, rulesTeam, formDataTeam } from "./utils/editor";
+import {
+  rulesTeam,
+  formDataTeam,
+  dialogVisibleCreateTeam
+} from "../utils/editor";
 import { createTeam } from "/@/api/team";
 import { useRouter } from "vue-router";
 import { UserInfo } from "/@/views/base";
@@ -10,38 +14,19 @@ const userinfo: UserInfo = storageLocal.getItem("Info");
 const uid = ref(userinfo.id);
 //创建团队
 const create_team = async () => {
+  dialogVisibleCreateTeam.value = true;
   await createTeam({
     u_id: uid.value,
     teaminfo: formDataTeam.value
   });
   useRouter().push("/team/sucess");
+  dialogVisibleCreateTeam.value = false;
 };
 </script>
 
 <template>
   <div>
-    <el-card class="top-content">
-      <p>{{ greetings }}</p>
-    </el-card>
-    <el-card
-      :span="24"
-      class="editor-card"
-      v-motion
-      :initial="{
-        opacity: 0,
-        y: 100
-      }"
-      :enter="{
-        opacity: 1,
-        y: 0,
-        transition: {
-          delay: 200
-        }
-      }"
-    >
-      <template #header>
-        <p>团队信息</p>
-      </template>
+    <el-card :span="24" style="border: none" shadow="never">
       <el-form
         ref="elFormTeam"
         :model="formDataTeam"
@@ -107,20 +92,6 @@ const create_team = async () => {
     color: #000000d9;
     font-weight: 600;
     font-size: 20px;
-    line-height: 32px;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-}
-
-.editor-card {
-  margin: 10px 10px;
-
-  p {
-    color: #000000d9;
-    font-weight: 600;
-    font-size: 14px;
     line-height: 32px;
     overflow: hidden;
     white-space: nowrap;

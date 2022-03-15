@@ -1,5 +1,6 @@
 import { storageLocal } from "/@/utils/storage/index";
-import { ElMessageBox } from "element-plus";
+import { DeleteTeamMember, UpdateTeamMember } from "/@/api/team";
+import { ElMessage } from "element-plus";
 import { ref } from "vue";
 import {
   getTeamInfo,
@@ -61,6 +62,7 @@ export const get_company_info = async () => {
     company.value = data.data;
   }
 };
+
 //人员信息
 export const MemberBase = ref<Member>({
   result: [],
@@ -75,15 +77,23 @@ export const get_team_member_all = async () => {
   });
   MemberBase.value = data.data;
 };
-//对话框
-export const dialogVisibleCompany = ref(false);
-export const dialogVisibleTeam = ref(false);
-export const handleClose = (done: () => void) => {
-  ElMessageBox.confirm("Are you sure to close this dialog?")
-    .then(() => {
-      done();
-    })
-    .catch(() => {
-      // catch error
-    });
+
+//编辑团队人员
+export const isEditMember = ref(false);
+export const update_team_member = async (teamid, uid, identify) => {
+  await UpdateTeamMember({
+    team_id: teamid,
+    u_id: uid,
+    identify: identify
+  });
+  isEditMember.value = false;
+  ElMessage.success("恭喜你编辑成功！");
+};
+//删除团队人员
+export const delete_team_member = async (teamid, uid) => {
+  await DeleteTeamMember({
+    team_id: teamid,
+    u_id: uid
+  });
+  ElMessage.success("恭喜你删除成功！");
 };

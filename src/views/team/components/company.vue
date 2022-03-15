@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { rulesCompany } from "../utils/editor";
+import { rulesCompany, dialogVisibleCompany } from "../utils/editor";
 import { company } from "../utils/index";
 import { ElForm, ElMessage } from "element-plus";
 import { createCompany, updateCompany } from "/@/api/team";
@@ -17,6 +17,7 @@ const props = defineProps({
   }
 });
 const commit = async (formEl: FormInstance | undefined) => {
+  dialogVisibleCompany.value = true;
   formEl.validate(async valid => {
     if (valid) {
       if (props.isEditor) {
@@ -29,6 +30,7 @@ const commit = async (formEl: FormInstance | undefined) => {
         });
         ElMessage.success("创建成功");
       }
+      dialogVisibleCompany.value = false;
     }
   });
 };
@@ -36,7 +38,7 @@ const commit = async (formEl: FormInstance | undefined) => {
 
 <template>
   <div>
-    <el-card shadow="never">
+    <el-card shadow="never" style="border: none">
       <el-form
         ref="elFormCompany"
         :model="company"
@@ -73,9 +75,9 @@ const commit = async (formEl: FormInstance | undefined) => {
           ></el-input>
         </el-form-item>
         <el-form-item size="large">
-          <el-button type="primary" @click="commit(elFormCompany)"
-            >提交</el-button
-          >
+          <el-button type="primary" @click="commit(elFormCompany)">
+            提交
+          </el-button>
         </el-form-item>
       </el-form>
     </el-card>

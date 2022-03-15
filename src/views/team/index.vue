@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { StudentInfo } from "/@/api/model/user";
-import { getStudentInfo } from "/@/api/user";
+import { MembersRequest } from "../base";
+import { ReadStudentsBaseInfo } from "/@/api/user";
 import {
   greetings,
   form,
@@ -11,15 +11,27 @@ import {
   get_company_info,
   MemberBase,
   get_team_member_all,
-  dialogVisibleCompany,
-  handleClose,
-  dialogVisibleTeam
+  delete_team_member,
+  isEditMember,
+  update_team_member
 } from "./utils/index";
+import {
+  dialogVisibleCompany,
+  dialogVisibleTeam,
+  handleCloseCompany,
+  handleCloseTeam,
+  dialogVisibleCreateTeam,
+  handleCloseCreateTeam,
+  dialogVisibleMember,
+  handleCloseMember
+} from "./utils/editor";
 import { timeFormatYMD } from "/@/utils/tools";
 //import { useRouter } from "vue-router";
 import companyVue from "./components/company.vue";
 import teamVue from "./components/team.vue";
-const MemberDetail = ref<Array<StudentInfo>>([]);
+import createVue from "./components/create.vue";
+import memberVue from "./components/member.vue";
+const MemberDetail = ref<Array<MembersRequest>>([]);
 const init = async () => {
   MemberDetail.value = [];
   await get_team_id();
@@ -27,10 +39,15 @@ const init = async () => {
   await get_company_info();
   await get_team_member_all();
   for (let item of MemberBase.value.result) {
-    const data = await getStudentInfo({
-      id: item.u_id
+    const data = await ReadStudentsBaseInfo({
+      u_id: item.u_id
     });
-    MemberDetail.value.push(data.data);
+    MemberDetail.value.push({
+      u_id: item.u_id,
+      identify: item.identify,
+      phone: data.data.phone,
+      name: data.data.real_name
+    } as MembersRequest);
   }
 };
 init();
@@ -51,8 +68,16 @@ const isEditorStr = computed(() => {
 <template>
   <div class="team">
     <!-- //页面头部信息提示 -->
-    <el-card class="top-content">
-      <p>{{ greetings }}</p>
+    <el-card class="top">
+      <div class="top-content flex justify-between">
+        <p>{{ greetings }}</p>
+        <el-button
+          @click="dialogVisibleCreateTeam = true"
+          v-show="form.id > 0 ? false : true"
+        >
+          创建
+        </el-button>
+      </div>
     </el-card>
     <el-card class="team-card">
       <template #header>
@@ -142,53 +167,109 @@ const isEditorStr = computed(() => {
     </el-card>
     <el-card class="team-card">
       <template #header>
-        <div class="item-title">
-          团队成员
-          <el-tooltip
-            class="box-item"
-            effect="dark"
-            content="如果信息有问题，请找管理员！"
-            placement="top"
-          >
-            <el-button type="text" color="#fff">
-              <IconifyIconOffline icon="question"></IconifyIconOffline
-            ></el-button>
-          </el-tooltip>
+        <div class="item">
+          <div class="item-title">
+            团队成员
+            <el-tooltip
+              class="box-item"
+              effect="dark"
+              content="如果信息有问题，请找管理员！"
+              placement="top"
+            >
+              <el-button type="text" color="#fff">
+                <IconifyIconOffline icon="question"></IconifyIconOffline
+              ></el-button>
+            </el-tooltip>
+          </div>
+          <el-button type="text" @click="dialogVisibleMember = true">
+            增加队员
+          </el-button>
         </div>
       </template>
       <div class="item-container">
         <el-table :data="MemberDetail" stripe style="width: 100%">
           <el-table-column prop="u_id" label="Date" width="180" />
-          <el-table-column prop="real_name" label="Name" width="180" />
-          <el-table-column prop="email" label="Address" />
+          <el-table-column prop="phone" label="手机号" width="180" />
+          <el-table-column label="身份" width="180">
+            <template #default="scope">
+              <el-select
+                v-model="scope.row.identify"
+                placeholder="请选择"
+                v-if="isEditMember"
+              >
+                <el-option key="leader" :value="2" label="副队长" />
+                <el-option key="member" :value="3" label="队员" />
+              </el-select>
+              <span v-else>{{ scope.row.identify }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="name" label="名字" />
+          <el-table-column label="Operations">
+            <template #default="scope">
+              <el-button
+                size="small"
+                @click="isEditMember = true"
+                v-show="!isEditMember"
+              >
+                更新
+              </el-button>
+              <el-button
+                size="small"
+                v-show="isEditMember"
+                @click="
+                  update_team_member(
+                    form.id,
+                    scope.row.u_id,
+                    scope.row.identify
+                  )
+                "
+              >
+                保存
+              </el-button>
+              <el-button
+                size="small"
+                type="danger"
+                @click="delete_team_member(form.id, scope.row.u_id)"
+              >
+                删除
+              </el-button>
+              <el-button size="small" type="info">详情</el-button>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
     </el-card>
     <el-dialog
       v-model="dialogVisibleCompany"
       :title="isEditorStr"
-      width="30%"
-      :before-close="handleClose"
+      width="50%"
+      :before-close="handleCloseCompany"
     >
       <companyVue :is-editor="isEditor" :team_id="form.id"></companyVue>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="dialogVisibleCompany = false">关闭</el-button>
-        </span>
-      </template>
     </el-dialog>
     <el-dialog
       v-model="dialogVisibleTeam"
       :title="isEditorStr"
-      width="30%"
-      :before-close="handleClose"
+      width="50%"
+      :before-close="handleCloseTeam"
     >
       <team-vue></team-vue>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="dialogVisibleTeam = false">关闭</el-button>
-        </span>
-      </template>
+    </el-dialog>
+    <el-dialog
+      v-model="dialogVisibleCreateTeam"
+      :title="isEditorStr"
+      width="50%"
+      :before-close="handleCloseCreateTeam"
+    >
+      <createVue></createVue>
+    </el-dialog>
+    <el-dialog
+      v-model="dialogVisibleMember"
+      :title="isEditorStr"
+      width="50%"
+      :before-close="handleCloseMember"
+    >
+      <memberVue :team_id="form.id"></memberVue>
     </el-dialog>
   </div>
 </template>
@@ -198,14 +279,15 @@ const isEditorStr = computed(() => {
   margin: 0 !important;
 }
 
-.team {
-  height: 100%;
+.top {
+  height: 60px;
+  background: #fff;
+  width: 100%;
 
   .top-content {
     display: flex;
     align-items: center;
-    height: 60px;
-    background: #fff;
+    justify-content: space-between;
 
     p {
       margin-right: 12px;
@@ -219,6 +301,10 @@ const isEditorStr = computed(() => {
       text-overflow: ellipsis;
     }
   }
+}
+
+.team {
+  height: 100%;
 
   .team-card {
     margin: 10px;

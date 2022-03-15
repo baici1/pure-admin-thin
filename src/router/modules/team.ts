@@ -25,17 +25,6 @@ const TeamRouter = {
       }
     },
     {
-      //用于团队创建，不显示
-      path: "/team/editor",
-      name: "Create&UpdateTeam",
-      component: () => import("/@/views/team/editor.vue"),
-      meta: {
-        title: $t("menus.hsCreateteam"),
-        i18n: true,
-        showLink: true
-      }
-    },
-    {
       path: "/team/sucess",
       name: "SucessTeam",
       component: () => import("/@/views/team/sucess.vue"),

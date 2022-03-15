@@ -131,12 +131,7 @@ init();
         <template #header>
           <div class="card-header">
             <div class="card-title">队员信息</div>
-            <el-button
-              size="small"
-              type="primary"
-              v-show="isEdit"
-              @click="addMember"
-            >
+            <el-button type="primary" v-show="isEdit" @click="addMember">
               新增队员
             </el-button>
           </div>

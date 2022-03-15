@@ -43,3 +43,9 @@ export interface CompanyInfoRe {
   introduction: string;
   address: string;
 }
+
+export interface MemberRe {
+  phone?: string;
+  identify: number;
+  team_id?: number;
+}

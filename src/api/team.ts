@@ -91,3 +91,36 @@ export const updateCompany = (data?: object) => {
     data
   });
 };
+
+//添加团队队员
+export const AddTeamMember = (data?: object) => {
+  return http.request(
+    "post",
+    "http://127.0.0.1:20201/menage/teamMember/create",
+    {
+      data
+    }
+  );
+};
+
+//更新团队队员
+export const UpdateTeamMember = (data?: object) => {
+  return http.request(
+    "post",
+    "http://127.0.0.1:20201/menage/teamMember/update",
+    {
+      data
+    }
+  );
+};
+
+//删除团队队员
+export const DeleteTeamMember = (data?: object) => {
+  return http.request(
+    "post",
+    "http://127.0.0.1:20201/menage/teamMember/delete",
+    {
+      data
+    }
+  );
+};

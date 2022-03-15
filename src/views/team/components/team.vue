@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { form } from "../utils/index";
-import { rulesTeam } from "../utils/editor";
+import { rulesTeam, dialogVisibleTeam } from "../utils/editor";
 import { ElForm, ElMessage } from "element-plus";
 import { updateTeam } from "/@/api/team";
 type FormInstance = InstanceType<typeof ElForm>;
 const elFormTeam = ref<FormInstance>();
 const commit = async (formEl: FormInstance | undefined) => {
+  dialogVisibleTeam.value = true;
   formEl.validate(async valid => {
     if (valid) {
       await updateTeam({
@@ -15,15 +16,13 @@ const commit = async (formEl: FormInstance | undefined) => {
       ElMessage.success("修改成功");
     }
   });
+  dialogVisibleTeam.value = false;
 };
 </script>
 
 <template>
   <div>
-    <el-card shadow="never" class="editor-card">
-      <template #header>
-        <p>团队信息</p>
-      </template>
+    <el-card shadow="never" class="editor-card" style="border: none">
       <el-form
         ref="elFormTeam"
         :model="form"
