@@ -6,13 +6,13 @@ export default {
 
 <script setup lang="ts">
 import { ref, unref } from "vue";
-import { storageSession } from "/@/utils/storage";
+import { storageLocal, storageSession } from "/@/utils/storage";
 import { useRenderIcon } from "/@/components/ReIcon/src/hooks";
 
-let purview = ref<string>(storageSession.getItem("info").username);
+let purview = ref<string>(storageLocal.getItem("Info").phone);
 
 function changRole() {
-  if (unref(purview) === "admin") {
+  if (unref(purview) === "13337474745") {
     storageSession.setItem("info", {
       username: "test",
       accessToken: "eyJhbGciOiJIUzUxMiJ9.test"

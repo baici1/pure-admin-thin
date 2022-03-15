@@ -1,14 +1,8 @@
 <script setup lang="ts">
 import { EditOutlined, EllipsisOutlined } from "@ant-design/icons-vue";
 import { useRouter } from "vue-router";
-import {
-  greetings,
-  entryList,
-  get_all_game_info,
-  isload,
-  handleClose,
-  dialogVisible
-} from "./utils/index";
+import { greetings, entryList, get_all_game_info, isload } from "./utils/index";
+import { dialogVisible, handleClose } from "./utils/editor";
 import { checkComStatus } from "/@/utils/tools";
 import editorVue from "./editor.vue";
 get_all_game_info();
@@ -16,20 +10,11 @@ const router = useRouter();
 const ToDetail = id => {
   router.push({ name: "gameDetail", params: { id: id as number } });
 };
-
-const ToEditor = (isEditor: boolean, id?: number) => {
-  console.log(
-    "%c 🍫 isEditor: ",
-    "font-size:20px;background-color: #FCA650;color:#fff;",
-    isEditor
-  );
-  if (isEditor) {
-    router.push({
-      path: "/game/editor",
-      query: { id: id }
-    });
+const status = s => {
+  if (s == 1) {
+    return "队长";
   } else {
-    router.push({ path: "/game/editor" });
+    return "队员";
   }
 };
 </script>
@@ -54,10 +39,7 @@ const ToEditor = (isEditor: boolean, id?: number) => {
                   content="编辑"
                   placement="top"
                 >
-                  <edit-outlined
-                    key="edit"
-                    @click="ToEditor(true, item.form.id)"
-                  />
+                  <edit-outlined key="edit" @click="ToDetail(item.form.id)" />
                 </el-tooltip>
                 <el-tooltip
                   class="box-item"
@@ -81,11 +63,7 @@ const ToEditor = (isEditor: boolean, id?: number) => {
                   {{ item.form.name }}
                 </a-descriptions-item>
                 <a-descriptions-item label="项目名">
-                  {{
-                    item.project?.project_name
-                      ? "无"
-                      : item.project?.project_name
-                  }}
+                  {{ item.form.p_id == 0 ? "无" : item.project?.project_name }}
                 </a-descriptions-item>
                 <a-descriptions-item label="当前进度">
                   <el-tag>{{
@@ -98,13 +76,15 @@ const ToEditor = (isEditor: boolean, id?: number) => {
                   }}</el-tag>
                 </a-descriptions-item>
                 <a-descriptions-item label="获奖情况">
-                  {{ item.form.rank ? "无" : item.form.rank }}
+                  {{ item.form.rank.length == 0 ? "暂无" : item.form.rank }}
                 </a-descriptions-item>
                 <a-descriptions-item label="获奖名称">
-                  {{ item.form.ach_name ? "无" : item.form.ach_name }}
+                  {{
+                    item.form.ach_name.length == 0 ? "暂无" : item.form.ach_name
+                  }}
                 </a-descriptions-item>
               </a-descriptions>
-              <a-card-meta title="队长" description="This is the description">
+              <a-card-meta :title="status(item.members.identify)">
                 <template #avatar>
                   <a-avatar
                     src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
@@ -123,11 +103,6 @@ const ToEditor = (isEditor: boolean, id?: number) => {
       :before-close="handleClose"
     >
       <editorVue></editorVue>
-      <template #footer>
-        <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">关闭</el-button>
-        </span>
-      </template>
     </el-dialog>
   </div>
 </template>

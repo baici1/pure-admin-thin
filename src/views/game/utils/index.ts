@@ -3,7 +3,6 @@ import { storageLocal } from "/@/utils/storage/index";
 import { UserInfo } from "/@/views/base";
 import { EntryAll } from "./type";
 import { getAllGameInfo } from "/@/api/game";
-import { ElMessageBox } from "element-plus";
 export const greetings = ref("参赛表汇总");
 
 //获取用户id
@@ -17,19 +16,12 @@ export const get_all_game_info = async () => {
   const data = await getAllGameInfo({
     u_id: uid.value
   });
+  console.log(
+    "%c 🥐 data: ",
+    "font-size:20px;background-color: #EA7E5C;color:#fff;",
+    data
+  );
   entryList.value = data.data;
   isload.value = false;
 };
 export const isload = ref(true);
-//对话框
-export const dialogVisible = ref(false);
-
-export const handleClose = (done: () => void) => {
-  ElMessageBox.confirm("Are you sure to close this dialog?")
-    .then(() => {
-      done();
-    })
-    .catch(() => {
-      // catch error
-    });
-};

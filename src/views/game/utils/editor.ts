@@ -4,6 +4,7 @@ import type { CascaderOption } from "element-plus";
 import { getComSelectList } from "/@/api/competition";
 import { EntryInfo } from "./type";
 import { UserInfo } from "/@/views/base";
+import { ElMessageBox, ElMessage } from "element-plus";
 //获取手机号
 const info: UserInfo = storageLocal.getItem("Info");
 //参赛表的表单
@@ -54,3 +55,19 @@ export const get_com_selectList = async () => {
   );
   cascaderOptions.value = data.data;
 };
+
+//对话框
+export const dialogVisible = ref(false);
+
+export function handleClose() {
+  ElMessageBox.alert("请保持你进行的修改", "是否取消", {
+    confirmButtonText: "OK",
+    callback: () => {
+      dialogVisible.value = false;
+      ElMessage({
+        type: "info",
+        message: "已取消"
+      });
+    }
+  });
+}

@@ -1,7 +1,7 @@
 export interface EntryAll {
   form: Form;
   project: Project;
-  members?: Members;
+  members: Members;
   competition: Competition;
 }
 export interface EntryOne {
@@ -92,4 +92,12 @@ export interface Children {
 export interface Children1 {
   value: number;
   label: string;
+}
+
+export interface entryReq {
+  id: number;
+  members: Array<MembersRequest>;
+  p_id?: number;
+  project_name?: string;
+  introduction?: string;
 }

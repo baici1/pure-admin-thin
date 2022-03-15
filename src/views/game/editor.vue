@@ -6,7 +6,8 @@ import {
   cascaderChange,
   entry,
   entryRules,
-  isProject
+  isProject,
+  dialogVisible
 } from "./utils/editor";
 import { ElForm, ElMessage } from "element-plus";
 import { createEntryFormDetail } from "/@/api/game";
@@ -18,6 +19,7 @@ const commit = async (formEl: FormInstance | undefined) => {
     if (valid) {
       await createEntryFormDetail(entry.value);
       ElMessage.success("修改成功");
+      dialogVisible.value = false;
     }
   });
 };
@@ -25,7 +27,7 @@ const commit = async (formEl: FormInstance | undefined) => {
 
 <template>
   <div>
-    <el-card>
+    <el-card style="border: none" shadow="never">
       <el-form
         ref="elFormTeam"
         :model="entry"
@@ -51,14 +53,11 @@ const commit = async (formEl: FormInstance | undefined) => {
           <el-input v-model="entry.introduction" placeholder="Please input" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="commit(elFormTeam)"
-            >Create</el-button
-          >
-          <el-button>Cancel</el-button>
+          <el-button type="primary" @click="commit(elFormTeam)">
+            Create
+          </el-button>
         </el-form-item>
       </el-form>
     </el-card>
   </div>
 </template>
-
-<style scoped lang="scss"></style>

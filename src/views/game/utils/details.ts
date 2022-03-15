@@ -2,7 +2,7 @@ import { ElMessage } from "element-plus";
 import { ref } from "vue";
 import { getAGameInfo, updateEntryFormDetail } from "/@/api/game";
 import { ReadStudentsBaseInfo } from "/@/api/user";
-import { EntryOne, MembersRequest } from "./type";
+import { EntryOne, MembersRequest, entryReq } from "./type";
 export const greetings = ref("参赛表详情");
 
 export const Info = ref<EntryOne>({
@@ -78,6 +78,11 @@ export const MembersInfo = ref<Array<MembersRequest>>([]);
 
 export const read_student_base_info = async () => {
   MembersInfo.value = [];
+  console.log(
+    "%c 🥒 Info.value.members: ",
+    "font-size:20px;background-color: #4b4b4b;color:#fff;",
+    Info.value.members
+  );
   for (const item of Info.value.members) {
     console.log(
       "%c 🍩 item: ",
@@ -93,6 +98,7 @@ export const read_student_base_info = async () => {
       phone: data.data.phone,
       name: data.data.real_name
     } as MembersRequest);
+    //console.log("1");
   }
 };
 //增加
@@ -108,15 +114,18 @@ export const addMember = () => {
 export const deleteMember = (val, index) => {
   val.splice(index, 1);
 };
-
+//更新参赛表
 export const SaveInfo = async () => {
-  await updateEntryFormDetail({
+  const param = ref<entryReq>({
     id: Info.value.form.id,
-    members: MembersInfo.value,
-    p_id: Info.value.project.id,
-    project_name: Info.value.project.project_name,
-    introduction: Info.value.project.introduction
+    members: MembersInfo.value
   });
+  if (Info.value.project) {
+    param.value.p_id = Info.value.project.id;
+    param.value.project_name = Info.value.project.project_name;
+    param.value.introduction = Info.value.project.introduction;
+  }
+  await updateEntryFormDetail(param.value);
   ElMessage.success("恭喜你保存成功！");
   isEdit.value = false;
 };

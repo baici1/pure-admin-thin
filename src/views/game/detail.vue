@@ -92,12 +92,12 @@ init();
             }}</el-tag>
           </el-descriptions-item>
           <el-descriptions-item label="获奖名称：">
-            {{ Info.form.ach_name ? "无" : "Info.form.ach_name" }}
+            {{ Info.form.ach_name.length == 0 ? "无" : Info.form.ach_name }}
           </el-descriptions-item>
         </el-descriptions>
       </el-card>
       <el-divider></el-divider>
-      <el-card class="detail-card" shadow="never">
+      <el-card class="detail-card" shadow="never" v-if="Info.form.p_id">
         <el-descriptions title="项目信息" :column="2">
           <el-descriptions-item label="项目编号：">
             <el-input
@@ -163,7 +163,12 @@ init();
             </template>
           </el-table-column>
           <el-table-column prop="name" label="姓名" />
-          <el-table-column fixed="right" label="Operations" width="120">
+          <el-table-column
+            fixed="right"
+            label="Operations"
+            width="120"
+            v-if="isEdit == true"
+          >
             <template #default="scope">
               <el-button
                 type="text"
@@ -172,7 +177,7 @@ init();
               >
                 删除
               </el-button>
-              <el-button type="text" size="small">Edit</el-button>
+              <el-button type="text" size="small">详情</el-button>
             </template>
           </el-table-column>
         </el-table>
