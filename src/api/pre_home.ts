@@ -1,11 +1,16 @@
 import { http } from "../utils/http";
+import { Swiper } from "./model/pre";
+import { BaseModel } from "./model/base";
 
 export const getComSelectList = () => {
   return http.request("get", "http://127.0.0.1:20201/page/comselectlist");
 };
 
 export function GetShowSwiper() {
-  return http.request("get", "http://127.0.0.1:20201/home/swiper/getlist");
+  return http.request<BaseModel<Array<Swiper>>>(
+    "get",
+    "http://127.0.0.1:20201/home/swiper/getlist"
+  );
 }
 
 export function GetSpecificArticles(data?: object) {

@@ -14,6 +14,17 @@ const remainingRouter = [
     }
   },
   {
+    path: "/pre_home",
+    name: "PreHome",
+    component: () => import("/@/views/pre_home/index.vue"),
+    meta: {
+      title: $t("menus.hsPreHome"),
+      showLink: false,
+      i18n: true,
+      rank: 202
+    }
+  },
+  {
     path: "/redirect",
     component: Layout,
     meta: {
