@@ -12,7 +12,9 @@ import ElementPlus from "unplugin-element-plus/vite";
 import { visualizer } from "rollup-plugin-visualizer";
 import removeConsole from "vite-plugin-remove-console";
 import themePreprocessorPlugin from "@zougt/vite-plugin-theme-preprocessor";
-
+//处理icon
+import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
+import path from "path";
 export function getPluginsList(command, VITE_LEGACY) {
   const prodMock = true;
   const lifecycle = process.env.npm_lifecycle_event;
@@ -23,6 +25,24 @@ export function getPluginsList(command, VITE_LEGACY) {
       runtimeOnly: true,
       compositionOnly: true,
       include: [resolve("locales/**")]
+    }),
+    createSvgIconsPlugin({
+      // 指定需要缓存的图标文件夹
+      iconDirs: [path.resolve(process.cwd(), "src/assets/svg")],
+      // 指定symbolId格式
+      symbolId: "icon-[dir]-[name]"
+
+      /**
+       * 自定义插入位置
+       * @default: body-last
+       */
+      // inject?: 'body-last' | 'body-first'
+
+      /**
+       * custom dom id
+       * @default: __svg__icons__dom__
+       */
+      //   customDomId: '__svg__icons__dom__',
     }),
     // jsx、tsx语法支持
     vueJsx(),

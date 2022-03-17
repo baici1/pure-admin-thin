@@ -9,6 +9,9 @@ import { useElementPlus } from "../src/plugins/element-plus";
 import { useAntDesign } from "../src/plugins/ant-design";
 import "ant-design-vue/dist/antd.css";
 import { injectResponsiveStorage } from "/@/utils/storage/responsive";
+//引入icon
+import "virtual:svg-icons-register";
+import { ReSvgIcon } from "/@/components/ReIcon/index";
 
 import "animate.css";
 import "virtual:windi.css";
@@ -37,6 +40,7 @@ import {
 app.component("IconifyIconOffline", IconifyIconOffline);
 app.component("IconifyIconOnline", IconifyIconOnline);
 app.component("FontIcon", FontIcon);
+app.component("ReSvgIcon", ReSvgIcon);
 
 getServerConfig(app).then(async config => {
   app.use(router);

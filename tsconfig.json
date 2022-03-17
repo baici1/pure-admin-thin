@@ -24,7 +24,12 @@
       "@build/*": ["build/*"],
       "/#/*": ["types/*"]
     },
-    "types": ["node", "vite/client", "element-plus/global"],
+    "types": [
+      "node",
+      "vite/client",
+      "element-plus/global",
+      "vite-plugin-svg-icons/client"
+    ],
     "typeRoots": ["./node_modules/@types/", "./types"]
   },
   "include": [

@@ -36,6 +36,7 @@ import videoPlay from "@iconify-icons/ep/video-play";
 import Monitor from "@iconify-icons/ep/monitor";
 import Search from "@iconify-icons/ep/search";
 import pictureIcon from "@iconify-icons/ep/picture";
+import filesIcon from "@iconify-icons/ep/files";
 
 addIcon("check", Check);
 addIcon("menu", Menu);
@@ -71,6 +72,7 @@ addIcon("rank", Rank);
 addIcon("monitor", Monitor);
 addIcon("search", Search);
 addIcon("picture", pictureIcon);
+addIcon("files", filesIcon);
 // remixicon
 import arrowRightSLine from "@iconify-icons/ri/arrow-right-s-line";
 import arrowLeftSLine from "@iconify-icons/ri/arrow-left-s-line";

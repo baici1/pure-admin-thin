@@ -1,6 +1,35 @@
 <script setup lang="ts">
-// import { NEllipsis } from "naive-ui";
-// import { timeFormatMD } from "/@/utils/tools";
+import { ref } from "vue";
+import { NEllipsis } from "naive-ui";
+import { timeFormatMD } from "/@/utils/tools";
+import { ArticlesItem } from "/@/api/model/pre";
+import { GetSpecificArticles } from "/@/api/pre_home";
+const props = defineProps({
+  articleType: {
+    type: String
+  },
+  icon: {
+    type: String
+  }
+});
+const articles = ref([] as ArticlesItem[]);
+//获取文章分类的列表
+const get_specific_articles = async (type: string) => {
+  const data = await GetSpecificArticles({
+    page: 1,
+    limit: 3,
+    type: type
+  });
+  console.log(
+    "%c 🥡 data: ",
+    "font-size:20px;background-color: #3F7CFF;color:#fff;",
+    data
+  );
+  articles.value = data.data.records;
+  isEmpty.value = false;
+};
+get_specific_articles(props.articleType);
+const isEmpty = ref(true);
 </script>
 
 <template>
@@ -9,14 +38,16 @@
       <template #header>
         <div class="news-header">
           <div class="nleft">
-            <span> 双创活动 </span>
+            <iconify-icon-offline
+              :icon="props.icon"
+              class="mr-5px h-30px w-30px"
+            ></iconify-icon-offline>
+            <span>
+              {{ props.articleType }}
+            </span>
             <!-- <img src="https://static.lanqiao.cn/dasai/images/20210818/title/notice.png" /> -->
           </div>
           <div class="nright">
-            <router-link :to="{ name: 'List' }">
-              <el-button class="button" type="text"> 查看更多 </el-button>
-            </router-link>
-
             <img
               src="https://static.lanqiao.cn/dasai/images/20210818/icons/yellow_right.png"
               alt="icons"
@@ -24,9 +55,9 @@
           </div>
         </div>
       </template>
-      <!-- <el-empty description="No Data"></el-empty>
-      <div v-for="item in articles[0]" :key="item" class="news-text">
-        <el-link @click="ToDetail(item.id)">
+      <el-empty description="No Data" v-show="isEmpty"></el-empty>
+      <div v-for="(item, index) in articles" :key="index" class="news-text">
+        <el-link>
           <n-ellipsis style="max-width: 300px">
             {{ item.title }}
           </n-ellipsis>
@@ -34,7 +65,7 @@
         <span style="color: #999999" class="news-time">{{
           timeFormatMD(item.create_time)
         }}</span>
-      </div> -->
+      </div>
     </el-card>
   </div>
 </template>

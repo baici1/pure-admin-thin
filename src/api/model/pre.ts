@@ -22,3 +22,14 @@ export interface ArticlesItem {
   type: string;
   create_time: string;
 }
+
+export interface TimeList {
+  id: number;
+  c_name: string;
+  url: string;
+  level: string;
+  start_time: string;
+  end_time: string;
+  r_start_time: string;
+  r_end_time: string;
+}

@@ -14,8 +14,6 @@ const handleSelect = (key: string, keyPath: string[]) => {
         class="border-none"
         :default-active="activeIndex2"
         mode="horizontal"
-        background-color="#545c64"
-        text-color="#fff"
         active-text-color="#ffd04b"
         @select="handleSelect"
       >
