@@ -33,3 +33,18 @@ export interface TimeList {
   r_start_time: string;
   r_end_time: string;
 }
+
+export interface PageDetail {
+  id: number;
+  create_time: string;
+  update_time: string;
+  commentabled: boolean;
+  published: boolean;
+  title: string;
+  description: string;
+  content: string;
+  views: number;
+  author: string;
+  type: string;
+  order_num: number;
+}

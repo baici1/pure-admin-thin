@@ -10,7 +10,8 @@ import {
   Descriptions,
   DescriptionsItem,
   Row,
-  Col
+  Col,
+  Pagination
 } from "ant-design-vue";
 
 // Directives
@@ -27,6 +28,7 @@ const components = [
   Descriptions,
   DescriptionsItem,
   Row,
+  Pagination,
   Col
 ];
 

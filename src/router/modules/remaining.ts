@@ -25,6 +25,26 @@ const remainingRouter = [
     }
   },
   {
+    path: "/list",
+    name: "List",
+    component: () => import("/@/views/pre_pagelist/index.vue"),
+    meta: {
+      title: $t("menus.hsPageList"),
+      showLink: false,
+      i18n: true
+    }
+  },
+  {
+    path: "/page/detail/:id",
+    name: "Details",
+    component: () => import("/@/views/pre_details/index.vue"),
+    meta: {
+      title: $t("menus.hsPageDetail"),
+      showLink: false,
+      i18n: true
+    }
+  },
+  {
     path: "/redirect",
     component: Layout,
     meta: {

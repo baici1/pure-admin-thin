@@ -41,3 +41,7 @@ export type userType = {
   phone: string;
   userid: number;
 };
+
+export type recordType = {
+  menuIndex: number;
+};

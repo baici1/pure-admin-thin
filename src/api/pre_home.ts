@@ -1,5 +1,5 @@
 import { http } from "../utils/http";
-import { Swiper, ArticlesList, TimeList } from "./model/pre";
+import { Swiper, ArticlesList, TimeList, PageDetail } from "./model/pre";
 import { BaseModel } from "./model/base";
 
 export const getComSelectList = () => {
@@ -30,7 +30,11 @@ export function GetCompetitionTimeList() {
 }
 
 export function GetAArticle(data: object) {
-  return http.request("post", "http://127.0.0.1:20201/page/article", { data });
+  return http.request<BaseModel<PageDetail>>(
+    "post",
+    "http://127.0.0.1:20201/page/article",
+    { data }
+  );
 }
 
 export function GetCompetitions(data?: object) {

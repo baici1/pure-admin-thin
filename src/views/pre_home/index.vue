@@ -10,7 +10,7 @@ import mainVue from "./components/main.vue";
       <el-main class="p-0 bg-[rgba(211,220,230,0.2)]">
         <mainVue></mainVue>
       </el-main>
-      <el-footer class="p-0 m-0">
+      <el-footer style="padding: 0; margin: 0">
         <ReFooter></ReFooter>
       </el-footer>
     </el-container>
