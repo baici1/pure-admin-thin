@@ -1,6 +1,12 @@
 import { http } from "../utils/http";
-import { Swiper, ArticlesList, TimeList, PageDetail } from "./model/pre";
-import { BaseModel } from "./model/base";
+import {
+  Swiper,
+  ArticlesItem,
+  TimeList,
+  PageDetail,
+  CompetitionItem
+} from "./model/pre";
+import { BaseModel, List } from "./model/base";
 
 export const getComSelectList = () => {
   return http.request("get", "http://127.0.0.1:20201/page/comselectlist");
@@ -14,7 +20,7 @@ export function GetShowSwiper() {
 }
 
 export function GetSpecificArticles(data?: object) {
-  return http.request<BaseModel<ArticlesList>>(
+  return http.request<BaseModel<List<ArticlesItem>>>(
     "post",
     "http://127.0.0.1:20201/home/article/search",
     {
@@ -38,7 +44,11 @@ export function GetAArticle(data: object) {
 }
 
 export function GetCompetitions(data?: object) {
-  return http.request("post", "http://127.0.0.1:20201/page/competitions", {
-    data
-  });
+  return http.request<BaseModel<List<CompetitionItem>>>(
+    "post",
+    "http://127.0.0.1:20201/page/competitions",
+    {
+      data
+    }
+  );
 }

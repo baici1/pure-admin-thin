@@ -7,11 +7,6 @@ export interface Swiper {
   is_show: boolean;
 }
 
-export interface ArticlesList {
-  records: ArticlesItem[];
-  total: number;
-}
-
 export interface ArticlesItem {
   id: number;
   title: string;
@@ -47,4 +42,18 @@ export interface PageDetail {
   author: string;
   type: string;
   order_num: number;
+}
+
+export interface CompetitionItem {
+  id: number;
+  c_name: string;
+  c_type: string;
+  organizer: string;
+  introduction: string;
+  url: string;
+  level: string;
+  start_time: string;
+  end_time: string;
+  r_start_time: string;
+  r_end_time: string;
 }

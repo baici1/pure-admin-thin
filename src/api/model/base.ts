@@ -9,3 +9,8 @@ export interface BaseRes {
   code: number;
   msg: string;
 }
+
+export class List<T> {
+  records: T[];
+  total: number;
+}

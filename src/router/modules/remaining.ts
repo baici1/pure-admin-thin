@@ -45,6 +45,26 @@ const remainingRouter = [
     }
   },
   {
+    path: "/preGame/home",
+    name: "PreGame",
+    component: () => import("/@/views/pre_game/index.vue"),
+    meta: {
+      title: $t("menus.hsGameHome"),
+      showLink: false,
+      i18n: true
+    }
+  },
+  {
+    path: "/display/user",
+    name: "DispalyUser",
+    component: () => import("/@/views/pre_display/user.vue"),
+    meta: {
+      title: $t("menus.hsUserDsplay"),
+      showLink: false,
+      i18n: true
+    }
+  },
+  {
     path: "/redirect",
     component: Layout,
     meta: {
