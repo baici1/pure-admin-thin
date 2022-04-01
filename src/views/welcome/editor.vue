@@ -84,10 +84,10 @@ const update_student_info = async () => {
                   <ReAvatar></ReAvatar>
                 </el-form-item>
                 <el-form-item label="real_name" prop="real_name">
-                  <el-input v-model="form.real_name"></el-input>
+                  <el-input v-model="form.realName"></el-input>
                 </el-form-item>
                 <el-form-item label="student_id" prop="student_id">
-                  <el-input v-model="form.student_id"></el-input>
+                  <el-input v-model="form.studentId"></el-input>
                 </el-form-item>
                 <el-form-item label="email" prop="email">
                   <el-input v-model="form.email"></el-input>
@@ -105,7 +105,7 @@ const update_student_info = async () => {
                   <el-input v-model="form.major"></el-input>
                 </el-form-item>
                 <el-form-item label="class_num" prop="class_num">
-                  <el-input v-model="form.class_num"></el-input>
+                  <el-input v-model="form.classNum"></el-input>
                 </el-form-item>
                 <el-form-item label="specialty" prop="specialty">
                   <el-tag
@@ -145,10 +145,10 @@ const update_student_info = async () => {
                   <el-input v-model="form.wechat"></el-input>
                 </el-form-item>
                 <el-form-item label="bank_name" prop="bank_name">
-                  <el-input v-model="form.bank_name"></el-input>
+                  <el-input v-model="form.bankName"></el-input>
                 </el-form-item>
                 <el-form-item label="bank_card_number" prop="bank_card_number">
-                  <el-input v-model="form.bank_card_number"></el-input>
+                  <el-input v-model="form.bankCardNumber"></el-input>
                 </el-form-item>
                 <el-form-item label="introduction" prop="introduction">
                   <el-input

@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ElMessage } from "element-plus";
-import { computed, unref } from "vue";
+import { computed, unref, ref } from "vue";
 import {
   FormStateEnum,
   useFormState,
   useInputUtil,
   RegisterForm
 } from "./useLogin";
-import { getRegister } from "/@/api/user";
+import { getRegister, captcha } from "/@/api/user";
 const { getFormState, handleBackLogin } = useFormState();
 const getShow = computed(() => unref(getFormState) === FormStateEnum.REGISTER);
 const { onInputFocus, onInputBlur, onInputErr } = useInputUtil();
@@ -16,11 +16,6 @@ const onRegister = async () => {
   //去除空格
   RegisterForm.value.phone = RegisterForm.value.phone.trim();
   if (RegisterForm.value.phone.length == 0) {
-    console.log(
-      "%c 🍎 RegisterForm.value.phone.length : ",
-      "font-size:20px;background-color: #4b4b4b;color:#fff;",
-      RegisterForm.value.phone.length
-    );
     onInputErr("phone");
     return;
   }
@@ -30,9 +25,9 @@ const onRegister = async () => {
     ElMessage.error("密码至少6位");
     return;
   }
-  RegisterForm.value.again = RegisterForm.value.again.trim();
+  RegisterForm.value.againPassword = RegisterForm.value.againPassword.trim();
   if (
-    RegisterForm.value.again != RegisterForm.value.password ||
+    RegisterForm.value.againPassword != RegisterForm.value.password ||
     RegisterForm.value.password.length < 6
   ) {
     onInputErr("pwd");
@@ -40,13 +35,28 @@ const onRegister = async () => {
     ElMessage.error("两次密码不一致");
     return;
   }
-  try {
-    await getRegister(RegisterForm.value);
+
+  const data = await getRegister(RegisterForm.value);
+  console.log(
+    "%c 🍼️ data: ",
+    "font-size:20px;background-color: #465975;color:#fff;",
+    data
+  );
+  if (data.code == 0) {
     ElMessage.success("恭喜你！注册成功，请进行登录");
-  } catch (error) {
-    ElMessage.error("注册失败！请重新注册！");
+    handleBackLogin();
+  } else {
+    ElMessage.error("用户已注册!");
   }
 };
+//验证码显示
+const captchaImg = ref("");
+const registVerify = async () => {
+  const data = await captcha({});
+  RegisterForm.value.captchaId = data.data.captchaId;
+  captchaImg.value = data.data.picPath;
+};
+registVerify();
 </script>
 
 <template>
@@ -136,13 +146,69 @@ const onRegister = async () => {
           <input
             type="password"
             class="input"
-            v-model="RegisterForm.again"
+            v-model="RegisterForm.againPassword"
             @focus="onInputFocus('again')"
-            @blur="onInputBlur(RegisterForm.again, 'again')"
+            @blur="onInputBlur(RegisterForm.againPassword, 'again')"
             required="true"
           />
         </div>
       </div>
+      <div
+        class="input-group captcha input-grid"
+        v-motion
+        :initial="{
+          opacity: 0,
+          y: 100
+        }"
+        :enter="{
+          opacity: 1,
+          y: 0,
+          transition: {
+            delay: 300
+          }
+        }"
+      >
+        <div class="icon">
+          <IconifyIconOffline icon="fa-lock" width="14" height="14" />
+        </div>
+        <div>
+          <h5>验证码</h5>
+          <input
+            type="captcha"
+            class="input"
+            v-model="RegisterForm.captcha"
+            @focus="onInputFocus('captcha')"
+            @blur="onInputBlur(RegisterForm.captcha, 'captcha')"
+          />
+        </div>
+        <el-image :src="captchaImg" @click="registVerify" />
+      </div>
+      <el-row
+        justify="space-between"
+        v-motion
+        :initial="{
+          opacity: 0,
+          y: 100
+        }"
+        :enter="{
+          opacity: 1,
+          y: 0,
+          transition: {
+            delay: 300
+          }
+        }"
+      >
+        <el-col :span="4">
+          <el-radio v-model="RegisterForm.identity" :label="2019" size="large">
+            学生
+          </el-radio>
+        </el-col>
+        <el-col :span="5">
+          <el-radio v-model="RegisterForm.identity" :label="2023" size="large">
+            教师
+          </el-radio>
+        </el-col>
+      </el-row>
       <button
         class="btn"
         v-motion
@@ -185,4 +251,8 @@ const onRegister = async () => {
 
 <style scoped>
 @import url("/@/style/login.css");
+
+.input-grid {
+  grid-template-columns: 7% 50% 43%;
+}
 </style>

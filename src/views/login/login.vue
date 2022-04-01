@@ -4,6 +4,12 @@ import avatar from "/@/assets/login/avatar.svg?component";
 import illustration from "/@/assets/login/illustration.svg?component";
 import LoginForm from "./LoginForm.vue";
 import RegisterForm from "./RegisterForm.vue";
+import { computed, unref } from "vue";
+import { FormStateEnum, useFormState } from "./useLogin";
+const { getFormState } = useFormState();
+const getShowLogin = computed(
+  () => unref(getFormState) === FormStateEnum.LOGIN
+);
 </script>
 
 <template>
@@ -32,8 +38,8 @@ import RegisterForm from "./RegisterForm.vue";
           创新创业个人管理
         </h2>
         <div>
-          <LoginForm></LoginForm>
-          <RegisterForm></RegisterForm>
+          <LoginForm v-if="getShowLogin"></LoginForm>
+          <RegisterForm v-else></RegisterForm>
         </div>
       </div>
     </div>

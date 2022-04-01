@@ -9,6 +9,7 @@ import SetUp from "@iconify-icons/ep/set-up";
 import Edit from "@iconify-icons/ep/edit";
 import Setting from "@iconify-icons/ep/setting";
 import Lollipop from "@iconify-icons/ep/lollipop";
+import soccerIcon from "@iconify-icons/ep/soccer";
 import Link from "@iconify-icons/ep/link";
 import Position from "@iconify-icons/ep/position";
 import Histogram from "@iconify-icons/ep/histogram";
@@ -73,6 +74,7 @@ addIcon("monitor", Monitor);
 addIcon("search", Search);
 addIcon("picture", pictureIcon);
 addIcon("files", filesIcon);
+addIcon("soccer", soccerIcon);
 // remixicon
 import arrowRightSLine from "@iconify-icons/ri/arrow-right-s-line";
 import arrowLeftSLine from "@iconify-icons/ri/arrow-left-s-line";

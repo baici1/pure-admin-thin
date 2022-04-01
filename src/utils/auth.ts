@@ -1,7 +1,6 @@
 import Cookies from "js-cookie";
-import { useUserStoreHook } from "/@/store/modules/user";
 
-const TokenKey = "authorized-token";
+const TokenKey = "x-token";
 
 type paramsMapType = {
   user: object;
@@ -12,7 +11,7 @@ type paramsMapType = {
 // 获取token
 export function getToken() {
   // 此处与TokenKey相同，此写法解决初始化时Cookies中不存在TokenKey报错
-  return Cookies.get("authorized-token");
+  return Cookies.get(TokenKey);
 }
 
 // 设置token以及过期时间（cookies、localStorage各一份）
@@ -27,7 +26,7 @@ export function setToken(data) {
   };
   //json 序列化
   const dataString = JSON.stringify(paramsMap);
-  useUserStoreHook().SET_TOKEN(accessToken);
+
   //根据过期时间设置存储cookie
   expires > 0
     ? Cookies.set(TokenKey, dataString, {

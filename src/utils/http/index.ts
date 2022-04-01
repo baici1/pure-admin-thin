@@ -9,7 +9,6 @@ import {
 import qs from "qs";
 import NProgress from "../progress";
 // import { loadEnv } from "@build/index";
-import { getToken } from "/@/utils/auth";
 
 const pendingMap = new Map();
 
@@ -27,8 +26,8 @@ const defaultConfig: AxiosRequestConfig = {
   timeout: 10000,
   headers: {
     Accept: "application/json, text/plain, */*",
-    "Content-Type": "application/json",
-    "X-Requested-With": "XMLHttpRequest"
+    "Content-Type": "application/json"
+    // "X-Requested-With": "XMLHttpRequest"
   },
   // 数组格式参数序列化
   paramsSerializer: params => qs.stringify(params, { indices: false })
@@ -63,28 +62,12 @@ class PureHttp {
           PureHttp.initConfig.beforeRequestCallback($config);
           return $config;
         }
-        const token = getToken();
+        //请求头部加入token信息
+        const token = window.localStorage.getItem("token");
         if (token) {
-          const data = JSON.parse(token);
-          const now = new Date().getTime();
-          const expired = parseInt(data.expires) - now <= 0;
-          if (expired) {
-            // // token过期刷新
-            // useUserStoreHook()
-            //   .refreshToken(data)
-            //   .then((res: resultType) => {
-            //     config.headers["Authorization"] = "Bearer " + res.accessToken;
-            //     return $config;
-            //   });
-            ElMessage.error("信息已过期，请重新登录！");
-            return $config;
-          } else {
-            config.headers["Authorization"] = "Bearer " + data.accessToken;
-            return $config;
-          }
-        } else {
-          return $config;
+          config.headers["x-token"] = token;
         }
+        return $config;
       },
       error => {
         return Promise.reject(error);

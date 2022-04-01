@@ -1,60 +1,69 @@
+import { router } from "/@/router";
+import { ElMessage } from "element-plus";
 import { defineStore } from "pinia";
-import { store } from "/@/store";
-import { userType } from "./types";
+import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
-import { refreshToken } from "/@/api/user";
 import { storageLocal, storageSession } from "/@/utils/storage";
-import { getToken, setToken, removeToken } from "/@/utils/auth";
 import { useMultiTagsStoreHook } from "/@/store/modules/multiTags";
-//每次的一次启动页面的初始化
-const data = getToken();
-let token = "";
-const name = "";
-let userid = 0;
-let phone = "";
-if (data) {
-  const dataJson = JSON.parse(data);
-  if (dataJson) {
-    token = dataJson?.accessToken;
-    userid = dataJson?.user.id;
-    phone = dataJson?.user.phone;
-    //name = dataJson?.name ?? "admin";
-  }
-}
+import { getLogin, jsonInBlacklist } from "/@/api/user";
+import { UserBaseInfo } from "/@/api/model/user";
+import { initRouter } from "/@/router/utils";
 
-export const useUserStore = defineStore({
-  id: "pure-user",
-  state: (): userType => ({
-    token,
-    name,
-    userid,
-    phone
-  }),
-  actions: {
-    SET_TOKEN(token) {
-      this.token = token;
-    },
-    SET_NAME(name) {
-      this.name = name;
-    },
-    SET_USERID(id) {
-      this.userid = id;
-    },
-    SET_PHONE(phone) {
-      this.phone = phone;
-    },
-    SET_INFO(token, phone, id) {
-      this.token = token;
-      this.phone = phone;
-      this.userid = id;
-    },
-    // 登出 清空缓存
-    logOut() {
-      this.token = "";
-      this.name = "";
-      this.userid = 0;
-      this.phone = "";
-      removeToken();
+export const useUserStore = defineStore("pure-user", () => {
+  //用户基本信息
+  const userInfo = ref({
+    ID: 6,
+    phone: "13337474741",
+    slat: "",
+    identity: 2019,
+    check: 1,
+    authority: {}
+  } as UserBaseInfo);
+  //获取token
+  const token = ref(window.localStorage.getItem("token") || "");
+  const setToken = val => {
+    token.value = val;
+  };
+  //设置用户信息
+  const setUserInfo = val => {
+    storageLocal.setItem("Info", val);
+    userInfo.value = val;
+  };
+  //登录
+  const LoginIn = async loginInfo => {
+    const data = await getLogin(loginInfo);
+    console.log(
+      "%c 🍎 data: ",
+      "font-size:20px;background-color: #FCA650;color:#fff;",
+      data
+    );
+    if (data.code == 0) {
+      if (data.data.user.check != 1) {
+        ElMessage.warning("当前用户未审核！请联系管理员！");
+      }
+      //初步设置
+      setToken(data.data.token);
+      setUserInfo(data.data.user);
+      //获取列表
+      //通过权限获取列表
+      initRouter().then(() => {});
+      //发生跳转
+      router.push({ name: "welcome" });
+    } else {
+      ElMessage.error(data.msg);
+    }
+  };
+  // 登出 清空缓存
+  const logOut = async () => {
+    //将token存入黑名单
+    const res = await jsonInBlacklist();
+    console.log(
+      "%c 🍝 res: ",
+      "font-size:20px;background-color: #465975;color:#fff;",
+      res
+    );
+    if (res.code == 0) {
+      token.value = "";
       storageLocal.clear();
       storageSession.clear();
       useMultiTagsStoreHook().handleTags("equal", [
@@ -69,19 +78,18 @@ export const useUserStore = defineStore({
         }
       ]);
       useRouter().push("/login");
-    },
-    // 刷新token
-    async refreshToken(data) {
-      return refreshToken(data).then(data => {
-        if (data) {
-          setToken(data);
-          return data;
-        }
-      });
+      window.location.reload();
     }
-  }
+  };
+  watch(token, () => {
+    window.localStorage.setItem("token", token.value);
+  });
+  return {
+    userInfo,
+    token,
+    setToken,
+    setUserInfo,
+    LoginIn,
+    logOut
+  };
 });
-
-export function useUserStoreHook() {
-  return useUserStore(store);
-}

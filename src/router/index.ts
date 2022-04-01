@@ -1,4 +1,3 @@
-import { storageLocal } from "./../utils/storage/index";
 import { isUrl } from "/@/utils/is";
 import { getConfig } from "/@/config";
 import { toRouteType } from "./types";
@@ -53,8 +52,7 @@ router.beforeEach((to: toRouteType, _from, next) => {
       handleAliveRoute(newMatched);
     }
   }
-  const name = storageLocal.getItem("info");
-  name.username = "admin";
+  const token = localStorage.getItem("token");
   NProgress.start();
   const externalLink = isUrl(to?.name);
   if (!externalLink)
@@ -68,7 +66,8 @@ router.beforeEach((to: toRouteType, _from, next) => {
         )} | ${Title}`;
       else document.title = transformI18n(item.meta.title, item.meta?.i18n);
     });
-  if (name) {
+
+  if (token.length > 0) {
     if (_from?.name) {
       // name为超链接
       if (externalLink) {
@@ -79,8 +78,8 @@ router.beforeEach((to: toRouteType, _from, next) => {
       }
     } else {
       // 刷新
-      if (usePermissionStoreHook().wholeMenus.length === 0)
-        initRouter(name.username).then((router: Router) => {
+      if (usePermissionStoreHook().wholeMenus.length === 0) {
+        initRouter().then((router: Router) => {
           if (!useMultiTagsStoreHook().getMultiTagsCache) {
             const handTag = (
               path: string,
@@ -106,19 +105,25 @@ router.beforeEach((to: toRouteType, _from, next) => {
                 name,
                 meta
               );
+
               return router.push(refreshRedirect);
             } else {
               const { path } = to;
+
               const index = findIndex(remainingRouter, v => {
                 return v.path == path;
               });
+
               const routes =
                 index === -1
                   ? router.options.routes[0].children
                   : router.options.routes;
+
               const route = findRouteByPath(path, routes);
+
               const routePartent = getParentPaths(path, routes);
               // 未开启标签页缓存，刷新页面重定向到顶级路由（参考标签页操作例子，只针对动态路由）
+
               if (
                 path !== routes[0].path &&
                 route?.meta?.rank !== 0 &&
@@ -135,6 +140,7 @@ router.beforeEach((to: toRouteType, _from, next) => {
                   name,
                   meta
                 );
+
                 return router.push(route.meta?.refreshRedirect);
               } else {
                 handTag(
@@ -143,12 +149,15 @@ router.beforeEach((to: toRouteType, _from, next) => {
                   route.name,
                   route.meta
                 );
+
                 return router.push(path);
               }
             }
           }
           router.push(to.fullPath);
         });
+      }
+
       next();
     }
   } else {

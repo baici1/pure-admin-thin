@@ -26,6 +26,8 @@ const currentState = ref(FormStateEnum.LOGIN);
 //管理用户表单状态
 export function useFormState() {
   function setFormState(state: FormStateEnum) {
+    LoginFormInit();
+    RegisterFormInit();
     currentState.value = state;
   }
 
@@ -40,11 +42,34 @@ export function useFormState() {
 //登录表单
 export const LoginForm = ref({
   phone: "13337474745",
-  password: "123456"
+  password: "123456",
+  captchaId: "",
+  captcha: ""
 });
+const LoginFormInit = () => {
+  LoginForm.value = {
+    phone: "13337474745",
+    password: "123456",
+    captchaId: "",
+    captcha: ""
+  };
+};
 //注册表单
 export const RegisterForm = ref({
   phone: "",
   password: "",
-  again: ""
+  againPassword: "",
+  identity: 2019,
+  captchaId: "",
+  captcha: ""
 });
+const RegisterFormInit = () => {
+  RegisterForm.value = {
+    phone: "",
+    password: "",
+    againPassword: "",
+    identity: 2019,
+    captchaId: "",
+    captcha: ""
+  };
+};

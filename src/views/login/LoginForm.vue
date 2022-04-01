@@ -1,20 +1,15 @@
 <script setup lang="ts">
-import { computed, unref } from "vue";
-import { useRouter } from "vue-router";
-import { initRouter } from "/@/router/utils";
-import { getLogin } from "/@/api/user";
-import { useUserStoreHook } from "/@/store/modules/user";
+import { ref } from "vue";
+import { captcha } from "/@/api/user";
+import { useUserStore } from "/@/store/modules/user";
 import {
   useInputUtil,
   FormStateEnum,
   useFormState,
   LoginForm
 } from "./useLogin";
-import { storageLocal } from "/@/utils/storage";
-import { setToken } from "/@/utils/auth";
-const userStore = useUserStoreHook();
-const router = useRouter();
-const { setFormState, getFormState } = useFormState();
+const userStore = useUserStore();
+const { setFormState } = useFormState();
 const { onInputFocus, onInputBlur, onInputErr } = useInputUtil();
 //用户登录函数
 const onLogin = async () => {
@@ -29,30 +24,21 @@ const onLogin = async () => {
     onInputErr("pwd");
     return;
   }
-  //发起请求
-  const data = await getLogin(LoginForm.value);
-  console.log(
-    "%c 🍺 data: ",
-    "font-size:20px;background-color: #7F2B82;color:#fff;",
-    data
-  );
-  //localstorage和cookie存储权限
-  userStore.SET_INFO(
-    data.data.accessToken,
-    data.data.user.phone,
-    data.data.user.id
-  );
-  storageLocal.setItem("Info", data.data.user);
-  setToken(data.data);
-  //通过权限获取列表
-  initRouter("admin").then(() => {});
-  router.push({ name: "welcome" });
+  userStore.LoginIn(LoginForm.value);
 };
-const getShow = computed(() => unref(getFormState) === FormStateEnum.LOGIN);
+
+//验证码显示
+const captchaImg = ref("");
+const loginVerify = async () => {
+  const data = await captcha({});
+  LoginForm.value.captchaId = data.data.captchaId;
+  captchaImg.value = data.data.picPath;
+};
+loginVerify();
 </script>
 
 <template>
-  <div class="on-login" v-if="getShow">
+  <div class="on-login">
     <div
       class="input-group phone"
       v-motion
@@ -111,6 +97,36 @@ const getShow = computed(() => unref(getFormState) === FormStateEnum.LOGIN);
         />
       </div>
     </div>
+    <div
+      class="input-group captcha input-grid"
+      v-motion
+      :initial="{
+        opacity: 0,
+        y: 100
+      }"
+      :enter="{
+        opacity: 1,
+        y: 0,
+        transition: {
+          delay: 300
+        }
+      }"
+    >
+      <div class="icon">
+        <IconifyIconOffline icon="fa-lock" width="14" height="14" />
+      </div>
+      <div>
+        <h5>验证码</h5>
+        <input
+          type="captcha"
+          class="input"
+          v-model="LoginForm.captcha"
+          @focus="onInputFocus('captcha')"
+          @blur="onInputBlur(LoginForm.captcha, 'captcha')"
+        />
+      </div>
+      <el-image :src="captchaImg" @click="loginVerify" />
+    </div>
     <el-row
       justify="space-between"
       v-motion
@@ -144,10 +160,7 @@ const getShow = computed(() => unref(getFormState) === FormStateEnum.LOGIN);
       }"
       :enter="{
         opacity: 1,
-        y: 0,
-        transition: {
-          delay: 500
-        }
+        y: 0
       }"
       @click="onLogin"
     >
@@ -158,4 +171,8 @@ const getShow = computed(() => unref(getFormState) === FormStateEnum.LOGIN);
 
 <style scoped lang="scss">
 @import url("/@/style/login.css");
+
+.input-grid {
+  grid-template-columns: 7% 50% 43%;
+}
 </style>

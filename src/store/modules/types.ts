@@ -1,5 +1,5 @@
 import { RouteRecordName } from "vue-router";
-
+import { UserBaseInfo } from "/@/api/model/user";
 export type cacheType = {
   mode: string;
   name?: RouteRecordName;
@@ -37,9 +37,7 @@ export type setType = {
 
 export type userType = {
   token: string;
-  name?: string;
-  phone: string;
-  userid: number;
+  user: UserBaseInfo;
 };
 
 export type recordType = {

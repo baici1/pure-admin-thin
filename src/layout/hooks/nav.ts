@@ -1,3 +1,4 @@
+import { useUserStore } from "./../../store/modules/user";
 import { computed } from "vue";
 import { router } from "/@/router";
 import { getConfig } from "/@/config";
@@ -35,10 +36,10 @@ export function useNav() {
       document.title = `${transformI18n(meta.title, meta.i18n)} | ${Title}`;
     else document.title = transformI18n(meta.title, meta.i18n);
   }
-
+  const userStore = useUserStore();
   // 退出登录
   function logout() {
-    storageSession.removeItem("info");
+    userStore.logOut();
     router.push("/login");
   }
 

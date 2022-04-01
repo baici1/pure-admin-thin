@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { checkGender } from "/@/utils/tools";
-import { StudentInfo } from "../../utils/types";
+import { StudentInfo } from "/@/api/model/user";
 import { PropType } from "vue";
 // const lists = ref([
 //   { type: "", label: "善良" },
@@ -37,7 +37,7 @@ const props = defineProps({
         </el-icon>
         姓名
       </template>
-      {{ props.info.real_name }}
+      {{ props.info.realName }}
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
@@ -62,7 +62,7 @@ const props = defineProps({
         </el-icon>
         学号
       </template>
-      {{ props.info.student_id }}
+      {{ props.info.studentId }}
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>

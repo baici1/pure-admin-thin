@@ -6,34 +6,69 @@ export interface UserInfo {
 }
 
 export interface LoginRes {
-  accessToken: string;
-  expires: number;
-  user: UserInfo;
+  user: UserBaseInfo;
+  token: string;
+  expiresAt: number;
 }
 
+export interface UserBaseInfo {
+  ID: number;
+  CreatedAt: string;
+  UpdatedAt: string;
+  password: string;
+  phone: string;
+  slat: string;
+  identity: number;
+  check: number;
+  authority: Authority;
+}
+
+export interface Authority {
+  CreatedAt: string;
+  UpdatedAt: string;
+  DeletedAt: null;
+  authorityId: string;
+  authorityName: string;
+  parentId: string;
+  dataAuthorityId: null;
+  children: null;
+  menus: null;
+  defaultRouter: string;
+}
 export interface StudentsBaseInfo {
   phone: string;
   real_name: string;
 }
 
+export interface RestudentInfo {
+  restudentInfo: StudentInfo;
+}
 export interface StudentInfo {
-  id: number;
-  student_id: string;
-  u_id: number;
+  ID: number;
+  CreatedAt: string;
+  studentId: string;
+  uId: number;
   nickname: string;
   email: string;
   avatar: string;
-  real_name: string;
+  realName: string;
   gender: number;
   degree: string;
   grade: string;
   department: string;
   major: string;
-  class_num: string;
+  classNum: string;
   specialty: string;
   QQ: string;
   wechat: string;
-  bank_name: string;
-  bank_card_number: string;
+  bankName: string;
+  bankCardNumber: string;
   introduction: string;
+  lists?: Array<string>;
+}
+
+export interface Captcha {
+  captchaId: string;
+  picPath: string;
+  captchaLength: number;
 }
