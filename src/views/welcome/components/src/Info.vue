@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { checkGender } from "/@/utils/tools";
+import { checkGender } from "../../../../utils/format";
 import { StudentInfo } from "/@/api/model/user";
 import { PropType } from "vue";
 // const lists = ref([

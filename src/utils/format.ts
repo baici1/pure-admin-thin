@@ -1,6 +1,7 @@
 //一些相关工具函数，对返回的数据进行处理
 import dayjs from "dayjs";
 import "dayjs/locale/zh-cn"; // import locale
+import { getDict } from "/@/utils/dictionary";
 dayjs.locale("zh-cn"); // use locale
 
 export function timeFormatMD(time): string {
@@ -39,3 +40,12 @@ export function checkComStatus(time1, time2, time3, time4) {
     return ComStatus[4];
   }
 }
+export const filterDict = (value, options) => {
+  const rowLabel = options && options.filter(item => item.value === value);
+  return rowLabel && rowLabel[0] && rowLabel[0].label;
+};
+
+export const getDictFunc = async type => {
+  const dicts = await getDict(type);
+  return dicts;
+};

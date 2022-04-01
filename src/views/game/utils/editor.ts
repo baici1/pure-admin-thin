@@ -3,32 +3,31 @@ import { ref } from "vue";
 import type { CascaderOption } from "element-plus";
 import { getComSelectList } from "/@/api/competition";
 import { EntryInfo } from "./type";
-import { UserInfo } from "/@/views/base";
+import { UserBaseInfo } from "/@/views/base";
 import { ElMessageBox, ElMessage } from "element-plus";
+import { getDictFunc, filterDict } from "/@/utils/format";
 //获取手机号
-const info: UserInfo = storageLocal.getItem("Info");
+const userinfo: UserBaseInfo = storageLocal.getItem("Info");
+const uid = ref(userinfo.ID);
 //参赛表的表单
 export const entry = ref<EntryInfo>({
-  members: {
-    phone: info.phone,
+  name: "",
+  status: {
+    uId: uid.value,
     identify: 1
   },
-  cmp_id: 0,
-  project_name: "",
-  introduction: ""
+  cmpId: 0,
+  project: {
+    projectName: "",
+    introduction: ""
+  }
 });
 //参赛表的表单规则
 export const entryRules = ref({
-  cmp_id: [
+  name: [
     { required: true, message: "Please input Activity name", trigger: "blur" }
   ],
-  project: [
-    { required: true, message: "Please input Activity name", trigger: "blur" }
-  ],
-  project_name: [
-    { required: true, message: "Please input Activity name", trigger: "blur" }
-  ],
-  introduction: [
+  cmpId: [
     { required: true, message: "Please input Activity name", trigger: "blur" }
   ]
 });
@@ -43,7 +42,7 @@ export const cascaderChange = value => {
     "font-size:20px;background-color: #6EC1C2;color:#fff;",
     value
   );
-  entry.value.cmp_id = value[2];
+  entry.value.cmpId = value[2];
 };
 //获取比赛信息树形数据
 export const get_com_selectList = async () => {
@@ -54,6 +53,29 @@ export const get_com_selectList = async () => {
     data
   );
   cascaderOptions.value = data.data;
+  for (let i = 0; i < cascaderOptions.value.length; i++) {
+    for (let j = 0; j < cascaderOptions.value[i].children.length; j++) {
+      cascaderOptions.value[i].children[j].label += "届";
+      for (
+        let k = 0;
+        k < cascaderOptions.value[i].children[j].children.length;
+        k++
+      ) {
+        cascaderOptions.value[i].children[j].children[k].label = filterDict(
+          Number(cascaderOptions.value[i].children[j].children[k].label),
+          levelOptions.value
+        );
+      }
+    }
+  }
+};
+
+export const levelOptions = ref([]);
+export const competitionTypeOptions = ref([]);
+// 获取需要的字典 可能为空 按需保留
+export const setOptions = async () => {
+  levelOptions.value = await getDictFunc("competitionLevel");
+  competitionTypeOptions.value = await getDictFunc("competitionType");
 };
 
 //对话框

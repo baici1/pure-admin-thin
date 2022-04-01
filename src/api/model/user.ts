@@ -35,9 +35,19 @@ export interface Authority {
   menus: null;
   defaultRouter: string;
 }
-export interface StudentsBaseInfo {
+export interface userInfo {
+  reuserInfo: ReuserInfo;
+}
+
+export interface ReuserInfo {
+  ID: number;
+  CreatedAt: string;
+  password: string;
   phone: string;
-  real_name: string;
+  slat: string;
+  identity: number;
+  check: number;
+  authority: Authority;
 }
 
 export interface RestudentInfo {

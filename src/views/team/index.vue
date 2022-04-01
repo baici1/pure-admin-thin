@@ -25,7 +25,7 @@ import {
   dialogVisibleMember,
   handleCloseMember
 } from "./utils/editor";
-import { timeFormatYMD } from "/@/utils/tools";
+import { timeFormatYMD } from "../../utils/format";
 //import { useRouter } from "vue-router";
 import companyVue from "./components/company.vue";
 import teamVue from "./components/team.vue";

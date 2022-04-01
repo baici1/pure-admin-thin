@@ -2,7 +2,8 @@ import { getStudentInfo } from "/@/api/user";
 import { ElMessage } from "element-plus";
 import { storageLocal } from "/@/utils/storage";
 import { ref } from "vue";
-import { UserBaseInfo, StudentInfo } from "/@/api/model/user";
+import { StudentInfo } from "/@/api/model/user";
+import { UserBaseInfo } from "/@/views/base";
 export const loading = ref<boolean>(true);
 //个人信息结构
 

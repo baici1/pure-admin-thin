@@ -3,7 +3,7 @@ import { ref } from "vue";
 // import { useRenderIcon } from "/@/components/ReIcon/src/hooks";
 import { GetCompetitionTimeList } from "/@/api/pre_home";
 import { TimeList } from "/@/api/model/pre";
-import { timeFormatYMD, checkComStatus } from "/@/utils/tools";
+import { timeFormatYMD, checkComStatus } from "../../../utils/format";
 
 const times = ref([] as TimeList[]);
 const get_competition_time_list = async () => {

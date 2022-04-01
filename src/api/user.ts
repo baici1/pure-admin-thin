@@ -2,8 +2,9 @@ import { http } from "../utils/http";
 import {
   LoginRes,
   RestudentInfo,
-  StudentsBaseInfo,
-  Captcha
+  userInfo,
+  Captcha,
+  ReuserInfo
 } from "./model/user";
 import { BaseModel, BaseRes } from "./model/base";
 interface userType extends Promise<any> {
@@ -76,10 +77,10 @@ export const updateStudentInfo = (data: Object) => {
   );
 };
 
-export const ReadStudentsBaseInfo = (params: Object) => {
-  return http.request<BaseModel<StudentsBaseInfo>>(
+export const ReadUserBaseInfo = (params: Object) => {
+  return http.request<BaseModel<userInfo>>(
     "get",
-    "http://127.0.0.1:20201/menage/student/base",
+    "http://127.0.0.1:8888/userInfo/findUserInfo",
     {
       params
     }
@@ -97,5 +98,15 @@ export const jsonInBlacklist = () => {
   return http.request<BaseRes>(
     "post",
     "http://127.0.0.1:8888/jwt/jsonInBlacklist"
+  );
+};
+
+export const GetInfoByPrePhone = (params: Object) => {
+  return http.request<BaseModel<ReuserInfo>>(
+    "get",
+    "http://127.0.0.1:8888/api/user/findPhoneInfo",
+    {
+      params
+    }
   );
 };

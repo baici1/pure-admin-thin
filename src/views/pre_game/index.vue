@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ReHeader, ReFooter } from "/@/components/ReComon";
 import bannerVue from "./components/banner.vue";
-import { checkComStatus, timeFormatYMD } from "/@/utils/tools";
+import { checkComStatus, timeFormatYMD } from "../../utils/format";
 import {
   getSearchStr,
   get_competition,

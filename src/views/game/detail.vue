@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
+import { onBeforeMount } from "vue";
 import {
   greetings,
   Info,
@@ -11,12 +12,24 @@ import {
   deleteMember,
   SaveInfo
 } from "./utils/details";
+import {
+  levelOptions,
+  competitionTypeOptions,
+  rankOptions,
+  setOptions,
+  identifyOptions
+} from "./utils/index";
+import { filterDict } from "/@/utils/format";
 const route = useRoute();
 const init = async () => {
+  await setOptions();
   await get_a_game_info(Number(route.params.id));
   await read_student_base_info();
 };
 init();
+onBeforeMount(() => {
+  isEdit.value = false;
+});
 </script>
 
 <template>
@@ -32,19 +45,24 @@ init();
       <el-card class="detail-card" shadow="never">
         <el-descriptions title="比赛信息" :column="2">
           <el-descriptions-item label="比赛名称：">
-            <span>{{ Info.competition.com_info.c_name }}</span>
+            <span>{{ Info.competition?.base_info.cName }}</span>
           </el-descriptions-item>
           <el-descriptions-item label="比赛级别：">
-            {{ Info.competition.com_sche.level }}
+            {{ filterDict(Info.competition.level, levelOptions) }}
           </el-descriptions-item>
           <el-descriptions-item label="比赛届数：">
-            {{ Info.competition.com_sche.version }}
+            {{ Info.competition.version }}
           </el-descriptions-item>
           <el-descriptions-item label="比赛类型：">
-            {{ Info.competition.com_info.c_type }}
+            {{
+              filterDict(
+                Info.competition.base_info.cType,
+                competitionTypeOptions
+              )
+            }}
           </el-descriptions-item>
           <el-descriptions-item label="比赛举办方：">
-            {{ Info.competition.com_info.organizer }}
+            {{ Info.competition.base_info.organizer }}
           </el-descriptions-item>
         </el-descriptions>
       </el-card>
@@ -75,46 +93,46 @@ init();
       <el-card class="detail-card" shadow="never">
         <el-descriptions title="参赛表信息" :column="2">
           <el-descriptions-item label="队伍名称：" :span="2">
-            <el-input
-              v-model="Info.form.name"
-              style="width: 200px"
-              v-if="isEdit"
-            />
+            <el-input v-model="Info.name" style="width: 200px" v-if="isEdit" />
             <span v-else>
-              {{ Info.form.name }}
+              {{ Info.name }}
             </span>
           </el-descriptions-item>
-          <el-descriptions-item label="队伍人数："> 18 </el-descriptions-item>
-          <el-descriptions-item label="队长：">1111</el-descriptions-item>
+          <el-descriptions-item label="队伍人数：">
+            {{ MembersInfo.length }}</el-descriptions-item
+          >
+          <el-descriptions-item label="队长：">{{
+            MembersInfo[0]?.name
+          }}</el-descriptions-item>
           <el-descriptions-item label="获奖情况：">
             <el-tag size="small">{{
-              Info.form.rank.length == 0 ? "无" : Info.form.rank
+              filterDict(Info.rank, rankOptions)
             }}</el-tag>
           </el-descriptions-item>
           <el-descriptions-item label="获奖名称：">
-            {{ Info.form.ach_name.length == 0 ? "无" : Info.form.ach_name }}
+            {{ Info.achName.length == 0 ? "无" : Info.achName }}
           </el-descriptions-item>
         </el-descriptions>
       </el-card>
       <el-divider></el-divider>
-      <el-card class="detail-card" shadow="never" v-if="Info.form.p_id">
+      <el-card class="detail-card" shadow="never">
         <el-descriptions title="项目信息" :column="2">
           <el-descriptions-item label="项目编号：">
             <el-input
-              v-model="Info.form.name"
+              v-model="Info.project.projectCode"
               style="width: 200px"
               v-if="isEdit"
             />
-            <span v-else> {{ Info.project.project_code }}</span>
+            <span v-else> {{ Info.project.projectCode }}</span>
           </el-descriptions-item>
           <el-descriptions-item label="项目名称：">
             <el-input
-              v-model="Info.project.project_name"
+              v-model="Info.project.projectName"
               style="width: 200px"
               v-if="isEdit"
             />
             <span v-else>
-              {{ Info.project.project_name }}
+              {{ Info.project.projectName }}
             </span>
           </el-descriptions-item>
           <el-descriptions-item label="项目介绍：">
@@ -154,7 +172,9 @@ init();
                 <el-option key="leader" :value="2" label="副队长" />
                 <el-option key="member" :value="3" label="队员" />
               </el-select>
-              <span v-else>{{ scope.row.identify }}</span>
+              <span v-else>{{
+                filterDict(scope.row.identify, identifyOptions)
+              }}</span>
             </template>
           </el-table-column>
           <el-table-column prop="name" label="姓名" />

@@ -14,11 +14,12 @@ export interface EntryOne {
 export interface Form {
   id: number;
   name: string;
-  cmp_id: number;
-  p_id: number;
+  cmpId: number;
+  pId: number;
   rank: string;
-  ach_name: string;
-  status: number;
+  achName: string;
+  project?: Project;
+  members: MembersRequest[];
 }
 
 export interface Project {
@@ -30,10 +31,12 @@ export interface Project {
 }
 
 export interface Members {
-  form_id?: number;
-  u_id?: number;
+  id?: number;
+  name?: string;
+  phone: string;
   identify: number;
-  order: number;
+  uId: number;
+  formId: number;
 }
 
 export interface Competition {
@@ -62,20 +65,25 @@ export interface Com_info {
 }
 
 export interface MembersRequest {
+  id?: number;
   name?: string;
   phone: string;
   identify: number;
-  u_id: number;
+  uId: number;
+  formId: number;
 }
 
 export interface EntryInfo {
-  members: {
-    phone: string;
+  name: string;
+  status: {
+    uId: number;
     identify: number;
   };
-  cmp_id: number;
-  project_name: string;
-  introduction: string;
+  cmpId: number;
+  project: {
+    projectName: string;
+    introduction: string;
+  };
 }
 
 export interface GameTreeList {

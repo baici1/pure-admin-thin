@@ -5,6 +5,6 @@ import { BaseModel } from "./model/base";
 export const getComSelectList = () => {
   return http.request<BaseModel<GameTreeList>>(
     "get",
-    "http://127.0.0.1:20201/page/comselectlist"
+    "http://127.0.0.1:8888/api/info/tree_list"
   );
 };

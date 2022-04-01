@@ -1,61 +1,54 @@
-export interface EntryAll {
-  form: Form;
-  project: Project;
-  members: Members;
-  competition: Competition;
-}
-export interface EntryOne {
-  form: Form;
-  project: Project;
-  members: Array<Members>;
-  competition: Competition;
-}
-
-export interface Form {
-  id: number;
+export interface Entry {
+  ID: number;
+  CreatedAt: string;
   name: string;
-  cmp_id: number;
-  p_id: number;
-  rank: string;
-  ach_name: string;
-  status: number;
+  cmpId: number;
+  pId: number;
+  rank: number | null;
+  achName: string;
+  status: Status[];
+  project: Project;
+  competition: Competition;
 }
 
 export interface Project {
-  id: number;
-  project_code: string;
-  project_name: string;
+  ID: number;
+  CreatedAt: string;
+  projectCode: string;
+  projectName: string;
   introduction: string;
   remark: string;
 }
 
-export interface Members {
-  form_id: number;
-  u_id: number;
-  identify: number;
-  order: number;
-}
-
 export interface Competition {
-  com_sche: Com_sche;
-  com_info: Com_info;
+  ID: number;
+  CreatedAt: string;
+  cId: number;
+  level: number;
+  version: number;
+  startTime: string;
+  endTime: string;
+  rStartTime: string;
+  rEndTime: string;
+  base_info: Base_info;
 }
 
-export interface Com_sche {
-  id: number;
-  c_id: number;
-  level: string;
-  version: string;
-  start_time: string;
-  end_time: string;
-  r_start_time: string;
-  r_end_time: string;
+export interface Status {
+  ID: number;
+  CreatedAt?: string;
+  formId: number;
+  uId: number;
+  identify: number;
+  order?: number;
+  phone?: string;
+  name?: string;
 }
 
-export interface Com_info {
-  id: number;
-  c_name: string;
-  c_type: string;
+export interface Base_info {
+  ID: number;
+  CreatedAt: string;
+  cName: string;
+  cType: number;
   organizer: string;
   introduction: string;
   url: string;

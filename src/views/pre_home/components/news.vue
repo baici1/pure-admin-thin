@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { NEllipsis } from "naive-ui";
-import { timeFormatMD } from "/@/utils/tools";
+import { timeFormatMD } from "../../../utils/format";
 import { ArticlesItem } from "/@/api/model/pre";
 import { GetSpecificArticles } from "/@/api/pre_home";
 const props = defineProps({

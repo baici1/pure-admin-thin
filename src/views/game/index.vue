@@ -1,22 +1,25 @@
 <script setup lang="ts">
 import { EditOutlined, EllipsisOutlined } from "@ant-design/icons-vue";
 import { useRouter } from "vue-router";
-import { greetings, entryList, get_all_game_info, isload } from "./utils/index";
+import {
+  greetings,
+  entryList,
+  get_all_game_info,
+  isload,
+  rankOptions,
+  setOptions,
+  identifyOptions,
+  levelOptions
+} from "./utils/index";
 import { dialogVisible, handleClose } from "./utils/editor";
-import { checkComStatus } from "/@/utils/tools";
+import { checkComStatus, filterDict } from "/@/utils/format";
 import editorVue from "./editor.vue";
 get_all_game_info();
 const router = useRouter();
 const ToDetail = id => {
   router.push({ name: "gameDetail", params: { id: id as number } });
 };
-const status = s => {
-  if (s == 1) {
-    return "队长";
-  } else {
-    return "队员";
-  }
-};
+setOptions();
 </script>
 
 <template>
@@ -39,7 +42,7 @@ const status = s => {
                   content="编辑"
                   placement="top"
                 >
-                  <edit-outlined key="edit" @click="ToDetail(item.form.id)" />
+                  <edit-outlined key="edit" @click="ToDetail(item.ID)" />
                 </el-tooltip>
                 <el-tooltip
                   class="box-item"
@@ -49,42 +52,42 @@ const status = s => {
                 >
                   <ellipsis-outlined
                     key="ellipsis"
-                    @click="ToDetail(item.form.id)"
+                    @click="ToDetail(item.ID)"
                   />
                 </el-tooltip>
               </template>
               <a-descriptions title="参赛表" layout="vertical">
                 <a-descriptions-item label="比赛名">
-                  {{ item.competition.com_info.c_name }}-{{
-                    item.competition.com_sche.level
+                  {{ item.competition.base_info.cName }}-{{
+                    filterDict(item.competition.level, levelOptions)
                   }}
                 </a-descriptions-item>
                 <a-descriptions-item label="队伍名">
-                  {{ item.form.name }}
+                  {{ item.name }}
                 </a-descriptions-item>
                 <a-descriptions-item label="项目名">
-                  {{ item.form.p_id == 0 ? "无" : item.project?.project_name }}
+                  {{ item.pId == 0 ? "无" : item.project?.projectName }}
                 </a-descriptions-item>
                 <a-descriptions-item label="当前进度">
                   <el-tag>{{
                     checkComStatus(
-                      item.competition.com_sche.start_time,
-                      item.competition.com_sche.end_time,
-                      item.competition.com_sche.r_start_time,
-                      item.competition.com_sche.r_end_time
+                      item.competition.startTime,
+                      item.competition.endTime,
+                      item.competition.rStartTime,
+                      item.competition.rEndTime
                     )
                   }}</el-tag>
                 </a-descriptions-item>
                 <a-descriptions-item label="获奖情况">
-                  {{ item.form.rank.length == 0 ? "暂无" : item.form.rank }}
+                  {{ filterDict(item.rank, rankOptions) }}
                 </a-descriptions-item>
                 <a-descriptions-item label="获奖名称">
-                  {{
-                    item.form.ach_name.length == 0 ? "暂无" : item.form.ach_name
-                  }}
+                  {{ item.achName.length == 0 ? "暂无" : item.achName }}
                 </a-descriptions-item>
               </a-descriptions>
-              <a-card-meta :title="status(item.members.identify)">
+              <a-card-meta
+                :title="filterDict(item.status[0].identify, identifyOptions)"
+              >
                 <template #avatar>
                   <a-avatar
                     src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"

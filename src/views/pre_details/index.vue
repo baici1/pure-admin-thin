@@ -3,7 +3,7 @@ import { ReHeader, ReFooter } from "/@/components/ReComon";
 import { useRoute } from "vue-router";
 import { GetAArticle } from "/@/api/pre_home";
 import { ref } from "vue";
-import { timeFormatYMD } from "/@/utils/tools";
+import { timeFormatYMD } from "../../utils/format";
 import { PageDetail } from "/@/api/model/pre";
 import { ElMessage } from "element-plus";
 // 获取id

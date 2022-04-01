@@ -3,7 +3,7 @@ import { total, articles, artparam, get_specific_articles } from "./index";
 import { ReHeader, ReFooter } from "/@/components/ReComon";
 import { useRoute } from "vue-router";
 
-import { timeFormatMD } from "/@/utils/tools";
+import { timeFormatMD } from "../../utils/format";
 const route = useRoute();
 console.log(
   "%c 🥃 route: ",
