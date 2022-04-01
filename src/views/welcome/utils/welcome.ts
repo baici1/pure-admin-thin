@@ -11,7 +11,7 @@ const info: UserBaseInfo = storageLocal.getItem("Info");
 const uid = info.ID;
 export const form = ref({} as StudentInfo);
 
-//获取特定信息
+//获取学生特定信息
 export const get_student_info = async () => {
   try {
     const data = await getStudentInfo({

@@ -67,9 +67,13 @@ export const getStudentInfo = (params?: object) => {
 };
 //修改学生详情信息
 export const updateStudentInfo = (data: Object) => {
-  return http.request("post", "http://127.0.0.1:20201/menage/student/update", {
-    data
-  });
+  return http.request(
+    "put",
+    "http://127.0.0.1:8888/api/student/updateStudentInfo",
+    {
+      data
+    }
+  );
 };
 
 export const ReadStudentsBaseInfo = (params: Object) => {

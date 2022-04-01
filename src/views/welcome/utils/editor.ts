@@ -1,35 +1,37 @@
+import { router } from "/@/router";
 import { ref, nextTick } from "vue";
 import { form } from "./welcome";
-import { ElInput } from "element-plus";
-
+import { ElInput, ElMessage } from "element-plus";
+import { updateStudentInfo } from "/@/api/user";
 //初始化表单
 export const initForm = () => {
   form.value = {
-    id: 0,
-    student_id: "",
-    u_id: 0,
+    ID: 0,
+    studentId: "",
+    uId: 0,
     nickname: "",
     email: "",
     avatar: "",
-    real_name: "",
+    realName: "",
     gender: 1,
     degree: "",
     grade: "",
     department: "",
     major: "",
-    class_num: "",
+    classNum: "",
     specialty: "",
     QQ: "",
     wechat: "",
-    bank_name: "",
-    bank_card_number: "",
-    introduction: ""
+    bankName: "",
+    bankCardNumber: "",
+    introduction: "",
+    CreatedAt: ""
   };
 };
 
 //表单规则
 export const formRules = ref({
-  student_id: [
+  studentId: [
     {
       required: true,
       message: "Please input email",
@@ -57,7 +59,7 @@ export const formRules = ref({
       trigger: "blur"
     }
   ],
-  real_name: [
+  realName: [
     {
       required: true,
       message: "Please input email",
@@ -92,7 +94,7 @@ export const formRules = ref({
       trigger: "blur"
     }
   ],
-  class_num: [
+  classNum: [
     {
       required: true,
       message: "Please input email",
@@ -120,14 +122,14 @@ export const formRules = ref({
       trigger: "blur"
     }
   ],
-  bank_name: [
+  bankName: [
     {
       required: true,
       message: "Please input email",
       trigger: "blur"
     }
   ],
-  bank_card_number: [
+  bankCardNumber: [
     {
       required: true,
       message: "Please input email",
@@ -146,8 +148,6 @@ export const formRules = ref({
 //与tag相关
 export const inputValue = ref("");
 
-form.value.lists = ["Tag 1", "Tag 2", "Tag 3"];
-
 export const inputVisible = ref(false);
 export const InputRef = ref<InstanceType<typeof ElInput>>();
 
@@ -157,7 +157,7 @@ export const handleClose = (tag: string) => {
 export const showInput = () => {
   inputVisible.value = true;
   nextTick(() => {
-    InputRef.value!.input!.focus();
+    InputRef.value?.input!.focus();
   });
 };
 
@@ -169,3 +169,16 @@ export const handleInputConfirm = () => {
   inputValue.value = "";
 };
 //tag结束
+
+//更新学生信息
+export const update_student_info = async () => {
+  form.value.specialty = form.value.lists.join(",");
+  const data = await updateStudentInfo(form.value);
+  console.log(
+    "%c 🍖 data: ",
+    "font-size:20px;background-color: #42b983;color:#fff;",
+    data
+  );
+  ElMessage.success("信息更新成功");
+  router.push("/");
+};
