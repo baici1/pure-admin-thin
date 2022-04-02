@@ -14,3 +14,10 @@ export class List<T> {
   records: T[];
   total: number;
 }
+
+export interface ListModel<T> {
+  list: T[];
+  total?: number;
+  page?: number;
+  pageSize?: number;
+}

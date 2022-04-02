@@ -4,7 +4,7 @@ import { get_show_swipers, swipers } from "../utils/homeBody";
 import newsVue from "./news.vue";
 import timelineVue from "./timeline.vue";
 const init = async () => {
-  await get_show_swipers();
+  await get_show_swipers(1);
 };
 init();
 </script>
@@ -19,7 +19,7 @@ init();
             :key="index"
             class="h-300px"
           >
-            <el-image class="carousel__item" :src="item.swiper_picture">
+            <el-image class="carousel__item" :src="item.swiperPicture">
               <template #error>
                 <ReSvgIcon
                   name="undraw_page_not_found_re_e9o6"
@@ -31,16 +31,16 @@ init();
         </el-carousel>
         <el-row :justify="'space-between'" :gutter="20">
           <el-col :span="12" class="mb-20px">
-            <newsVue icon="histogram" article-type="双创活动"></newsVue>
+            <newsVue icon="histogram" :article-type="1"></newsVue>
           </el-col>
           <el-col :span="12" class="mb-20px">
-            <newsVue icon="tickets" article-type="新闻动态"></newsVue>
+            <newsVue icon="tickets" :article-type="2"></newsVue>
           </el-col>
           <el-col :span="12" class="mb-20px">
-            <newsVue icon="message-icon" article-type="通知公告"></newsVue>
+            <newsVue icon="message-icon" :article-type="3"></newsVue>
           </el-col>
           <el-col :span="12" class="mb-20px">
-            <newsVue icon="files" article-type="政策文件"></newsVue>
+            <newsVue icon="files" :article-type="4"></newsVue>
           </el-col>
         </el-row>
       </el-col>

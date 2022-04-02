@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ReHeader, ReFooter } from "/@/components/ReComon";
 import bannerVue from "./components/banner.vue";
-import { checkComStatus, timeFormatYMD } from "../../utils/format";
+import { checkComStatus, timeFormatYMD, filterDict } from "/@/utils/format";
 import {
   getSearchStr,
   get_competition,
@@ -10,9 +10,14 @@ import {
   isMore,
   handleSelect,
   loadingMore,
-  loadMore
+  loadMore,
+  setOptions,
+  levelOptions,
+  competitionTypeOptions,
+  competitionStatusOptions
 } from "./utils/index";
 get_competition();
+setOptions();
 </script>
 
 <template>
@@ -34,9 +39,12 @@ get_competition();
               @select="handleSelect"
             >
               <el-menu-item index="0">全部</el-menu-item>
-              <el-menu-item index="1">报名中</el-menu-item>
-              <el-menu-item index="2">参赛中</el-menu-item>
-              <el-menu-item index="3">已结束</el-menu-item>
+              <el-menu-item
+                v-for="(item, index) of competitionStatusOptions"
+                :key="index"
+                :index="`${item.value}`"
+                >{{ item.label }}
+              </el-menu-item>
             </el-menu>
             <!-- <n-tabs default-value="signin" size="large">
               <n-tab-pane name="signin" tab="登录">DENGLU </n-tab-pane>
@@ -75,17 +83,17 @@ get_competition();
                           href="https://www.antdv.com/"
                           class="game-item-title"
                         >
-                          {{ item.c_name }}
+                          {{ item.base_info.cName }}
                           <el-tag
                             type="success"
                             size="small"
                             style="margin-left: 5px"
                             >{{
                               checkComStatus(
-                                item.start_time,
-                                item.end_time,
-                                item.r_start_time,
-                                item.r_end_time
+                                item.startTime,
+                                item.endTime,
+                                item.rStartTime,
+                                item.rEndTime
                               )
                             }}</el-tag
                           >
@@ -93,7 +101,18 @@ get_competition();
                             type="info"
                             size="small"
                             style="margin-left: 5px"
-                            >{{ item.c_type }}类赛事</el-tag
+                            >{{
+                              filterDict(
+                                item.base_info.cType,
+                                competitionTypeOptions
+                              )
+                            }}类赛事</el-tag
+                          >
+                          <el-tag
+                            type="info"
+                            size="small"
+                            style="margin-left: 5px"
+                            >{{ filterDict(item.level, levelOptions) }}</el-tag
                           >
                         </a>
                         <div>
@@ -104,7 +123,7 @@ get_competition();
                               max-width: 95%;
                             "
                           >
-                            {{ item.introduction }}
+                            {{ item.base_info.introduction }}
                           </p>
                           <p
                             style="
@@ -113,11 +132,11 @@ get_competition();
                               color: rgb(136, 136, 136);
                             "
                           >
-                            报名时间： {{ timeFormatYMD(item.start_time) }}
+                            报名时间： {{ timeFormatYMD(item.startTime) }}
                             <el-divider direction="vertical"></el-divider>
-                            截止时间：{{ timeFormatYMD(item.end_time) }}
+                            截止时间：{{ timeFormatYMD(item.endTime) }}
                             <el-divider direction="vertical"></el-divider>
-                            举办方：{{ item.organizer }}
+                            举办方：{{ item.base_info.organizer }}
                           </p>
                         </div>
                       </template>

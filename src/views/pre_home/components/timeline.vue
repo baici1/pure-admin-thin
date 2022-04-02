@@ -3,17 +3,20 @@ import { ref } from "vue";
 // import { useRenderIcon } from "/@/components/ReIcon/src/hooks";
 import { GetCompetitionTimeList } from "/@/api/pre_home";
 import { TimeList } from "/@/api/model/pre";
-import { timeFormatYMD, checkComStatus } from "../../../utils/format";
+import { timeFormatYMD, checkComStatus } from "/@/utils/format";
 
 const times = ref([] as TimeList[]);
 const get_competition_time_list = async () => {
-  const data = await GetCompetitionTimeList();
+  const data = await GetCompetitionTimeList({
+    page: 1,
+    pageSize: 10
+  });
   console.log(
     "%c 🌯 data: ",
     "font-size:20px;background-color: #93C0A4;color:#fff;",
     data
   );
-  times.value = data.data;
+  times.value = data.data.list;
 };
 get_competition_time_list();
 </script>
@@ -24,8 +27,8 @@ get_competition_time_list();
       <el-timeline-item
         v-for="(time, index) in times"
         :key="index"
-        :timestamp="`${timeFormatYMD(time.start_time)}~${timeFormatYMD(
-          time.end_time
+        :timestamp="`${timeFormatYMD(time.startTime)}~${timeFormatYMD(
+          time.endTime
         )}`"
       >
         <el-tooltip
@@ -33,16 +36,16 @@ get_competition_time_list();
           effect="dark"
           :content="
             checkComStatus(
-              time.start_time,
-              time.end_time,
-              time.r_start_time,
-              time.r_end_time
+              time.startTime,
+              time.endTime,
+              time.rStartTime,
+              time.rEndTime
             )
           "
           placement="top"
         >
-          <el-link :href="time.url">
-            {{ time.c_name }}-{{ time.level }}
+          <el-link :href="time.base_info.url">
+            {{ time.base_info.cName }}-{{ time.level }}
           </el-link>
         </el-tooltip>
       </el-timeline-item>

@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { NEllipsis } from "naive-ui";
-import { timeFormatMD } from "../../../utils/format";
+import { timeFormatMD } from "/@/utils/format";
 import { ArticlesItem } from "/@/api/model/pre";
 import { GetSpecificArticles } from "/@/api/pre_home";
 const props = defineProps({
   articleType: {
-    type: String
+    type: Number
   },
   icon: {
     type: String
@@ -14,10 +14,10 @@ const props = defineProps({
 });
 const articles = ref([] as ArticlesItem[]);
 //获取文章分类的列表
-const get_specific_articles = async (type: string) => {
+const get_specific_articles = async (type: number) => {
   const data = await GetSpecificArticles({
     page: 1,
-    limit: 3,
+    pageSize: 3,
     type: type
   });
   console.log(
@@ -25,7 +25,7 @@ const get_specific_articles = async (type: string) => {
     "font-size:20px;background-color: #3F7CFF;color:#fff;",
     data
   );
-  articles.value = data.data.records;
+  articles.value = data.data.list;
   isEmpty.value = false;
 };
 get_specific_articles(props.articleType);
@@ -63,7 +63,7 @@ const isEmpty = ref(true);
           </n-ellipsis>
         </el-link>
         <span style="color: #999999" class="news-time">{{
-          timeFormatMD(item.create_time)
+          timeFormatMD(item.publishedTime)
         }}</span>
       </div>
     </el-card>

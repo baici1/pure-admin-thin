@@ -2,16 +2,17 @@ import { ref } from "vue";
 import { GetCompetitions } from "/@/api/pre_home";
 import { ElMessage } from "element-plus";
 import { CompetitionItem } from "/@/api/model/pre";
+import { getDictFunc } from "/@/utils/format";
 interface param {
   page: number;
-  limit: number;
+  pageSize: number;
   status: number;
   search: string;
 }
 // 获取文章列表
 export const comParams = ref({
   page: 1,
-  limit: 1,
+  pageSize: 10,
   status: 0,
   search: ""
 } as param);
@@ -30,10 +31,10 @@ export const get_competition = async (flag?: Boolean) => {
     isMore.value = true;
     loading.value = true;
     const data = await GetCompetitions(comParams.value);
-    competition.value.push(...data.data.records);
+    competition.value.push(...data.data.list);
     // 判断当前菜单是否发生变化
     if (flag) {
-      competition.value = data.data.records;
+      competition.value = data.data.list;
     }
     // 判断是否需要继续加载
     if (competition.value.length >= data.data.total) {
@@ -64,4 +65,14 @@ export const loadMore = () => {
   comParams.value.page += 1;
   get_competition();
   loadingMore.value = false;
+};
+//获取字典信息
+export const levelOptions = ref([]);
+export const competitionTypeOptions = ref([]);
+export const competitionStatusOptions = ref([]);
+// 获取需要的字典 可能为空 按需保留
+export const setOptions = async () => {
+  levelOptions.value = await getDictFunc("competitionLevel");
+  competitionTypeOptions.value = await getDictFunc("competitionType");
+  competitionStatusOptions.value = await getDictFunc("competitionStatus");
 };
