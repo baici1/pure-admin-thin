@@ -5,10 +5,13 @@ import { ElMessageBox, ElMessage } from "element-plus";
 export const greetings = ref("创建");
 
 //提交的团队信息字段
+
 export const formDataTeam = ref({
   name: "",
   introduction: "",
-  intellectual_property: ""
+  intellectualProperty: "",
+  companyId: 0,
+  check: 0
 } as TeamInfoRe);
 
 //团队的表单规则
@@ -27,7 +30,7 @@ export const rulesTeam = ref({
       trigger: "blur"
     }
   ],
-  intellectual_property: [
+  intellectualProperty: [
     {
       required: true,
       message: "请输入知识产权",

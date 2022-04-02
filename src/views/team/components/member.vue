@@ -17,10 +17,15 @@ const props = defineProps({
 });
 const commit = async (formEl: FormInstance | undefined) => {
   dialogVisibleMember.value = true;
-  formDataMember.value.team_id = props.team_id;
+  formDataMember.value.teamId = props.team_id;
   formEl.validate(async valid => {
     if (valid) {
-      await AddTeamMember(formDataMember.value);
+      const data = await AddTeamMember(formDataMember.value);
+      console.log(
+        "%c 🍸 data: ",
+        "font-size:20px;background-color: #FCA650;color:#fff;",
+        data
+      );
       ElMessage.success("创建成功");
       dialogVisibleMember.value = false;
     }

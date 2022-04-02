@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { rulesCompany, dialogVisibleCompany } from "../utils/editor";
-import { company } from "../utils/index";
+import { company, form } from "../utils/index";
 import { ElForm, ElMessage } from "element-plus";
-import { createCompany, updateCompany } from "/@/api/team";
+import { createCompany, updateCompany, updateTeam } from "/@/api/team";
 type FormInstance = InstanceType<typeof ElForm>;
 const elFormCompany = ref<FormInstance>();
 const props = defineProps({
@@ -17,6 +17,11 @@ const props = defineProps({
   }
 });
 const commit = async (formEl: FormInstance | undefined) => {
+  console.log(
+    "%c 🥟 company.value: ",
+    "font-size:20px;background-color: #2EAFB0;color:#fff;",
+    company.value
+  );
   dialogVisibleCompany.value = true;
   formEl.validate(async valid => {
     if (valid) {
@@ -24,11 +29,22 @@ const commit = async (formEl: FormInstance | undefined) => {
         await updateCompany(company.value);
         ElMessage.success("修改成功");
       } else {
-        await createCompany({
-          teamid: props.team_id,
-          company: company.value
+        const res = await createCompany({
+          name: company.value.name,
+          address: company.value.address,
+          introduction: company.value.introduction,
+          check: 0
         });
-        ElMessage.success("创建成功");
+        if (res.code == 0) {
+          form.value.companyId = res.data;
+          const data = await updateTeam(form.value);
+          console.log(
+            "%c 🥪 data: ",
+            "font-size:20px;background-color: #93C0A4;color:#fff;",
+            data
+          );
+          ElMessage.success("创建成功");
+        }
       }
       dialogVisibleCompany.value = false;
     }

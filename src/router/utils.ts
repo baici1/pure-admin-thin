@@ -118,6 +118,24 @@ function initRouter() {
   return new Promise(resolve => {
     getAsyncRoutes().then(({ data }) => {
       const info: any = data.menus;
+      for (let i = 0; i < info.length; i++) {
+        info[i].meta.rank = (i + 1) * 10;
+        if (info[i].children.length == 1) {
+          info[i].path = info[i].children[0].path;
+          continue;
+        }
+        info[i].redirect = info[i].children[0].path;
+        for (let j = 0; j < info[i].children.length; j++) {
+          info[i].children[j].children = [];
+          info[i].children[j].meta.showParent = false;
+          info[i].children[j].meta.showLink = !info[i].children[j].hidden;
+        }
+      }
+      console.log(
+        "%c 🦀 data: ",
+        "font-size:20px;background-color: #465975;color:#fff;",
+        info
+      );
       if (info.length === 0) {
         usePermissionStoreHook().changeSetting(info);
       } else {

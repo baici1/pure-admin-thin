@@ -1,26 +1,42 @@
 <script setup lang="ts">
-import { ref } from "vue";
+// import { ref } from "vue";
 import {
   rulesTeam,
   formDataTeam,
   dialogVisibleCreateTeam
 } from "../utils/editor";
-import { createTeam } from "/@/api/team";
+import { createTeam, AddTeamMember } from "/@/api/team";
 import { useRouter } from "vue-router";
-import { UserInfo } from "/@/views/base";
+import { UserBaseInfo } from "/@/views/base";
 import { storageLocal } from "/@/utils/storage/index";
+
+const router = useRouter();
 //获取用户id
-const userinfo: UserInfo = storageLocal.getItem("Info");
-const uid = ref(userinfo.id);
+const userinfo: UserBaseInfo = storageLocal.getItem("Info");
+// const uid = ref(userinfo.ID);
 //创建团队
 const create_team = async () => {
   dialogVisibleCreateTeam.value = true;
-  await createTeam({
-    u_id: uid.value,
-    teaminfo: formDataTeam.value
-  });
-  useRouter().push("/team/sucess");
-  dialogVisibleCreateTeam.value = false;
+  const data = await createTeam(formDataTeam.value);
+  console.log(
+    "%c 🥖 data: ",
+    "font-size:20px;background-color: #2EAFB0;color:#fff;",
+    data
+  );
+  if (data.code == 0) {
+    const res = await AddTeamMember({
+      phone: userinfo.phone,
+      identify: 1,
+      teamId: data.data
+    });
+    console.log(
+      "%c 🌰 res: ",
+      "font-size:20px;background-color: #ED9EC7;color:#fff;",
+      res
+    );
+    router.push("/team/success");
+    dialogVisibleCreateTeam.value = false;
+  }
 };
 </script>
 
@@ -53,9 +69,9 @@ const create_team = async () => {
             :style="{ width: '100%' }"
           ></el-input>
         </el-form-item>
-        <el-form-item label="知识产权" prop="intellectual_property">
+        <el-form-item label="知识产权" prop="intellectualProperty">
           <el-input
-            v-model="formDataTeam.intellectual_property"
+            v-model="formDataTeam.intellectualProperty"
             type="textarea"
             placeholder="请输入知识产权"
             :maxlength="100"

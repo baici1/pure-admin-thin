@@ -3,8 +3,14 @@ import { useRouter } from "vue-router";
 
 const router = useRouter();
 const reBack = () => {
-  router.push("/");
+  router.push("/welcome");
 };
+const props = defineProps({
+  check: {
+    type: Number,
+    default: 0
+  }
+});
 </script>
 
 <template>
@@ -25,7 +31,7 @@ const reBack = () => {
         shadow="never"
         style="background-color: rgb(250, 250, 250); padding: 20px"
       >
-        <el-steps :active="2" align-center>
+        <el-steps :active="props.check" align-center>
           <el-step title="提交成功" description="Some description"></el-step>
           <el-step title="审核中" description="Some description"></el-step>
           <el-step title="审查中" description="Some description"></el-step>

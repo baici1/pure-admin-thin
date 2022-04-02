@@ -1,33 +1,44 @@
 export interface TeamInfo {
-  id: number;
-  create_time: string;
-  update_time: string;
+  reteamInfo: ReteamInfo;
+}
+
+export interface ReteamInfo {
+  ID: number;
+  CreatedAt: string;
   name: string;
-  company_id: number;
+  companyId: number;
   introduction: string;
-  intellectual_property: string;
+  intellectualProperty: string;
   remark: string;
+  check: number;
 }
 
 export interface CompanyInfo {
-  id: number;
-  create_time: string;
-  update_time: string;
+  recompanyInfo: RecompanyInfo;
+}
+
+export interface RecompanyInfo {
+  ID: number;
+  CreatedAt: string;
   name: string;
   address: string;
   introduction: string;
+  check: number;
 }
 
-export interface Member {
-  result: MemberBase[];
+export interface Members {
+  list: List[];
   total: number;
+  page: number;
+  pageSize: number;
 }
 
-export interface MemberBase {
-  id?: number;
-  create_time: string;
-  update_time: string;
-  team_id: number;
-  u_id: number;
+export interface List {
+  ID: number;
+  CreatedAt?: string;
+  teamId: number;
+  uId: number;
   identify: number;
+  phone?: string;
+  name?: string;
 }

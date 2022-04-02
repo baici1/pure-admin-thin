@@ -31,7 +31,7 @@ const submitForm = (formEl: FormInstance | undefined) => {
 };
 //返回
 const GoBack = () => {
-  router.push("/");
+  router.push("/welcome");
 };
 //处理头像
 const handleAvatarSuccess = (res: any) => {

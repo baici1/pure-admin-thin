@@ -10,9 +10,7 @@ const commit = async (formEl: FormInstance | undefined) => {
   dialogVisibleTeam.value = true;
   formEl.validate(async valid => {
     if (valid) {
-      await updateTeam({
-        teaminfo: form.value
-      });
+      await updateTeam(form.value);
       ElMessage.success("修改成功");
     }
   });
@@ -51,7 +49,7 @@ const commit = async (formEl: FormInstance | undefined) => {
         </el-form-item>
         <el-form-item label="知识产权" prop="intellectual_property">
           <el-input
-            v-model="form.intellectual_property"
+            v-model="form.intellectualProperty"
             type="textarea"
             placeholder="请输入知识产权"
             :maxlength="100"
