@@ -37,12 +37,13 @@ setOptions();
               class="el-menu-demo"
               mode="horizontal"
               @select="handleSelect"
+              :ellipsis="false"
             >
               <el-menu-item index="0">全部</el-menu-item>
               <el-menu-item
                 v-for="(item, index) of competitionStatusOptions"
-                :key="index"
-                :index="`${item.value}`"
+                :key="item.value"
+                :index="(index + 1).toString()"
                 >{{ item.label }}
               </el-menu-item>
             </el-menu>
@@ -157,7 +158,7 @@ setOptions();
                       <div class="game-extra">
                         <el-button :disabled="item.isdisabled"
                           ><el-link
-                            :href="item.url"
+                            :href="item.base_info.url"
                             target="_blank"
                             :underline="false"
                             >前往官网</el-link

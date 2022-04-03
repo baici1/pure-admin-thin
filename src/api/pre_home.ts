@@ -3,7 +3,7 @@ import {
   swiper,
   ArticlesItem,
   TimeList,
-  PageDetail,
+  Page,
   CompetitionItem
 } from "./model/pre";
 import { BaseModel, ListModel } from "./model/base";
@@ -37,11 +37,11 @@ export function GetCompetitionTimeList(params?: object) {
   );
 }
 
-export function GetAArticle(data: object) {
-  return http.request<BaseModel<PageDetail>>(
-    "post",
-    "http://127.0.0.1:20201/page/article",
-    { data }
+export function GetAArticle(params?: object) {
+  return http.request<BaseModel<Page>>(
+    "get",
+    "http://127.0.0.1:8888/api/article/findArticle",
+    { params }
   );
 }
 

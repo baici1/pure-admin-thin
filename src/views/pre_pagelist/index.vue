@@ -1,9 +1,16 @@
 <script setup lang="ts">
-import { total, articles, artparam, get_specific_articles } from "./index";
+import {
+  articleTypeOptions,
+  total,
+  articles,
+  artparam,
+  get_specific_articles,
+  setOptions
+} from "./index";
 import { ReHeader, ReFooter } from "/@/components/ReComon";
 import { useRoute } from "vue-router";
 
-import { timeFormatMD } from "../../utils/format";
+import { timeFormatMD, filterDict } from "/@/utils/format";
 const route = useRoute();
 console.log(
   "%c 🥃 route: ",
@@ -11,16 +18,17 @@ console.log(
   route
 );
 const init = async () => {
-  artparam.value.type = "双创活动";
+  artparam.value.type = 1;
   get_specific_articles();
 };
 init();
+setOptions();
 const handleSelect = key => {
-  artparam.value.type = key;
+  artparam.value.type = +key;
   get_specific_articles();
 };
 let onChange = pageNumber => {
-  artparam.value.page = pageNumber;
+  artparam.value.page = +pageNumber;
   get_specific_articles();
 };
 </script>
@@ -37,7 +45,14 @@ let onChange = pageNumber => {
               active-text-color="#fff"
               @select="handleSelect"
             >
-              <el-menu-item index="双创活动" class="menu-item">
+              <el-menu-item
+                v-for="(item, index) of articleTypeOptions"
+                :key="item.value"
+                :index="(index + 1).toString()"
+                class="menu-item"
+                >{{ item.label }}
+              </el-menu-item>
+              <!-- <el-menu-item index="双创活动" class="menu-item">
                 <span>双创活动</span>
               </el-menu-item>
               <el-menu-item index="新闻动态" class="menu-item">
@@ -48,7 +63,7 @@ let onChange = pageNumber => {
               </el-menu-item>
               <el-menu-item index="政策文件" class="menu-item">
                 <span>政策文件</span>
-              </el-menu-item>
+              </el-menu-item> -->
             </el-menu>
           </el-col>
           <el-col :sm="18" :md="20" :lg="16" :xl="17" :xs="24">
@@ -58,7 +73,9 @@ let onChange = pageNumber => {
                   <el-breadcrumb-item :to="{ path: '/' }">
                     首页
                   </el-breadcrumb-item>
-                  <el-breadcrumb-item>{{ artparam.type }}</el-breadcrumb-item>
+                  <el-breadcrumb-item>{{
+                    filterDict(artparam.type, articleTypeOptions)
+                  }}</el-breadcrumb-item>
                 </el-breadcrumb>
               </div>
               <a-list item-layout="horizontal" :data-source="articles">
@@ -69,13 +86,13 @@ let onChange = pageNumber => {
                         <el-row justify="space-between">
                           <el-col :span="18" class="truncate">
                             <router-link
-                              :to="{ name: 'Details', params: { id: item.id } }"
+                              :to="{ name: 'Details', params: { id: item.ID } }"
                             >
                               {{ item.title }}
                             </router-link>
                           </el-col>
                           <el-col :span="4">
-                            {{ timeFormatMD(item.create_time) }}
+                            {{ timeFormatMD(item.publishedTime) }}
                           </el-col>
                         </el-row>
                         <div class="truncate w-4/5 m-0"></div>
@@ -102,7 +119,7 @@ let onChange = pageNumber => {
             </el-pagination> -->
             <a-pagination
               :current="artparam.page"
-              :pageSize="artparam.limit"
+              :pageSize="artparam.pageSize"
               :total="total"
               show-less-items
               @change="onChange"
@@ -119,8 +136,6 @@ let onChange = pageNumber => {
 </template>
 
 <style lang="scss" scoped>
-// 支持CSS变量注入v-bind(color)
-
 .main-box {
   // background-color: rgb(242, 242, 242);
   .menu {

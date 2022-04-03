@@ -3,27 +3,29 @@ import { ReHeader, ReFooter } from "/@/components/ReComon";
 import { useRoute } from "vue-router";
 import { GetAArticle } from "/@/api/pre_home";
 import { ref } from "vue";
-import { timeFormatYMD } from "../../utils/format";
-import { PageDetail } from "/@/api/model/pre";
+import { timeFormatYMD, getDictFunc, filterDict } from "/@/utils/format";
+import { ArticlesItem } from "/@/api/model/pre";
 import { ElMessage } from "element-plus";
 // 获取id
 const route = useRoute();
 const id = route.params.id;
-console.log(
-  "%c 🍔 id: ",
-  "font-size:20px;background-color: #6EC1C2;color:#fff;",
-  id
-);
-const article = ref({} as PageDetail);
+//获取字典信息
+const articleTypeOptions = ref([]);
+// 获取需要的字典 可能为空 按需保留
+const setOptions = async () => {
+  articleTypeOptions.value = await getDictFunc("articleType");
+};
+setOptions();
+const article = ref({} as ArticlesItem);
 let get_a_article = async () => {
   try {
-    const data = await GetAArticle({ id: Number(id) });
+    const data = await GetAArticle({ ID: Number(id) });
     console.log(
       "%c 🍖 data: ",
       "font-size:20px;background-color: #42b983;color:#fff;",
       data
     );
-    article.value = data.data;
+    article.value = data.data.rearticle;
   } catch (error) {
     ElMessage.error("文章" + error.response.data.msg);
   }
@@ -40,10 +42,12 @@ get_a_article();
           <el-col :span="16" :xs="22">
             <div class="title">
               <div class="title1">{{ article.title }}</div>
-              <div class="title2">{{ article.type }}</div>
+              <div class="title2">
+                {{ filterDict(article.type, articleTypeOptions) }}
+              </div>
               <div class="mark">
                 <span>作者：{{ article?.author }}</span>
-                <span>时间：{{ timeFormatYMD(article.create_time) }}</span>
+                <span>时间：{{ timeFormatYMD(article.publishedTime) }}</span>
               </div>
             </div>
           </el-col>
@@ -54,7 +58,7 @@ get_a_article();
               <!-- <div v-html="article.content">
               {{ article.content }}
             </div> -->
-              <p v-html="article?.content"></p>
+              <p v-html="article.content"></p>
             </div>
           </el-col>
         </el-row>
@@ -68,7 +72,7 @@ get_a_article();
 
 <style scoped lang="scss">
 .title {
-  margin: 60px 0;
+  margin: 30px 0;
   text-align: center;
   border-bottom: 2px solid #e1e1e1;
 

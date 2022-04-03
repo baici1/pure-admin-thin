@@ -50,6 +50,11 @@ export const get_competition = async (flag?: Boolean) => {
 };
 // 交换标签获取比赛信息
 export const handleSelect = key => {
+  console.log(
+    "%c 🥨 key: ",
+    "font-size:20px;background-color: #F5CE50;color:#fff;",
+    key
+  );
   comParams.value.page = 1;
   if (Number(key) > 0) {
     comParams.value.status = Number(key);

@@ -9,13 +9,6 @@ export interface swiper {
   goToUrl: string;
 }
 
-export interface Data {
-  list: ArticlesItem[];
-  total: number;
-  page: number;
-  pageSize: number;
-}
-
 export interface ArticlesItem {
   ID: number;
   CreatedAt: string;
@@ -57,19 +50,8 @@ export interface Base_info {
   url: string;
 }
 
-export interface PageDetail {
-  id: number;
-  create_time: string;
-  update_time: string;
-  commentabled: boolean;
-  published: boolean;
-  title: string;
-  description: string;
-  content: string;
-  views: number;
-  author: string;
-  type: string;
-  order_num: number;
+export interface Page {
+  rearticle: ArticlesItem;
 }
 
 export interface CompetitionItem {
