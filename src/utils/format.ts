@@ -29,15 +29,15 @@ export function checkComStatus(time1, time2, time3, time4) {
   //当前时间在time1之前
   const time = dayjs();
   if (time.isBefore(time1)) {
-    return ComStatus[0];
+    return 1;
   } else if (time.isAfter(time1) && time.isBefore(time2)) {
-    return ComStatus[1];
+    return 2;
+  } else if (time.isAfter(time2) && time.isBefore(time3)) {
+    return 3;
   } else if (time.isAfter(time3) && time.isBefore(time4)) {
-    return ComStatus[2];
+    return 4;
   } else if (time.isAfter(time4)) {
-    return ComStatus[3];
-  } else {
-    return ComStatus[4];
+    return 5;
   }
 }
 export const filterDict = (value, options) => {

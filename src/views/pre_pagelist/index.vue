@@ -35,12 +35,14 @@ let onChange = pageNumber => {
 <template>
   <div>
     <el-container>
-      <el-header class="p-0 border-solid border"><ReHeader /></el-header>
+      <el-header class="p-0 border-solid border"
+        ><ReHeader :index="3"
+      /></el-header>
       <el-main class="p-0 bg-[rgba(211,220,230,0.2)] main-box pb-10">
         <el-row justify="center" class="mt-10">
           <el-col :xs="0" :sm="6" :md="4" :lg="3" :xl="1" class="mr-5">
             <el-menu
-              default-active="双创活动"
+              default-active="1"
               class="menu"
               active-text-color="#fff"
               @select="handleSelect"
@@ -152,7 +154,7 @@ let onChange = pageNumber => {
 }
 
 .list-box {
-  border: #f2f2f2 1px solid;
+  border: #f2f2f2 2px solid;
   border-top: 3px solid #265db4;
 
   .list-title {

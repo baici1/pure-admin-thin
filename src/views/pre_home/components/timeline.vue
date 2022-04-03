@@ -3,8 +3,11 @@ import { ref } from "vue";
 // import { useRenderIcon } from "/@/components/ReIcon/src/hooks";
 import { GetCompetitionTimeList } from "/@/api/pre_home";
 import { TimeList } from "/@/api/model/pre";
-import { timeFormatYMD, checkComStatus } from "/@/utils/format";
-
+import { timeFormatYMD, checkComStatus, filterDict } from "/@/utils/format";
+import {
+  competitionLevelOptions,
+  competitionStatusOptions
+} from "../utils/homeBody";
 const times = ref([] as TimeList[]);
 const get_competition_time_list = async () => {
   const data = await GetCompetitionTimeList({
@@ -35,17 +38,22 @@ get_competition_time_list();
           class="box-item"
           effect="dark"
           :content="
-            checkComStatus(
-              time.startTime,
-              time.endTime,
-              time.rStartTime,
-              time.rEndTime
+            filterDict(
+              checkComStatus(
+                time.startTime,
+                time.endTime,
+                time.rStartTime,
+                time.rEndTime
+              ),
+              competitionStatusOptions
             )
           "
           placement="top"
         >
           <el-link :href="time.base_info.url">
-            {{ time.base_info.cName }}-{{ time.level }}
+            {{ time.base_info.cName }}-{{
+              filterDict(time.level, competitionLevelOptions)
+            }}
           </el-link>
         </el-tooltip>
       </el-timeline-item>

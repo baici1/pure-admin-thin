@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
-
+import { checkOptions } from "../utils/index";
 const router = useRouter();
 const reBack = () => {
   router.push("/welcome");
@@ -32,10 +32,11 @@ const props = defineProps({
         style="background-color: rgb(250, 250, 250); padding: 20px"
       >
         <el-steps :active="props.check" align-center>
-          <el-step title="提交成功" description="Some description"></el-step>
-          <el-step title="审核中" description="Some description"></el-step>
-          <el-step title="审查中" description="Some description"></el-step>
-          <el-step title="完成" description="Some description"></el-step>
+          <el-step
+            v-for="(item, index) of checkOptions"
+            :key="index"
+            :title="item.label"
+          ></el-step>
         </el-steps>
       </el-card>
     </el-card>

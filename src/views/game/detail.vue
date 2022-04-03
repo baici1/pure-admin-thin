@@ -19,7 +19,7 @@ import {
   setOptions,
   identifyOptions
 } from "./utils/index";
-import { filterDict } from "/@/utils/format";
+import { filterDict, checkComStatus } from "/@/utils/format";
 const route = useRoute();
 const init = async () => {
   await setOptions();
@@ -71,7 +71,14 @@ onBeforeMount(() => {
           <div class="card-header">参赛进度</div>
         </template>
         <el-steps
-          :active="2"
+          :active="
+            checkComStatus(
+              Info.competition.startTime,
+              Info.competition.endTime,
+              Info.competition.rStartTime,
+              Info.competition.rEndTime
+            )
+          "
           align-center
           class="card-step"
           finish-status="success"

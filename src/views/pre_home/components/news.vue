@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { NEllipsis } from "naive-ui";
-import { timeFormatMD } from "/@/utils/format";
+import { timeFormatMD, filterDict } from "/@/utils/format";
 import { ArticlesItem } from "/@/api/model/pre";
 import { GetSpecificArticles } from "/@/api/pre_home";
+import { articleTypeOptions } from "../utils/homeBody";
 const props = defineProps({
   articleType: {
     type: Number
@@ -28,7 +29,9 @@ const get_specific_articles = async (type: number) => {
   articles.value = data.data.list;
   isEmpty.value = false;
 };
+
 get_specific_articles(props.articleType);
+
 const isEmpty = ref(true);
 </script>
 
@@ -43,7 +46,7 @@ const isEmpty = ref(true);
               class="mr-5px h-30px w-30px"
             ></iconify-icon-offline>
             <span>
-              {{ props.articleType }}
+              {{ filterDict(props.articleType, articleTypeOptions) }}
             </span>
             <!-- <img src="https://static.lanqiao.cn/dasai/images/20210818/title/notice.png" /> -->
           </div>

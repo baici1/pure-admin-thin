@@ -120,16 +120,17 @@ function initRouter() {
       const info: any = data.menus;
       for (let i = 0; i < info.length; i++) {
         info[i].meta.rank = (i + 1) * 10;
-        if (info[i].children.length == 1) {
-          info[i].path = info[i].children[0].path;
-          continue;
-        }
-        info[i].redirect = info[i].children[0].path;
         for (let j = 0; j < info[i].children.length; j++) {
           info[i].children[j].children = [];
           info[i].children[j].meta.showParent = false;
           info[i].children[j].meta.showLink = !info[i].children[j].hidden;
         }
+        // info[i].redirect = info[i].children[0].path;
+        if (info[i].children.length == 1) {
+          info[i].path = info[i].children[0].path;
+          continue;
+        }
+        info[i].redirect = info[i].children[0].path;
       }
       console.log(
         "%c 🦀 data: ",

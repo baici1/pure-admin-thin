@@ -12,6 +12,7 @@ import {
 
 import { ReteamInfo, RecompanyInfo, List, Members } from "/@/api/model/team";
 import { UserBaseInfo } from "/@/views/base";
+import { getDictFunc } from "/@/utils/format";
 export const greetings = ref("团队详情");
 //关于折叠面板
 export const activeNames = ref(["1"]);
@@ -149,4 +150,13 @@ export const delete_team_member = async id => {
     id: id
   });
   ElMessage.success("恭喜你删除成功！");
+};
+
+//获取字典信息
+export const checkOptions = ref([]);
+export const identifyOptions = ref([]);
+// 获取需要的字典 可能为空 按需保留
+export const setOptions = async () => {
+  checkOptions.value = await getDictFunc("check");
+  identifyOptions.value = await getDictFunc("teamIdentify");
 };

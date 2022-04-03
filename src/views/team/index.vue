@@ -11,7 +11,8 @@ import {
   delete_team_member,
   isEditMember,
   update_team_member,
-  MemberDetail
+  MemberDetail,
+  setOptions
 } from "./utils/index";
 import {
   dialogVisibleCompany,
@@ -57,6 +58,7 @@ const isEditorStr = computed(() => {
   }
   return "创建公司";
 });
+setOptions();
 </script>
 
 <template>
