@@ -10,21 +10,34 @@ import {
   MembersInfo,
   addMember,
   deleteMember,
-  SaveInfo
+  SaveInfo,
+  isLoading
 } from "./utils/details";
 import {
   levelOptions,
   competitionTypeOptions,
   rankOptions,
   setOptions,
-  identifyOptions
+  identifyOptions,
+  competitionStatusOptions
 } from "./utils/index";
 import { filterDict, checkComStatus } from "/@/utils/format";
 const route = useRoute();
+
 const init = async () => {
   await setOptions();
   await get_a_game_info(Number(route.params.id));
   await read_student_base_info();
+  console.log(
+    "%c 🍗 checkComStatus(): ",
+    "font-size:20px;background-color: #EA7E5C;color:#fff;",
+    checkComStatus(
+      Info.value.competition.startTime,
+      Info.value.competition.endTime,
+      Info.value.competition.rStartTime,
+      Info.value.competition.rEndTime
+    )
+  );
 };
 init();
 onBeforeMount(() => {
@@ -33,7 +46,7 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <div>
+  <div v-loading="isLoading">
     <el-card class="top">
       <div class="top-content">
         <p>{{ greetings }}</p>
@@ -84,6 +97,11 @@ onBeforeMount(() => {
           finish-status="success"
         >
           <el-step
+            v-for="(item, index) of competitionStatusOptions"
+            :key="index"
+            :title="item.label"
+          ></el-step>
+          <!-- <el-step
             title="未开始"
             description="比赛未开始，请详细关注通知！"
           ></el-step>
@@ -93,7 +111,7 @@ onBeforeMount(() => {
           <el-step
             title="已结束"
             description="祝你比赛结果超过你的预期！"
-          ></el-step>
+          ></el-step> -->
         </el-steps>
       </el-card>
       <el-divider></el-divider>

@@ -9,7 +9,8 @@ import {
   rankOptions,
   setOptions,
   identifyOptions,
-  levelOptions
+  levelOptions,
+  competitionStatusOptions
 } from "./utils/index";
 import { dialogVisible, handleClose } from "./utils/editor";
 import { checkComStatus, filterDict } from "/@/utils/format";
@@ -70,11 +71,14 @@ setOptions();
                 </a-descriptions-item>
                 <a-descriptions-item label="当前进度">
                   <el-tag>{{
-                    checkComStatus(
-                      item.competition.startTime,
-                      item.competition.endTime,
-                      item.competition.rStartTime,
-                      item.competition.rEndTime
+                    filterDict(
+                      checkComStatus(
+                        item.competition.startTime,
+                        item.competition.endTime,
+                        item.competition.rStartTime,
+                        item.competition.rEndTime
+                      ),
+                      competitionStatusOptions
                     )
                   }}</el-tag>
                 </a-descriptions-item>

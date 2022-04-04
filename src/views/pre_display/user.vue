@@ -36,7 +36,9 @@ const activities = [
 <template>
   <div>
     <el-container>
-      <el-header class="p-0 border-solid border"><ReHeader /></el-header>
+      <el-header class="p-0 border-solid border"
+        ><ReHeader :index="0"
+      /></el-header>
       <el-main class="p-0 bg-[rgba(211,220,230,0.2)]">
         <!-- 第一部分：头像与基本信息介绍 -->
         <el-row justify="center" class="mt-10">

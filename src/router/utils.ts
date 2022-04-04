@@ -122,11 +122,12 @@ function initRouter() {
         info[i].meta.rank = (i + 1) * 10;
         for (let j = 0; j < info[i].children.length; j++) {
           info[i].children[j].children = [];
-          info[i].children[j].meta.showParent = false;
           info[i].children[j].meta.showLink = !info[i].children[j].hidden;
+          info[i].children[j].meta.refreshRedirect = info[i].children[j].path;
         }
         // info[i].redirect = info[i].children[0].path;
         if (info[i].children.length == 1) {
+          info[i].meta.refreshRedirect = info[i].children[0].path;
           info[i].path = info[i].children[0].path;
           continue;
         }

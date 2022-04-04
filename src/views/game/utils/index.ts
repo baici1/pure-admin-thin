@@ -32,10 +32,12 @@ export const rankOptions = ref([]);
 export const identifyOptions = ref([]);
 export const levelOptions = ref([]);
 export const competitionTypeOptions = ref([]);
+export const competitionStatusOptions = ref([]);
 // 获取需要的字典 可能为空 按需保留
 export const setOptions = async () => {
   rankOptions.value = await getDictFunc("award");
   identifyOptions.value = await getDictFunc("teamIdentify");
   levelOptions.value = await getDictFunc("competitionLevel");
   competitionTypeOptions.value = await getDictFunc("competitionType");
+  competitionStatusOptions.value = await getDictFunc("competitionStatus");
 };

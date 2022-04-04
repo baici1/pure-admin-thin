@@ -22,7 +22,8 @@ const gameRouter = {
         icon: "document",
         title: $t("menus.hsgameManageInfo"),
         i18n: true,
-        showLink: true
+        showLink: true,
+        keepAlive: true
       }
     },
     {

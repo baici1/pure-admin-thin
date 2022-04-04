@@ -31,17 +31,13 @@ import teamVue from "./components/team.vue";
 import createVue from "./components/create.vue";
 import memberVue from "./components/member.vue";
 import successVue from "./components/success.vue";
-import { useRouter } from "vue-router";
-const router = useRouter();
+//import { useRouter } from "vue-router";
+// const router = useRouter();
 const init = async () => {
   await get_team_id();
   await get_team_info();
   await get_company_info();
   await get_team_member_all();
-  if (form.value.check != 1) {
-    router.push({ path: "/team/success", query: { check: form.value.check } });
-    return;
-  }
   console.log(form.value);
 };
 init();
@@ -63,7 +59,7 @@ setOptions();
 
 <template>
   <div>
-    <div class="team" v-if="form.check != 1">
+    <div class="team" v-if="form.check == 1">
       <!-- //页面头部信息提示 -->
       <el-card class="top">
         <div class="top-content flex justify-between">

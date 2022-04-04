@@ -11,62 +11,47 @@ export const greetings = ref("参赛表详情");
 
 export const Info = ref<Entry>({
   ID: 1,
-  CreatedAt: "2022-02-14T15:03:23+08:00",
-  name: "无敌",
-  cmpId: 1,
-  pId: 1,
-  rank: 1,
-  achName: "无敌",
-  status: [
-    {
-      ID: 1,
-      CreatedAt: "2022-02-14T15:03:32+08:00",
-      formId: 1,
-      uId: 1,
-      identify: 3,
-      order: 0
-    },
-    {
-      ID: 2,
-      CreatedAt: "2022-02-16T13:28:34+08:00",
-      formId: 1,
-      uId: 2,
-      identify: 0,
-      order: 0
-    }
-  ],
+  CreatedAt: "",
+  name: "",
+  cmpId: 0,
+  pId: 0,
+  rank: 0,
+  achName: "",
+  status: [],
   project: {
     ID: 1,
-    CreatedAt: "2022-02-14T15:03:37+08:00",
-    projectCode: "101",
-    projectName: "无敌项目",
-    introduction: "啦啦啦",
+    CreatedAt: "",
+    projectCode: "",
+    projectName: "",
+    introduction: "",
     remark: ""
   },
   competition: {
-    ID: 1,
-    CreatedAt: "2022-01-19T00:29:04+08:00",
-    cId: 1,
-    level: 1,
-    version: 1,
-    startTime: "2022-01-01T00:28:43+08:00",
-    endTime: "2022-01-05T00:28:47+08:00",
-    rStartTime: "2022-02-14T16:54:25+08:00",
-    rEndTime: "2023-04-01T16:54:29+08:00",
+    ID: 0,
+    CreatedAt: "",
+    cId: 0,
+    level: 0,
+    version: 0,
+    startTime: "",
+    endTime: "",
+    rStartTime: "",
+    rEndTime: "",
     base_info: {
       ID: 1,
-      CreatedAt: "2022-01-19T00:27:21+08:00",
-      cName: "蓝桥杯",
+      CreatedAt: "",
+      cName: "",
       cType: 0,
-      organizer: "工业和信息化部人才交流中心1",
-      introduction: "是我们获奖率比较高的比赛",
-      url: "https://dasai.lanqiao.cn/"
+      organizer: "",
+      introduction: "",
+      url: ""
     }
   }
 });
 
+export const isLoading = ref(true);
 //获取一个参赛表详情信息
 export const get_a_game_info = async (id: number) => {
+  isLoading.value = true;
   const data = await getAGameInfo({
     id: id
   });
@@ -76,6 +61,7 @@ export const get_a_game_info = async (id: number) => {
     data
   );
   Info.value = data.data;
+  isLoading.value = false;
 };
 
 export const isEdit = ref(false);
