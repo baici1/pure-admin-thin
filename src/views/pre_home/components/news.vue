@@ -5,14 +5,17 @@ import { timeFormatMD, filterDict } from "/@/utils/format";
 import { ArticlesItem } from "/@/api/model/pre";
 import { GetSpecificArticles } from "/@/api/pre_home";
 import { articleTypeOptions } from "../utils/homeBody";
+import { useRouter } from "vue-router";
 const props = defineProps({
   articleType: {
-    type: Number
+    type: Number,
+    default: 0
   },
   icon: {
     type: String
   }
 });
+const router = useRouter();
 const articles = ref([] as ArticlesItem[]);
 //获取文章分类的列表
 const get_specific_articles = async (type: number) => {
@@ -21,17 +24,14 @@ const get_specific_articles = async (type: number) => {
     pageSize: 3,
     type: type
   });
-  console.log(
-    "%c 🥡 data: ",
-    "font-size:20px;background-color: #3F7CFF;color:#fff;",
-    data
-  );
   articles.value = data.data.list;
   isEmpty.value = false;
 };
 
 get_specific_articles(props.articleType);
-
+const go_to_articles_detail = id => {
+  router.push({ name: "Details", params: { id: id } });
+};
 const isEmpty = ref(true);
 </script>
 
@@ -51,6 +51,7 @@ const isEmpty = ref(true);
             <!-- <img src="https://static.lanqiao.cn/dasai/images/20210818/title/notice.png" /> -->
           </div>
           <div class="nright">
+            <el-button type="text" size="small">查看更多</el-button>
             <img
               src="https://static.lanqiao.cn/dasai/images/20210818/icons/yellow_right.png"
               alt="icons"
@@ -60,7 +61,7 @@ const isEmpty = ref(true);
       </template>
       <el-empty description="No Data" v-show="isEmpty"></el-empty>
       <div v-for="(item, index) in articles" :key="index" class="news-text">
-        <el-link>
+        <el-link @click="go_to_articles_detail(item.ID)">
           <n-ellipsis style="max-width: 300px">
             {{ item.title }}
           </n-ellipsis>

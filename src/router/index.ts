@@ -41,7 +41,15 @@ export const router: Router = createRouter({
 });
 
 // 路由白名单
-const whiteList = ["/login"];
+const whiteList = [
+  "/login",
+  "/pre_home",
+  "/list",
+  "/page/detail/:id",
+  "/preGame/home",
+  "/display/user/:id",
+  "/display/game/:id"
+];
 
 router.beforeEach((to: toRouteType, _from, next) => {
   if (to.meta?.keepAlive) {
@@ -66,7 +74,11 @@ router.beforeEach((to: toRouteType, _from, next) => {
         )} | ${Title}`;
       else document.title = transformI18n(item.meta.title, item.meta?.i18n);
     });
-
+  console.log(
+    "%c 🍩 token.length: ",
+    "font-size:20px;background-color: #93C0A4;color:#fff;",
+    token.length
+  );
   if (token.length > 0) {
     if (_from?.name) {
       // name为超链接
@@ -161,7 +173,14 @@ router.beforeEach((to: toRouteType, _from, next) => {
     }
   } else {
     if (to.path !== "/login") {
-      if (whiteList.indexOf(to.path) !== -1) {
+      const regu = /^\/[(page)(display)]/;
+      console.log(regu.test(to.path));
+      console.log(
+        "%c 🍓 to.path: ",
+        "font-size:20px;background-color: #F5CE50;color:#fff;",
+        to.path
+      );
+      if (whiteList.indexOf(to.path) !== -1 || regu.test(to.path)) {
         next();
       } else {
         next({ path: "/login" });

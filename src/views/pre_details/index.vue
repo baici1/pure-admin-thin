@@ -36,7 +36,9 @@ get_a_article();
 <template>
   <div>
     <el-container>
-      <el-header class="p-0 border-solid border"><ReHeader /></el-header>
+      <el-header class="p-0 border-solid border"
+        ><ReHeader :index="0"
+      /></el-header>
       <el-main class="p-0 bg-[rgba(211,220,230,0.2)]">
         <el-row justify="center">
           <el-col :span="16" :xs="22">

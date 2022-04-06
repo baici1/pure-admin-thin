@@ -45,4 +45,18 @@ const props = defineProps({
   </el-row>
 </template>
 
-<style scoped></style>
+<style scoped>
+.layout-theme-default
+  body[layout="vertical"]
+  .el-menu--horizontal
+  .el-menu-item.is-active {
+  color: #000000 !important;
+}
+
+.layout-theme-default
+  body[layout="vertical"]
+  .el-menu--horizontal
+  .el-menu-item:hover {
+  color: #000000 !important;
+}
+</style>

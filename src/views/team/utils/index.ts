@@ -31,7 +31,7 @@ export const form = ref({
   introduction: "",
   intellectualProperty: "",
   remark: "",
-  check: 0
+  check: 1
 } as ReteamInfo);
 const teamid = ref<number>(0);
 //获取团队id

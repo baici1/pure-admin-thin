@@ -6,11 +6,11 @@ import {
   dialogVisibleCreateTeam
 } from "../utils/editor";
 import { createTeam, AddTeamMember } from "/@/api/team";
-import { useRouter } from "vue-router";
+//import { useRouter } from "vue-router";
 import { UserBaseInfo } from "/@/views/base";
 import { storageLocal } from "/@/utils/storage/index";
 
-const router = useRouter();
+// const router = useRouter();
 //获取用户id
 const userinfo: UserBaseInfo = storageLocal.getItem("Info");
 // const uid = ref(userinfo.ID);
@@ -34,7 +34,6 @@ const create_team = async () => {
       "font-size:20px;background-color: #ED9EC7;color:#fff;",
       res
     );
-    router.push("/team/success");
     dialogVisibleCreateTeam.value = false;
   }
 };

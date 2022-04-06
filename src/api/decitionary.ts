@@ -6,7 +6,7 @@ import { Dictionary } from "./model/dictionary";
 export const findSysDictionary = (params?: object) => {
   return http.request<BaseModel<Dictionary>>(
     "get",
-    "http://127.0.0.1:8888/sysDictionary/findSysDictionary",
+    "http://127.0.0.1:8888/api/sysDictionary/findSysDictionary",
     {
       params
     }

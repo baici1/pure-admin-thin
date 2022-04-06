@@ -12,7 +12,8 @@ import {
   isEditMember,
   update_team_member,
   MemberDetail,
-  setOptions
+  setOptions,
+  identifyOptions
 } from "./utils/index";
 import {
   dialogVisibleCompany,
@@ -24,7 +25,7 @@ import {
   dialogVisibleMember,
   handleCloseMember
 } from "./utils/editor";
-import { timeFormatYMD } from "/@/utils/format";
+import { timeFormatYMD, filterDict } from "/@/utils/format";
 //import { useRouter } from "vue-router";
 import companyVue from "./components/company.vue";
 import teamVue from "./components/team.vue";
@@ -148,11 +149,11 @@ setOptions();
             }}</el-button>
           </div>
         </template>
-        <!-- <el-empty description="无"></el-empty> -->
+        <el-empty description="无" v-if="form.companyId == 0"></el-empty>
         <el-steps
           :active="company.check"
           align-center
-          v-if="company.check != 1"
+          v-else-if="company.check != 1"
         >
           <el-step title="提交成功" description="Some description"></el-step>
           <el-step title="审核中" description="Some description"></el-step>
@@ -211,10 +212,16 @@ setOptions();
                   placeholder="请选择"
                   v-if="isEditMember"
                 >
-                  <el-option key="leader" :value="2" label="副队长" />
-                  <el-option key="member" :value="3" label="队员" />
+                  <el-option
+                    v-for="(item, index) of identifyOptions"
+                    :value="item.value"
+                    :label="item.label"
+                    :key="index"
+                  ></el-option>
                 </el-select>
-                <span v-else>{{ scope.row.identify }}</span>
+                <span v-else>{{
+                  filterDict(scope.row.identify, identifyOptions)
+                }}</span>
               </template>
             </el-table-column>
             <el-table-column prop="name" label="名字" />

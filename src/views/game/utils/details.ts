@@ -82,7 +82,7 @@ export const read_student_base_info = async () => {
       ID: item.ID,
       name: data.data.restudentInfo.realName,
       identify: item.identify,
-      uId: item.ID,
+      uId: item.uId,
       phone: baseInfo.data.reuserInfo.phone,
       formId: item.formId
     } as Status);

@@ -101,13 +101,7 @@ export const formRules = ref({
       trigger: "blur"
     }
   ],
-  specialty: [
-    {
-      required: true,
-      message: "Please input email",
-      trigger: "blur"
-    }
-  ],
+
   QQ: [
     {
       required: true,
@@ -180,5 +174,5 @@ export const update_student_info = async () => {
     data
   );
   ElMessage.success("信息更新成功");
-  router.push("/");
+  router.push("/welcome");
 };

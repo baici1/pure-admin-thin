@@ -22,6 +22,20 @@ export const entry = ref<EntryInfo>({
     introduction: ""
   }
 });
+export const EntryInit = () => {
+  entry.value = {
+    name: "",
+    status: {
+      uId: uid.value,
+      identify: 1
+    },
+    cmpId: 0,
+    project: {
+      projectName: "",
+      introduction: ""
+    }
+  };
+};
 //参赛表的表单规则
 export const entryRules = ref({
   name: [

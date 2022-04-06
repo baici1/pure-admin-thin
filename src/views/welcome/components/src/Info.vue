@@ -37,7 +37,7 @@ const props = defineProps({
         </el-icon>
         姓名
       </template>
-      {{ props.info.realName }}
+      {{ props.info.realName || "--" }}
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
@@ -62,7 +62,7 @@ const props = defineProps({
         </el-icon>
         学号
       </template>
-      {{ props.info.studentId }}
+      {{ props.info.studentId || "--" }}
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
@@ -71,7 +71,7 @@ const props = defineProps({
         </el-icon>
         学历
       </template>
-      {{ props.info.degree }}
+      {{ props.info.degree || "--" }}
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
@@ -96,7 +96,7 @@ const props = defineProps({
         </el-icon>
         QQ
       </template>
-      {{ props.info.QQ }}
+      {{ props.info.QQ || "--" }}
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
@@ -105,7 +105,7 @@ const props = defineProps({
         </el-icon>
         微信
       </template>
-      {{ props.info.wechat }}
+      {{ props.info.wechat || "--" }}
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>
@@ -136,7 +136,7 @@ const props = defineProps({
         size="small"
         effect="dark"
       >
-        {{ item }}
+        {{ item || "--" }}
       </el-tag>
     </el-descriptions-item>
   </el-descriptions>
@@ -153,7 +153,7 @@ const props = defineProps({
         </el-icon>
         介绍
       </template>
-      {{ props.info.introduction }}
+      {{ props.info.introduction || "--" }}
     </el-descriptions-item>
   </el-descriptions>
 </template>

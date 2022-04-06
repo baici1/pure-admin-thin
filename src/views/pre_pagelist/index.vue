@@ -82,7 +82,7 @@ let onChange = pageNumber => {
               </div>
               <a-list item-layout="horizontal" :data-source="articles">
                 <template #renderItem="{ item }">
-                  <a-list-item class="list-item">
+                  <a-list-item class="pl-10">
                     <a-list-item-meta>
                       <template #title>
                         <el-row justify="space-between">
@@ -156,6 +156,7 @@ let onChange = pageNumber => {
 .list-box {
   border: #f2f2f2 2px solid;
   border-top: 3px solid #265db4;
+  min-height: 600px;
 
   .list-title {
     padding: 5px;

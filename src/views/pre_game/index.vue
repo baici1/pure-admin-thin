@@ -16,7 +16,7 @@ import {
   competitionTypeOptions,
   competitionStatusOptions
 } from "./utils/index";
-get_competition();
+get_competition(true);
 setOptions();
 </script>
 
@@ -26,7 +26,7 @@ setOptions();
       <el-header class="p-0 border-solid border"
         ><ReHeader :index="2"
       /></el-header>
-      <el-main class="p-0 bg-[rgba(211,220,230,0.2)]">
+      <el-main class="p-0 bg-[rgba(211,220,230,0.2)]" style="padding: 0">
         <el-row justify="center">
           <el-col :span="24">
             <bannerVue @get-search-str="getSearchStr"></bannerVue>
@@ -92,11 +92,14 @@ setOptions();
                             size="small"
                             style="margin-left: 5px"
                             >{{
-                              checkComStatus(
-                                item.startTime,
-                                item.endTime,
-                                item.rStartTime,
-                                item.rEndTime
+                              filterDict(
+                                checkComStatus(
+                                  item.startTime,
+                                  item.endTime,
+                                  item.rStartTime,
+                                  item.rEndTime
+                                ),
+                                competitionStatusOptions
                               )
                             }}</el-tag
                           >
@@ -153,9 +156,9 @@ setOptions();
                     </a-list-item-meta>
                     <template #extra>
                       <div class="game-extra">
-                        <el-button :disabled="item.isdisabled"
-                          >参与报名</el-button
-                        >
+                        <el-button :disabled="item.isdisabled">
+                          <router-link to="/welcome"> 参与报名 </router-link>
+                        </el-button>
                       </div>
                       <div class="game-extra">
                         <el-button :disabled="item.isdisabled"

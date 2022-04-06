@@ -36,7 +36,7 @@ export const captcha = data => {
 export const getLogin = (data: object) => {
   return http.request<BaseModel<LoginRes>>(
     "post",
-    "http://127.0.0.1:8888/user/login",
+    "http://127.0.0.1:8888/api/user/login",
     {
       data
     }
@@ -44,9 +44,13 @@ export const getLogin = (data: object) => {
 };
 //注册
 export const getRegister = (data: object) => {
-  return http.request<BaseRes>("post", "http://127.0.0.1:8888/user/register", {
-    data
-  });
+  return http.request<BaseRes>(
+    "post",
+    "http://127.0.0.1:8888/api/user/register",
+    {
+      data
+    }
+  );
 };
 // 刷新token
 export const refreshToken = (data: object) => {

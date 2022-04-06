@@ -8,7 +8,8 @@ import {
   entryRules,
   isProject,
   dialogVisible,
-  setOptions
+  setOptions,
+  EntryInit
 } from "./utils/editor";
 import { ElForm, ElMessage } from "element-plus";
 import { createEntryFormDetail } from "/@/api/game";
@@ -29,6 +30,8 @@ const commit = async (formEl: FormInstance | undefined) => {
       ElMessage.success("修改成功");
       dialogVisible.value = false;
     }
+    EntryInit();
+    isProject.value = false;
   });
 };
 </script>
