@@ -3,31 +3,6 @@ import { ref, nextTick } from "vue";
 import { form } from "./welcome";
 import { ElInput, ElMessage } from "element-plus";
 import { updateStudentInfo } from "/@/api/user";
-//初始化表单
-export const initForm = () => {
-  form.value = {
-    ID: 0,
-    studentId: "",
-    uId: 0,
-    nickname: "",
-    email: "",
-    avatar: "",
-    realName: "",
-    gender: 1,
-    degree: "",
-    grade: "",
-    department: "",
-    major: "",
-    classNum: "",
-    specialty: "",
-    QQ: "",
-    wechat: "",
-    bankName: "",
-    bankCardNumber: "",
-    introduction: "",
-    CreatedAt: ""
-  };
-};
 
 //表单规则
 export const formRules = ref({

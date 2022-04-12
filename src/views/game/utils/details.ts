@@ -1,11 +1,7 @@
 import { ElMessage } from "element-plus";
 import { ref } from "vue";
 import { getAGameInfo, updateEntryFormDetail } from "/@/api/game";
-import {
-  getStudentInfo,
-  ReadUserBaseInfo,
-  GetInfoByPrePhone
-} from "/@/api/user";
+import { getStudentInfo, GetIDByPhone } from "/@/api/user";
 import { Entry, Status } from "/@/api/model/game";
 export const greetings = ref("参赛表详情");
 
@@ -73,9 +69,6 @@ export const read_student_base_info = async () => {
   MembersInfo.value = [];
   for (const item of Info.value.status) {
     const data = await getStudentInfo({
-      uId: item.uId
-    });
-    const baseInfo = await ReadUserBaseInfo({
       ID: item.uId
     });
     MembersInfo.value.push({
@@ -83,7 +76,7 @@ export const read_student_base_info = async () => {
       name: data.data.restudentInfo.realName,
       identify: item.identify,
       uId: item.uId,
-      phone: baseInfo.data.reuserInfo.phone,
+      phone: data.data.restudentInfo.phone,
       formId: item.formId
     } as Status);
   }
@@ -108,11 +101,16 @@ export const deleteMember = (val, index) => {
 export const SaveInfo = async () => {
   for (let i = 0; i < MembersInfo.value.length; i++) {
     const item = MembersInfo.value[i];
-    const data = await GetInfoByPrePhone({ phone: item.phone });
-    MembersInfo.value[i].uId = data.data.ID;
+    const data = await GetIDByPhone({ phone: item.phone });
+    MembersInfo.value[i].uId = data.data;
   }
   Info.value.status = MembersInfo.value;
   const data = await updateEntryFormDetail(Info.value);
+  console.log(
+    "%c 🍻 data: ",
+    "font-size:20px;background-color: #F5CE50;color:#fff;",
+    data
+  );
   if (data.code == 0) {
     ElMessage.success("恭喜你保存成功！");
   } else {

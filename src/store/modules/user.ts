@@ -6,19 +6,12 @@ import { useRouter } from "vue-router";
 import { storageLocal, storageSession } from "/@/utils/storage";
 import { useMultiTagsStoreHook } from "/@/store/modules/multiTags";
 import { getLogin, jsonInBlacklist } from "/@/api/user";
-import { UserBaseInfo } from "/@/api/model/user";
+import { StudentInfo, TeacherInfo } from "/@/api/model/user";
 import { initRouter } from "/@/router/utils";
 
 export const useUserStore = defineStore("pure-user", () => {
   //用户基本信息
-  const userInfo = ref({
-    ID: 6,
-    phone: "13337474741",
-    slat: "",
-    identity: 2019,
-    check: 1,
-    authority: {}
-  } as UserBaseInfo);
+  const userInfo = ref({} as TeacherInfo | StudentInfo);
   //获取token
   const token = ref(window.localStorage.getItem("token") || "");
   const setToken = val => {
@@ -38,9 +31,6 @@ export const useUserStore = defineStore("pure-user", () => {
       data
     );
     if (data.code == 0) {
-      if (data.data.user.check != 1) {
-        ElMessage.warning("当前用户未审核！请联系管理员！");
-      }
       //初步设置
       setToken(data.data.token);
       setUserInfo(data.data.user);

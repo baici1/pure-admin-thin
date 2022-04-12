@@ -16,8 +16,13 @@ export const form = ref({} as StudentInfo);
 export const get_student_info = async () => {
   try {
     const data = await getStudentInfo({
-      uId: uid
+      ID: uid
     });
+    console.log(
+      "%c 🥪 data: ",
+      "font-size:20px;background-color: #6EC1C2;color:#fff;",
+      data
+    );
     form.value = data.data.restudentInfo;
     form.value.lists = data.data.restudentInfo.specialty.split(",");
   } catch (error) {

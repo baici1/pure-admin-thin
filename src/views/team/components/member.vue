@@ -26,7 +26,12 @@ const commit = async (formEl: FormInstance | undefined) => {
         "font-size:20px;background-color: #FCA650;color:#fff;",
         data
       );
-      ElMessage.success("创建成功");
+      if (data.code == 0) {
+        ElMessage.success(data.msg);
+      } else {
+        ElMessage.error(data.msg);
+      }
+
       dialogVisibleMember.value = false;
     }
   });

@@ -1,11 +1,5 @@
 import { http } from "../utils/http";
-import {
-  LoginRes,
-  RestudentInfo,
-  userInfo,
-  Captcha,
-  ReuserInfo
-} from "./model/user";
+import { LoginRes, RestudentInfo, Captcha } from "./model/user";
 import { BaseModel, BaseRes } from "./model/base";
 interface userType extends Promise<any> {
   svg?: string;
@@ -81,16 +75,6 @@ export const updateStudentInfo = (data: Object) => {
   );
 };
 
-export const ReadUserBaseInfo = (params: Object) => {
-  return http.request<BaseModel<userInfo>>(
-    "get",
-    "http://127.0.0.1:8888/userInfo/findUserInfo",
-    {
-      params
-    }
-  );
-};
-
 // @Tags jwt
 // @Summary jwt加入黑名单
 // @Security ApiKeyAuth
@@ -105,10 +89,10 @@ export const jsonInBlacklist = () => {
   );
 };
 
-export const GetInfoByPrePhone = (params: Object) => {
-  return http.request<BaseModel<ReuserInfo>>(
+export const GetIDByPhone = (params: Object) => {
+  return http.request<BaseModel<number>>(
     "get",
-    "http://127.0.0.1:8888/api/user/findPhoneInfo",
+    "http://127.0.0.1:8888/api/user/findID",
     {
       params
     }

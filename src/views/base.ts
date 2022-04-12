@@ -2,11 +2,7 @@ export interface UserBaseInfo {
   ID: number;
   CreatedAt: string;
   UpdatedAt: string;
-  password: string;
   phone: string;
-  slat: string;
-  identity: number;
-  check: number;
   authority: Authority;
 }
 

@@ -2,7 +2,7 @@ import { storageLocal } from "/@/utils/storage/index";
 import { DeleteTeamMember, UpdateTeamMember } from "/@/api/team";
 import { ElMessage } from "element-plus";
 import { ref } from "vue";
-import { getStudentInfo, ReadUserBaseInfo } from "/@/api/user";
+import { getStudentInfo } from "/@/api/user";
 import {
   getTeamInfo,
   getTeamId,
@@ -104,9 +104,6 @@ export const get_team_member_all = async () => {
   MemberBase.value = data.data;
   for (const item of MemberBase.value.list) {
     const StudentInfo = await getStudentInfo({
-      uId: item.uId
-    });
-    const baseInfo = await ReadUserBaseInfo({
       ID: item.uId
     });
     MemberDetail.value.push({
@@ -114,7 +111,7 @@ export const get_team_member_all = async () => {
       name: StudentInfo.data.restudentInfo.realName,
       identify: item.identify,
       uId: item.uId,
-      phone: baseInfo.data.reuserInfo.phone,
+      phone: StudentInfo.data.restudentInfo.phone,
       teamId: item.teamId,
       CreatedAt: item.CreatedAt
     } as List);

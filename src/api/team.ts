@@ -1,6 +1,6 @@
 import { http } from "../utils/http";
 import { TeamInfo, CompanyInfo, Members } from "./model/team";
-import { BaseModel } from "./model/base";
+import { BaseModel, BaseRes } from "./model/base";
 //获取团队信息
 export const getTeamInfo = (params?: object) => {
   return http.request<BaseModel<TeamInfo>>(
@@ -102,9 +102,13 @@ export const updateCompany = (data?: object) => {
 
 //添加团队队员
 export const AddTeamMember = (data?: object) => {
-  return http.request("post", "http://127.0.0.1:8888/api/member/create", {
-    data
-  });
+  return http.request<BaseRes>(
+    "post",
+    "http://127.0.0.1:8888/api/member/create",
+    {
+      data
+    }
+  );
 };
 
 //更新团队队员
