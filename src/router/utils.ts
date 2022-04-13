@@ -1,3 +1,5 @@
+import { storageSession } from "/@/utils/storage";
+import { storageLocal } from "/@/utils/storage";
 import {
   RouterHistory,
   RouteRecordRaw,
@@ -116,9 +118,19 @@ function resetRouter(): void {
 // 初始化路由
 function initRouter() {
   return new Promise(resolve => {
-    getAsyncRoutes().then(({ data }) => {
+    getAsyncRoutes().then(res => {
+      if (res.code === 7) {
+        storageLocal.clear();
+        storageSession.clear();
+      }
+      const data = res.data;
       const info: any = data.menus;
-      for (let i = 0; i < info.length; i++) {
+      console.log(
+        "%c 🍆 info: ",
+        "font-size:20px;background-color: #FFDD4D;color:#fff;",
+        info
+      );
+      for (let i = 0; i < info?.length; i++) {
         info[i].meta.rank = (i + 1) * 10;
         for (let j = 0; j < info[i].children.length; j++) {
           info[i].children[j].children = [];
@@ -133,12 +145,7 @@ function initRouter() {
         }
         info[i].redirect = info[i].children[0].path;
       }
-      console.log(
-        "%c 🦀 data: ",
-        "font-size:20px;background-color: #465975;color:#fff;",
-        info
-      );
-      if (info.length === 0) {
+      if (info?.length === 0) {
         usePermissionStoreHook().changeSetting(info);
       } else {
         formatFlatteningRoutes(addAsyncRoutes(info)).map(

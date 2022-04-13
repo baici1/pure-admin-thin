@@ -77,9 +77,9 @@ router.beforeEach((to: toRouteType, _from, next) => {
   console.log(
     "%c 🍩 token.length: ",
     "font-size:20px;background-color: #93C0A4;color:#fff;",
-    token.length
+    token?.length
   );
-  if (token.length > 0) {
+  if (token?.length > 0) {
     if (_from?.name) {
       // name为超链接
       if (externalLink) {
