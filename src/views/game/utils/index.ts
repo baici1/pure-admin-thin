@@ -2,7 +2,11 @@ import { ref } from "vue";
 import { storageLocal } from "/@/utils/storage/index";
 import { UserBaseInfo } from "/@/views/base";
 import { Entry } from "/@/api/model/game";
-import { getAllGameInfo } from "/@/api/game";
+import {
+  getAllGameInfo,
+  findProjectInfo,
+  getEntryMemberList
+} from "/@/api/game";
 import { getDictFunc } from "/@/utils/format";
 export const greetings = ref("参赛表汇总");
 
@@ -33,6 +37,7 @@ export const identifyOptions = ref([]);
 export const levelOptions = ref([]);
 export const competitionTypeOptions = ref([]);
 export const competitionStatusOptions = ref([]);
+export const teamIdentifyOptions = ref([]);
 // 获取需要的字典 可能为空 按需保留
 export const setOptions = async () => {
   rankOptions.value = await getDictFunc("award");
@@ -40,4 +45,33 @@ export const setOptions = async () => {
   levelOptions.value = await getDictFunc("competitionLevel");
   competitionTypeOptions.value = await getDictFunc("competitionType");
   competitionStatusOptions.value = await getDictFunc("competitionStatus");
+  teamIdentifyOptions.value = await getDictFunc("teamIdentify");
+};
+
+export const getGameProject = async () => {
+  isload.value = true;
+  for (const item of entryList.value) {
+    const res = await findProjectInfo({ ID: item.pId });
+    if (res.code == 0) {
+      item.project = res.data.reprojectInfo;
+    }
+  }
+  isload.value = false;
+};
+
+export const getGameMember = async () => {
+  isload.value = true;
+  for (const item of entryList.value) {
+    const res = await getEntryMemberList({
+      page: 1,
+      pageSize: 10,
+      formId: item.ID
+    });
+    if (res.code == 0) {
+      item.Members = res.data.list.filter(i => {
+        return i.formId == item.ID;
+      })[0];
+    }
+  }
+  isload.value = false;
 };

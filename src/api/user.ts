@@ -1,6 +1,12 @@
 import { http } from "../utils/http";
-import { LoginRes, RestudentInfo, Captcha } from "./model/user";
-import { BaseModel, BaseRes } from "./model/base";
+import {
+  LoginRes,
+  RestudentInfo,
+  Captcha,
+  ReteacherInfo,
+  TeacherInfo
+} from "./model/user";
+import { BaseModel, BaseRes, ListModel } from "./model/base";
 interface userType extends Promise<any> {
   svg?: string;
   code?: number;
@@ -96,5 +102,24 @@ export const GetIDByPhone = (params: Object) => {
     {
       params
     }
+  );
+};
+//===============老师=================
+//获取学生详情信息
+export const findTeacherInfo = (params?: object) => {
+  return http.request<BaseModel<ReteacherInfo>>(
+    "get",
+    "http://127.0.0.1:8888/teacherInfo/findTeacherInfo",
+    {
+      params
+    }
+  );
+};
+
+export const getTeacherInfoList = params => {
+  return http.request<BaseModel<ListModel<TeacherInfo>>>(
+    "get",
+    "http://127.0.0.1:8888/teacherInfo/getTeacherInfoList",
+    { params }
   );
 };

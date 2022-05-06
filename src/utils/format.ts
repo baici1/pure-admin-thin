@@ -25,19 +25,15 @@ export function checkGender(gender: number): string {
 
 export const ComStatus = ["未开始", "报名中", "参赛中", "已结束", "准备中"];
 //通过四个时间判断当前状态。
-export function checkComStatus(time1, time2, time3, time4) {
+export function checkComStatus(time1, time2) {
   //当前时间在time1之前
   const time = dayjs();
   if (time.isBefore(time1)) {
     return 1;
   } else if (time.isAfter(time1) && time.isBefore(time2)) {
     return 2;
-  } else if (time.isAfter(time2) && time.isBefore(time3)) {
+  } else {
     return 3;
-  } else if (time.isAfter(time3) && time.isBefore(time4)) {
-    return 4;
-  } else if (time.isAfter(time4)) {
-    return 5;
   }
 }
 export const filterDict = (value, options) => {

@@ -80,10 +80,6 @@ export interface EntryInfo {
     identify: number;
   };
   cmpId: number;
-  project: {
-    projectName: string;
-    introduction: string;
-  };
 }
 
 export interface GameTreeList {

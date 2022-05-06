@@ -1,10 +1,8 @@
 <script setup lang="ts">
-import { useRouter } from "vue-router";
 import { computed } from "vue";
 import { ReBar, RePie } from "/@/components/ReCharts/index";
-import { ReInfo, ReList } from "./components/index";
+import { ReList } from "./components/index";
 import { loading, form, get_student_info } from "./utils/welcome";
-const router = useRouter();
 get_student_info();
 const date: Date = new Date();
 let greetings = computed(() => {
@@ -16,9 +14,6 @@ let greetings = computed(() => {
     return "折一根天使羽毛，愿拂去您的疲惫烦恼忧伤🌛！";
   }
 });
-const auth_update = async () => {
-  router.push("/info/update");
-};
 </script>
 <template>
   <div class="welcome">
@@ -29,7 +24,7 @@ const auth_update = async () => {
       </div>
     </el-card>
     <el-row :gutter="24" style="margin: 20px">
-      <el-col
+      <!-- <el-col
         :xs="24"
         :sm="24"
         :md="14"
@@ -64,7 +59,7 @@ const auth_update = async () => {
             </template>
           </el-skeleton>
         </el-card>
-      </el-col>
+      </el-col> -->
       <el-col
         :xs="24"
         :sm="24"

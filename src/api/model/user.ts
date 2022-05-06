@@ -37,6 +37,9 @@ export interface StudentInfo {
   authority?: Authority;
   lists?: Array<string>;
 }
+export interface ReteacherInfo {
+  reteacherInfo: TeacherInfo;
+}
 
 export interface TeacherInfo {
   ID: number;
@@ -67,13 +70,13 @@ export interface TeacherInfo {
 export interface Authority {
   CreatedAt: string;
   UpdatedAt: string;
-  DeletedAt: null;
+  DeletedAt?: string;
   authorityId: string;
   authorityName: string;
   parentId: string;
-  dataAuthorityId: null;
-  children: null;
-  menus: null;
+  dataAuthorityId?: string;
+  children?: Array<Authority>;
+  menus?: Array<string>;
   defaultRouter: string;
 }
 

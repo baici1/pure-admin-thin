@@ -1,39 +1,45 @@
+import { File } from "./file";
 export interface Entry {
   ID: number;
   CreatedAt: string;
   name: string;
   cmpId: number;
   pId: number;
-  rank: number | null;
-  achName: string;
-  status: Status[];
-  project: Project;
   competition: Competition;
+  project?: Project;
+  Members?: Member;
+}
+
+export interface ProjectInfo {
+  reprojectInfo: Project;
 }
 
 export interface Project {
   ID: number;
-  CreatedAt: string;
+  CreatedAt?: string;
   projectCode: string;
   projectName: string;
   introduction: string;
   remark: string;
+  url?: "";
 }
 
 export interface Competition {
   ID: number;
   CreatedAt: string;
   cId: number;
-  level: number;
   version: number;
   startTime: string;
   endTime: string;
-  rStartTime: string;
-  rEndTime: string;
+  year: number;
+  publish?: boolean;
   base_info: Base_info;
 }
 
-export interface Status {
+export interface MemberInfo {
+  reentryMember: Member;
+}
+export interface Member {
   ID: number;
   CreatedAt?: string;
   formId: number;
@@ -52,4 +58,34 @@ export interface Base_info {
   organizer: string;
   introduction: string;
   url: string;
+}
+
+export interface EntryTeacherInfo {
+  reentryTeacher: entryTeacher;
+}
+
+export interface entryTeacher {
+  ID: number;
+  CreatedAt?: string;
+  formId: number;
+  tId: number;
+  order: number;
+  phone?: string;
+  email?: string;
+  gender?: null;
+  major?: string;
+  realName?: string;
+}
+
+export interface Achievement {
+  ID?: number;
+  CreatedAt?: string;
+  formId: number;
+  match: number;
+  rank: number;
+  remark: string;
+  urlId: number;
+  url?: string;
+  check: boolean;
+  file?: File;
 }

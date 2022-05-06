@@ -1,48 +1,67 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
-import { onBeforeMount } from "vue";
 import {
   greetings,
   Info,
   get_a_game_info,
   isEdit,
-  read_student_base_info,
+  isLoading,
+  getProjectInfoFunc,
+  ProjectformData,
+  OpenDialogProject,
+  enterDialogProject,
+  dialogProjectFormVisible,
+  closeDialogProject,
   MembersInfo,
-  addMember,
-  deleteMember,
-  SaveInfo,
-  isLoading
+  getMembersInfo,
+  deleteEntryMemberFunc,
+  dialogFormVisibleMember,
+  openDialogMember,
+  formDataMember,
+  closeDialogMember,
+  enterDialogMember,
+  updateEntryMemberFunc,
+  openDialogTeacher,
+  tableDataTeacher,
+  deleteEntryTeacherFunc,
+  getTableDataTeacher,
+  dialogFormVisibleTeacher,
+  closeDialogTeacher,
+  enterDialogTeacher,
+  formDataTeacher,
+  tableDataAchievement,
+  getTableDataAchievement,
+  deleteAchievementFunc,
+  dialogFormVisibleAchievement,
+  closeDialogAchievement,
+  openDialogAchievement,
+  enterDialogAchievement,
+  formDataAchievement,
+  GetAchievementFile,
+  TeachersOption
 } from "./utils/details";
 import {
-  levelOptions,
   competitionTypeOptions,
-  rankOptions,
   setOptions,
   identifyOptions,
-  competitionStatusOptions
+  competitionStatusOptions,
+  teamIdentifyOptions,
+  levelOptions,
+  rankOptions
 } from "./utils/index";
 import { filterDict, checkComStatus } from "/@/utils/format";
+import { ReUpload } from "/@/components/ReComon/index";
 const route = useRoute();
 
 const init = async () => {
   await setOptions();
   await get_a_game_info(Number(route.params.id));
-  await read_student_base_info();
-  console.log(
-    "%c 🍗 checkComStatus(): ",
-    "font-size:20px;background-color: #EA7E5C;color:#fff;",
-    checkComStatus(
-      Info.value.competition.startTime,
-      Info.value.competition.endTime,
-      Info.value.competition.rStartTime,
-      Info.value.competition.rEndTime
-    )
-  );
+  await getProjectInfoFunc(Info.value.pId);
+  await getMembersInfo(Info.value.ID);
+  await getTableDataTeacher();
+  await getTableDataAchievement();
 };
 init();
-onBeforeMount(() => {
-  isEdit.value = false;
-});
 </script>
 
 <template>
@@ -50,8 +69,6 @@ onBeforeMount(() => {
     <el-card class="top">
       <div class="top-content">
         <p>{{ greetings }}</p>
-        <el-button v-if="!isEdit" @click="isEdit = true">编辑</el-button>
-        <el-button v-else @click="SaveInfo">保存</el-button>
       </div>
     </el-card>
     <el-card class="entry-detail">
@@ -60,11 +77,12 @@ onBeforeMount(() => {
           <el-descriptions-item label="比赛名称：">
             <span>{{ Info.competition?.base_info.cName }}</span>
           </el-descriptions-item>
-          <el-descriptions-item label="比赛级别：">
-            {{ filterDict(Info.competition.level, levelOptions) }}
-          </el-descriptions-item>
+
           <el-descriptions-item label="比赛届数：">
             {{ Info.competition.version }}
+          </el-descriptions-item>
+          <el-descriptions-item label="比年份：">
+            {{ Info.competition.year }}
           </el-descriptions-item>
           <el-descriptions-item label="比赛类型：">
             {{
@@ -85,12 +103,7 @@ onBeforeMount(() => {
         </template>
         <el-steps
           :active="
-            checkComStatus(
-              Info.competition.startTime,
-              Info.competition.endTime,
-              Info.competition.rStartTime,
-              Info.competition.rEndTime
-            )
+            checkComStatus(Info.competition.startTime, Info.competition.endTime)
           "
           align-center
           class="card-step"
@@ -124,49 +137,46 @@ onBeforeMount(() => {
             </span>
           </el-descriptions-item>
           <el-descriptions-item label="队伍人数：">
-            {{ MembersInfo.length }}</el-descriptions-item
-          >
+            {{ MembersInfo.length }}
+          </el-descriptions-item>
           <el-descriptions-item label="队长：">{{
             MembersInfo[0]?.name
           }}</el-descriptions-item>
-          <el-descriptions-item label="获奖情况：">
-            <el-tag size="small">{{
-              filterDict(Info.rank, rankOptions)
-            }}</el-tag>
-          </el-descriptions-item>
-          <el-descriptions-item label="获奖名称：">
-            {{ Info.achName.length == 0 ? "无" : Info.achName }}
-          </el-descriptions-item>
         </el-descriptions>
       </el-card>
       <el-divider></el-divider>
       <el-card class="detail-card" shadow="never">
         <el-descriptions title="项目信息" :column="2">
+          <template #extra>
+            <el-button type="primary" @click="OpenDialogProject(Info)"
+              >编辑</el-button
+            >
+          </template>
           <el-descriptions-item label="项目编号：">
             <el-input
-              v-model="Info.project.projectCode"
+              v-model="ProjectformData.projectCode"
               style="width: 200px"
               v-if="isEdit"
             />
-            <span v-else> {{ Info.project.projectCode }}</span>
+            <span v-else> {{ ProjectformData.projectCode }}</span>
           </el-descriptions-item>
           <el-descriptions-item label="项目名称：">
             <el-input
-              v-model="Info.project.projectName"
+              v-model="ProjectformData.projectName"
               style="width: 200px"
               v-if="isEdit"
             />
             <span v-else>
-              {{ Info.project.projectName }}
+              {{ ProjectformData.projectName }}
             </span>
           </el-descriptions-item>
           <el-descriptions-item label="项目介绍：">
             <el-input
-              v-model="Info.project.introduction"
+              v-model="ProjectformData.introduction"
               style="width: 200px"
               v-if="isEdit"
             />
-            <span v-else>{{ Info.project.introduction }}</span>
+            <span v-else>{{ ProjectformData.introduction }}</span>
           </el-descriptions-item>
         </el-descriptions>
       </el-card>
@@ -174,7 +184,7 @@ onBeforeMount(() => {
         <template #header>
           <div class="card-header">
             <div class="card-title">队员信息</div>
-            <el-button type="primary" v-show="isEdit" @click="addMember">
+            <el-button type="primary" @click="openDialogMember">
               新增队员
             </el-button>
           </div>
@@ -183,37 +193,30 @@ onBeforeMount(() => {
           <el-table-column type="index" width="50" label="#" />
           <el-table-column label="手机号">
             <template #default="scope">
-              <el-input v-model="scope.row.phone" v-if="isEdit" />
-              <span v-else>{{ scope.row.phone }}</span>
+              {{ scope.row.phone }}
             </template>
           </el-table-column>
           <el-table-column label="职位">
             <template #default="scope">
-              <el-select
-                v-model="scope.row.identify"
-                placeholder="请选择"
-                v-if="isEdit"
-              >
-                <el-option key="leader" :value="2" label="副队长" />
-                <el-option key="member" :value="3" label="队员" />
-              </el-select>
-              <span v-else>{{
-                filterDict(scope.row.identify, identifyOptions)
-              }}</span>
+              {{ filterDict(scope.row.identify, identifyOptions) }}
             </template>
           </el-table-column>
           <el-table-column prop="name" label="姓名" />
-          <el-table-column
-            fixed="right"
-            label="Operations"
-            width="120"
-            v-if="isEdit == true"
-          >
+          <el-table-column fixed="right" label="Operations" width="180">
             <template #default="scope">
               <el-button
                 type="text"
                 size="small"
-                @click="deleteMember(MembersInfo, scope.$index)"
+                @click="updateEntryMemberFunc(scope.row)"
+                :disabled="scope.$index == 0"
+              >
+                更改
+              </el-button>
+              <el-button
+                type="text"
+                size="small"
+                @click="deleteEntryMemberFunc(scope.row)"
+                :disabled="scope.$index == 0"
               >
                 删除
               </el-button>
@@ -222,7 +225,299 @@ onBeforeMount(() => {
           </el-table-column>
         </el-table>
       </el-card>
+      <el-card class="detail-card" shadow="never">
+        <template #header>
+          <div class="card-header">
+            <div class="card-title">指导老师信息</div>
+            <el-button type="primary" @click="openDialogTeacher">
+              新增老师
+            </el-button>
+          </div>
+        </template>
+        <el-table :data="(tableDataTeacher as any)" stripe style="width: 100%">
+          <el-table-column type="index" width="50" label="#" />
+          <el-table-column label="姓名">
+            <template #default="scope">
+              {{ scope.row.realName }}
+            </template>
+          </el-table-column>
+          <el-table-column label="电话">
+            <template #default="scope">
+              {{ scope.row.phone }}
+            </template>
+          </el-table-column>
+          <el-table-column label="邮箱">
+            <template #default="scope">
+              {{ scope.row.email }}
+            </template>
+          </el-table-column>
+          <el-table-column label="方向">
+            <template #default="scope">
+              {{ scope.row.major }}
+            </template>
+          </el-table-column>
+          <el-table-column fixed="right" label="Operations" width="180">
+            <template #default="scope">
+              <el-button
+                type="text"
+                size="small"
+                @click="deleteEntryTeacherFunc(scope.row)"
+              >
+                删除
+              </el-button>
+              <el-button type="text" size="small">详情</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-card>
+      <el-card class="detail-card" shadow="never">
+        <template #header>
+          <div class="card-header">
+            <div class="card-title">获奖信息</div>
+            <el-button type="primary" @click="openDialogAchievement">
+              新增获奖
+            </el-button>
+          </div>
+        </template>
+        <el-table
+          :data="(tableDataAchievement as any)"
+          stripe
+          style="width: 100%"
+        >
+          <el-table-column type="index" width="50" label="#" />
+
+          <el-table-column label="赛事级别">
+            <template #default="scope">
+              {{ filterDict(scope.row.match, levelOptions) }}
+            </template>
+          </el-table-column>
+          <el-table-column label="获奖级别">
+            <template #default="scope">
+              {{ filterDict(scope.row.rank, rankOptions) }}
+            </template>
+          </el-table-column>
+          <el-table-column label="附件">
+            <template #default="scope">
+              <el-link :href="scope.row.url" target="_blank" type="primary">
+                下载文件
+              </el-link>
+            </template>
+          </el-table-column>
+          <el-table-column label="审核">
+            <template #default="scope">
+              {{ scope.row.check }}
+            </template>
+          </el-table-column>
+          <el-table-column fixed="right" label="Operations" width="180">
+            <template #default="scope">
+              <el-button
+                type="text"
+                size="small"
+                @click="deleteAchievementFunc(scope.row)"
+              >
+                删除
+              </el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </el-card>
     </el-card>
+    <el-dialog
+      v-model="dialogProjectFormVisible"
+      :before-close="closeDialogProject"
+      title="弹窗操作"
+    >
+      <el-form
+        :model="ProjectformData"
+        label-position="right"
+        label-width="80px"
+      >
+        <el-form-item label="项目编号:">
+          <el-input
+            v-model="ProjectformData.projectCode"
+            clearable
+            placeholder="请输入"
+          />
+        </el-form-item>
+        <el-form-item label="项目名称:">
+          <el-input
+            v-model="ProjectformData.projectName"
+            clearable
+            placeholder="请输入"
+          />
+        </el-form-item>
+        <el-form-item label="项目简介:">
+          <el-input
+            v-model="ProjectformData.introduction"
+            clearable
+            placeholder="请输入"
+          />
+        </el-form-item>
+        <el-form-item label="备注:">
+          <el-input
+            v-model="ProjectformData.remark"
+            clearable
+            placeholder="请输入"
+          />
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="closeDialogProject">取 消</el-button>
+          <el-button type="primary" @click="enterDialogProject">
+            确 定
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
+    <el-dialog
+      v-model="dialogFormVisibleMember"
+      :before-close="closeDialogMember"
+      title="弹窗操作"
+    >
+      <el-form
+        :model="formDataMember"
+        label-position="right"
+        label-width="80px"
+      >
+        <el-form-item label="手机号:">
+          <el-input
+            v-model.number="formDataMember.phone"
+            clearable
+            placeholder="请输入"
+          />
+        </el-form-item>
+        <el-form-item label="身份:">
+          <el-select
+            v-model="formDataMember.identify"
+            placeholder="请选择"
+            style="width: 100%"
+            clearable
+          >
+            <el-option
+              v-for="(item, key) in teamIdentifyOptions"
+              :key="key"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button size="small" @click="closeDialogMember">取 消</el-button>
+          <el-button
+            size="small"
+            type="primary"
+            @click="enterDialogMember(formDataMember.phone)"
+          >
+            确 定
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
+    <el-dialog
+      v-model="dialogFormVisibleTeacher"
+      :before-close="closeDialogTeacher"
+      title="弹窗操作"
+    >
+      <el-form :model="formDataTeacher" label-position="right">
+        <el-form-item label="老师id:">
+          <el-select
+            v-model="formDataTeacher.tId"
+            class="m-2"
+            placeholder="Select"
+            size="large"
+          >
+            <el-option
+              v-for="item in TeachersOption"
+              :key="item.ID"
+              :label="item.realName"
+              :value="item.ID"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button size="small" @click="closeDialogTeacher">取 消</el-button>
+          <el-button size="small" type="primary" @click="enterDialogTeacher">
+            确 定
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
+    <el-dialog
+      v-model="dialogFormVisibleAchievement"
+      :before-close="closeDialogAchievement"
+      title="弹窗操作"
+      destroy-on-close
+    >
+      <el-form
+        :model="formDataAchievement"
+        label-position="right"
+        label-width="80px"
+      >
+        <el-form-item label="赛事级别:">
+          <el-select
+            v-model="formDataAchievement.match"
+            placeholder="请选择"
+            style="width: 100%"
+            clearable
+          >
+            <el-option
+              v-for="(item, key) in levelOptions"
+              :key="key"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="获奖级别:">
+          <el-select
+            v-model="formDataAchievement.rank"
+            placeholder="请选择"
+            style="width: 100%"
+            clearable
+          >
+            <el-option
+              v-for="(item, key) in rankOptions"
+              :key="key"
+              :label="item.label"
+              :value="item.value"
+            />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="备注:">
+          <el-input
+            v-model="formDataAchievement.remark"
+            clearable
+            placeholder="请输入"
+          />
+        </el-form-item>
+        <el-form-item label="成果附件:">
+          <ReUpload
+            @uploadURL="GetAchievementFile"
+            style="width: 100%"
+          ></ReUpload>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button size="small" @click="closeDialogAchievement">
+            取 消
+          </el-button>
+          <el-button
+            size="small"
+            type="primary"
+            @click="enterDialogAchievement"
+            :disabled="formDataAchievement.urlId == 0"
+          >
+            确 定
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 

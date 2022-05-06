@@ -1,12 +1,10 @@
 import { storageLocal } from "/@/utils/storage/index";
 import { ref } from "vue";
-import type { CascaderOption } from "element-plus";
-import { getComSelectList } from "/@/api/competition";
 import { EntryInfo } from "./type";
 import { UserBaseInfo } from "/@/views/base";
 import { ElMessageBox, ElMessage } from "element-plus";
-import { getDictFunc, filterDict } from "/@/utils/format";
-//获取手机号
+import { getDictFunc } from "/@/utils/format";
+import { GetCompetitionTimeList } from "/@/api/pre_home";
 const userinfo: UserBaseInfo = storageLocal.getItem("Info");
 const uid = ref(userinfo.ID);
 //参赛表的表单
@@ -16,11 +14,7 @@ export const entry = ref<EntryInfo>({
     uId: uid.value,
     identify: 1
   },
-  cmpId: 0,
-  project: {
-    projectName: "",
-    introduction: ""
-  }
+  cmpId: 0
 });
 export const EntryInit = () => {
   entry.value = {
@@ -29,11 +23,7 @@ export const EntryInit = () => {
       uId: uid.value,
       identify: 1
     },
-    cmpId: 0,
-    project: {
-      projectName: "",
-      introduction: ""
-    }
+    cmpId: 0
   };
 };
 //参赛表的表单规则
@@ -45,43 +35,19 @@ export const entryRules = ref({
     { required: true, message: "Please input Activity name", trigger: "blur" }
   ]
 });
-export const isProject = ref(false);
-
-//与联级选择相关
-export const cascaderOptions = ref([] as CascaderOption[]);
-//联级选择器改变
-export const cascaderChange = value => {
-  console.log(
-    "%c 🥘 value: ",
-    "font-size:20px;background-color: #6EC1C2;color:#fff;",
-    value
-  );
-  entry.value.cmpId = value[2];
-};
+export const options = ref([]);
 //获取比赛信息树形数据
 export const get_com_selectList = async () => {
-  const data: any = await getComSelectList();
+  const data = await GetCompetitionTimeList({
+    page: 1,
+    pageSize: 20
+  });
   console.log(
     "%c 🥩 data: ",
     "font-size:20px;background-color: #465975;color:#fff;",
     data
   );
-  cascaderOptions.value = data.data;
-  for (let i = 0; i < cascaderOptions.value.length; i++) {
-    for (let j = 0; j < cascaderOptions.value[i].children.length; j++) {
-      cascaderOptions.value[i].children[j].label += "届";
-      for (
-        let k = 0;
-        k < cascaderOptions.value[i].children[j].children.length;
-        k++
-      ) {
-        cascaderOptions.value[i].children[j].children[k].label = filterDict(
-          Number(cascaderOptions.value[i].children[j].children[k].label),
-          levelOptions.value
-        );
-      }
-    }
-  }
+  options.value = data.data.list;
 };
 
 export const levelOptions = ref([]);

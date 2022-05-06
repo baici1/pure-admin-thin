@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n";
 import { useNav } from "../hooks/nav";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import Search from "./search/index.vue";
 import Notice from "./notice/index.vue";
 import mixNav from "./sidebar/mixNav.vue";
@@ -14,6 +14,7 @@ import screenfull from "../components/screenfull/index.vue";
 import globalization from "/@/assets/svg/globalization.svg?component";
 
 const route = useRoute();
+const router = useRouter();
 const { locale, t } = useI18n();
 const instance =
   getCurrentInstance().appContext.config.globalProperties.$storage;
@@ -43,6 +44,9 @@ function translationEn() {
   instance.locale = { locale: "en" };
   locale.value = "en";
 }
+const auth_update = async () => {
+  router.push("/info/update");
+};
 </script>
 
 <template>
@@ -101,8 +105,13 @@ function translationEn() {
               <IconifyIconOffline
                 icon="logout-circle-r-line"
                 style="margin: 5px"
-              />{{ t("buttons.hsLoginOut") }}</el-dropdown-item
-            >
+              />
+              {{ t("buttons.hsLoginOut") }}
+            </el-dropdown-item>
+            <el-dropdown-item @click="auth_update">
+              <IconifyIconOffline icon="user" style="margin: 5px" />
+              {{ t("buttons.hsOwnCenter") }}
+            </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>

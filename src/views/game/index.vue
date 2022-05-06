@@ -6,16 +6,22 @@ import {
   entryList,
   get_all_game_info,
   isload,
-  rankOptions,
   setOptions,
   identifyOptions,
-  levelOptions,
-  competitionStatusOptions
+  competitionTypeOptions,
+  getGameProject,
+  getGameMember
 } from "./utils/index";
 import { dialogVisible, handleClose } from "./utils/editor";
-import { checkComStatus, filterDict } from "/@/utils/format";
+import { filterDict } from "/@/utils/format";
 import editorVue from "./editor.vue";
-get_all_game_info();
+const init = async () => {
+  await get_all_game_info();
+  await getGameProject();
+  await getGameMember();
+};
+init();
+
 const router = useRouter();
 const ToDetail = id => {
   router.push({ name: "gameDetail", params: { id: id as number } });
@@ -58,9 +64,18 @@ setOptions();
                 </el-tooltip>
               </template>
               <a-descriptions title="参赛表" layout="vertical">
+                <a-descriptions-item label="届数">
+                  {{ item.competition.year }}
+                </a-descriptions-item>
                 <a-descriptions-item label="比赛名">
-                  {{ item.competition.base_info.cName }}-{{
-                    filterDict(item.competition.level, levelOptions)
+                  {{ item.competition.base_info.cName }}
+                </a-descriptions-item>
+                <a-descriptions-item label="比赛类型">
+                  {{
+                    filterDict(
+                      item.competition.base_info.cType,
+                      competitionTypeOptions
+                    )
                   }}
                 </a-descriptions-item>
                 <a-descriptions-item label="队伍名">
@@ -69,28 +84,9 @@ setOptions();
                 <a-descriptions-item label="项目名">
                   {{ item.pId == 0 ? "无" : item.project?.projectName }}
                 </a-descriptions-item>
-                <a-descriptions-item label="当前进度">
-                  <el-tag>{{
-                    filterDict(
-                      checkComStatus(
-                        item.competition.startTime,
-                        item.competition.endTime,
-                        item.competition.rStartTime,
-                        item.competition.rEndTime
-                      ),
-                      competitionStatusOptions
-                    )
-                  }}</el-tag>
-                </a-descriptions-item>
-                <a-descriptions-item label="获奖情况">
-                  {{ filterDict(item.rank, rankOptions) }}
-                </a-descriptions-item>
-                <a-descriptions-item label="获奖名称">
-                  {{ item.achName.length == 0 ? "暂无" : item.achName }}
-                </a-descriptions-item>
               </a-descriptions>
               <a-card-meta
-                :title="filterDict(item.status[0].identify, identifyOptions)"
+                :title="filterDict(item.Members?.identify, identifyOptions)"
               >
                 <template #avatar>
                   <a-avatar

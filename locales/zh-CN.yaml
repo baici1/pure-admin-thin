@@ -18,6 +18,7 @@ buttons:
   hscloseRightTabs: 关闭右侧标签页
   hscloseOtherTabs: 关闭其他标签页
   hscloseAllTabs: 关闭全部标签页
+  hsOwnCenter: 个人中心
 menus:
   hshome: 首页
   hslogin: 登陆
