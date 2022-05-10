@@ -12,7 +12,6 @@ import {
   loadingMore,
   loadMore,
   setOptions,
-  levelOptions,
   competitionTypeOptions,
   competitionStatusOptions
 } from "./utils/index";
@@ -43,7 +42,7 @@ setOptions();
             >
               <el-menu-item index="0">全部</el-menu-item>
               <el-menu-item
-                v-for="(item, index) of competitionStatusOptions"
+                v-for="(item, index) of competitionTypeOptions"
                 :key="item.value"
                 :index="(index + 1).toString()"
                 >{{ item.label }}
@@ -93,16 +92,11 @@ setOptions();
                             style="margin-left: 5px"
                             >{{
                               filterDict(
-                                checkComStatus(
-                                  item.startTime,
-                                  item.endTime,
-                                  item.rStartTime,
-                                  item.rEndTime
-                                ),
+                                checkComStatus(item.startTime, item.endTime),
                                 competitionStatusOptions
                               )
-                            }}</el-tag
-                          >
+                            }}
+                          </el-tag>
                           <el-tag
                             type="info"
                             size="small"
@@ -112,13 +106,7 @@ setOptions();
                                 item.base_info.cType,
                                 competitionTypeOptions
                               )
-                            }}类赛事</el-tag
-                          >
-                          <el-tag
-                            type="info"
-                            size="small"
-                            style="margin-left: 5px"
-                            >{{ filterDict(item.level, levelOptions) }}</el-tag
+                            }}</el-tag
                           >
                         </a>
                         <div>
@@ -213,6 +201,20 @@ setOptions();
       border-radius: 5px;
     }
   }
+}
+
+.layout-theme-default
+  body[layout="vertical"]
+  .el-menu--horizontal
+  .el-menu-item.is-active {
+  color: #000000 !important;
+}
+
+.layout-theme-default
+  body[layout="vertical"]
+  .el-menu--horizontal
+  .el-menu-item:hover {
+  color: #000000 !important;
 }
 
 .game-extra {

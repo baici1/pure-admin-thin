@@ -75,6 +75,26 @@ const remainingRouter = [
     }
   },
   {
+    path: "/recruit/all",
+    name: "PreRecurit",
+    component: () => import("/@/views/pre_recruit/index.vue"),
+    meta: {
+      title: $t("menus.hsRecruitDsplay"),
+      showLink: false,
+      i18n: true
+    }
+  },
+  {
+    path: "/recruit/detail/:id",
+    name: "PreRecuritDetail",
+    component: () => import("/@/views/pre_recruit/detail/index.vue"),
+    meta: {
+      title: $t("menus.hsRecruitDsplay"),
+      showLink: false,
+      i18n: true
+    }
+  },
+  {
     path: "/redirect",
     component: Layout,
     meta: {

@@ -1,4 +1,5 @@
 import { File } from "./file";
+import { StudentInfo } from "./user";
 export interface Entry {
   ID: number;
   CreatedAt: string;
@@ -7,7 +8,7 @@ export interface Entry {
   pId: number;
   competition: Competition;
   project?: Project;
-  Members?: Member;
+  member?: Member;
 }
 
 export interface ProjectInfo {
@@ -45,6 +46,7 @@ export interface Member {
   formId: number;
   uId: number;
   identify: number;
+  base_info?: StudentInfo;
   order?: number;
   phone?: string;
   name?: string;

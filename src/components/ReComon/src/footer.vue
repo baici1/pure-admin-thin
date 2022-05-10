@@ -23,6 +23,7 @@
 
 <style scoped lang="scss">
 .footer {
+  height: auto;
   color: #979797;
   padding: 20px 0px 10px;
 }

@@ -12,6 +12,9 @@ const handleSelect = (key: string, keyPath: string[]) => {
   if (key == "3") {
     router.push("/list");
   }
+  if (key == "5") {
+    router.push("/recruit/all");
+  }
   if (key == "4") {
     router.push("/welcome");
   }
@@ -39,6 +42,7 @@ const props = defineProps({
         <el-menu-item index="1">首页</el-menu-item>
         <el-menu-item index="2">竞赛</el-menu-item>
         <el-menu-item index="3">通知</el-menu-item>
+        <el-menu-item index="5">招聘</el-menu-item>
         <el-menu-item index="4">管理中心</el-menu-item>
       </el-menu>
     </el-col>

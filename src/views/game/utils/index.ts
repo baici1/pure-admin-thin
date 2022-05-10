@@ -2,11 +2,7 @@ import { ref } from "vue";
 import { storageLocal } from "/@/utils/storage/index";
 import { UserBaseInfo } from "/@/views/base";
 import { Entry } from "/@/api/model/game";
-import {
-  getAllGameInfo,
-  findProjectInfo,
-  getEntryMemberList
-} from "/@/api/game";
+import { getAllGameInfo } from "/@/api/game";
 import { getDictFunc } from "/@/utils/format";
 export const greetings = ref("参赛表汇总");
 
@@ -27,6 +23,11 @@ export const get_all_game_info = async () => {
     data
   );
   entryList.value = data.data;
+  console.log(
+    "%c 🍐 entryList.value: ",
+    "font-size:20px;background-color: #42b983;color:#fff;",
+    entryList.value
+  );
   isload.value = false;
 };
 export const isload = ref(true);
@@ -46,32 +47,4 @@ export const setOptions = async () => {
   competitionTypeOptions.value = await getDictFunc("competitionType");
   competitionStatusOptions.value = await getDictFunc("competitionStatus");
   teamIdentifyOptions.value = await getDictFunc("teamIdentify");
-};
-
-export const getGameProject = async () => {
-  isload.value = true;
-  for (const item of entryList.value) {
-    const res = await findProjectInfo({ ID: item.pId });
-    if (res.code == 0) {
-      item.project = res.data.reprojectInfo;
-    }
-  }
-  isload.value = false;
-};
-
-export const getGameMember = async () => {
-  isload.value = true;
-  for (const item of entryList.value) {
-    const res = await getEntryMemberList({
-      page: 1,
-      pageSize: 10,
-      formId: item.ID
-    });
-    if (res.code == 0) {
-      item.Members = res.data.list.filter(i => {
-        return i.formId == item.ID;
-      })[0];
-    }
-  }
-  isload.value = false;
 };

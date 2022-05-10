@@ -6,14 +6,14 @@ import { getDictFunc } from "/@/utils/format";
 interface param {
   page: number;
   pageSize: number;
-  status: number;
+  ctype: number;
   search: string;
 }
 // 获取文章列表
 export const comParams = ref({
   page: 1,
   pageSize: 10,
-  status: 0,
+  ctype: 0,
   search: ""
 } as param);
 //搜索
@@ -57,9 +57,9 @@ export const handleSelect = key => {
   );
   comParams.value.page = 1;
   if (Number(key) > 0) {
-    comParams.value.status = Number(key);
+    comParams.value.ctype = Number(key);
   } else {
-    comParams.value.status = 0;
+    comParams.value.ctype = 0;
   }
   get_competition(true);
 };

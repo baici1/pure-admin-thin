@@ -8,17 +8,14 @@ import {
   isload,
   setOptions,
   identifyOptions,
-  competitionTypeOptions,
-  getGameProject,
-  getGameMember
+  competitionTypeOptions
 } from "./utils/index";
 import { dialogVisible, handleClose } from "./utils/editor";
 import { filterDict } from "/@/utils/format";
 import editorVue from "./editor.vue";
+setOptions();
 const init = async () => {
   await get_all_game_info();
-  await getGameProject();
-  await getGameMember();
 };
 init();
 
@@ -26,7 +23,6 @@ const router = useRouter();
 const ToDetail = id => {
   router.push({ name: "gameDetail", params: { id: id as number } });
 };
-setOptions();
 </script>
 
 <template>
@@ -86,12 +82,10 @@ setOptions();
                 </a-descriptions-item>
               </a-descriptions>
               <a-card-meta
-                :title="filterDict(item.Members?.identify, identifyOptions)"
+                :title="filterDict(item.member?.identify, identifyOptions)"
               >
                 <template #avatar>
-                  <a-avatar
-                    src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                  />
+                  <a-avatar :src="item.member?.base_info.avatar" />
                 </template>
               </a-card-meta>
             </a-card>
