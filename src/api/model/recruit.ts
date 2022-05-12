@@ -1,6 +1,10 @@
 import { Competition } from "./game";
 import { StudentInfo } from "./user";
 
+export interface RecruitInfo {
+  restudentRecruit: RecruitList;
+}
+
 export interface RecruitList {
   ID: number;
   CreatedAt?: string;
