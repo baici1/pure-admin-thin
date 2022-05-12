@@ -29,3 +29,33 @@ export const SendStudentRecruitByUser = (data?: object) => {
     { data }
   );
 };
+
+export const createStudentRecruit = (data?: object) => {
+  return http.request<BaseRes>(
+    "post",
+    "http://127.0.0.1:8888/studentRecruit/createStudentRecruit",
+    { data }
+  );
+};
+
+export const deleteStudentRecruit = (data?: object) => {
+  return http.request<BaseRes>(
+    "delete",
+    "http://127.0.0.1:8888/studentRecruit/deleteStudentRecruit",
+    { data }
+  );
+};
+export const deleteStudentRecruitByIds = data => {
+  return http.request<BaseRes>(
+    "delete",
+    "http://127.0.0.1:8888/studentRecruit/deleteStudentRecruitByIds",
+    { data }
+  );
+};
+export const updateStudentRecruit = data => {
+  return http.request<BaseRes>(
+    "put",
+    "http://127.0.0.1:8888/studentRecruit/updateStudentRecruit",
+    { data }
+  );
+};

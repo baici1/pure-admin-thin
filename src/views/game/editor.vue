@@ -44,12 +44,7 @@ const commit = async (formEl: FormInstance | undefined) => {
           <el-input v-model="entry.name" placeholder="Please input" />
         </el-form-item>
         <el-form-item label="比赛" prop="cmpId">
-          <el-select
-            v-model="entry.cmpId"
-            class="m-2"
-            placeholder="Select"
-            size="large"
-          >
+          <el-select v-model="entry.cmpId" class="ml-2" placeholder="Select">
             <el-option
               v-for="item in options"
               :key="item.ID"

@@ -9,21 +9,21 @@ const userinfo: UserBaseInfo = storageLocal.getItem("Info");
 const uid = ref(userinfo.ID);
 //参赛表的表单
 export const entry = ref<EntryInfo>({
-  name: "",
+  name: undefined,
   status: {
     uId: uid.value,
     identify: 1
   },
-  cmpId: 0
+  cmpId: undefined
 });
 export const EntryInit = () => {
   entry.value = {
-    name: "",
+    name: undefined,
     status: {
       uId: uid.value,
       identify: 1
     },
-    cmpId: 0
+    cmpId: undefined
   };
 };
 //参赛表的表单规则
@@ -36,7 +36,7 @@ export const entryRules = ref({
   ]
 });
 export const options = ref([]);
-//获取比赛信息树形数据
+//获取比赛信息数据
 export const get_com_selectList = async () => {
   const data = await GetCompetitionTimeList({
     page: 1,
