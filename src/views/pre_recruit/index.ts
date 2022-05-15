@@ -4,7 +4,7 @@ import { getStudentRecruitList } from "/@/api/recruit";
 //===============学生招聘区域============
 export const pageStu = ref(1);
 export const totalStu = ref(0);
-export const pageSizeStu = ref(10);
+export const pageSizeStu = ref(20);
 export const searchInfoStu = ref("");
 export const tableDataStu = ref<Array<RecruitList>>([]);
 

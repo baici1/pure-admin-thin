@@ -16,8 +16,8 @@ init();
 </script>
 
 <template>
-  <div>
-    <el-container>
+  <div style="height: 100%">
+    <el-container style="height: 100%">
       <el-header class="p-0 border-solid border">
         <ReHeader :index="5" />
       </el-header>
@@ -47,9 +47,7 @@ init();
                   </el-row>
                 </div>
               </template>
-
-              招聘 两块部分 1.块部分是学生的组队招聘卡片
-              <el-row>
+              <el-row :gutter="30">
                 <el-col
                   :span="4"
                   v-for="(item, index) in tableDataStu"
@@ -108,7 +106,7 @@ init();
           </el-col>
         </el-row>
       </el-main>
-      <el-footer style="padding: 0; margin: 0">
+      <el-footer style="padding: 0; margin: 0" height="160px">
         <ReFooter></ReFooter>
       </el-footer>
     </el-container>

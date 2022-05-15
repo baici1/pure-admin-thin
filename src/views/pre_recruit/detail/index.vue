@@ -63,13 +63,9 @@ findRecruitByID(route.params.id);
             <el-col :span="14">
               <el-card>
                 <p class="text-xl font-semibold">职责：</p>
-                <div class="mt-5 mb-5">
-                  {{ recruitData.introduce }}
-                </div>
+                <div class="mt-5 mb-5" v-html="recruitData.introduce"></div>
                 <p class="text-xl font-semibold">要求：</p>
-                <div class="mt-5 mb-5">
-                  {{ recruitData.need }}
-                </div>
+                <div class="mt-5 mb-5" v-html="recruitData.need"></div>
               </el-card>
             </el-col>
           </el-row>

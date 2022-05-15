@@ -38,6 +38,7 @@ import Monitor from "@iconify-icons/ep/monitor";
 import Search from "@iconify-icons/ep/search";
 import pictureIcon from "@iconify-icons/ep/picture";
 import filesIcon from "@iconify-icons/ep/files";
+import deleteIcon from "@iconify-icons/ep/delete";
 
 addIcon("check", Check);
 addIcon("menu", Menu);
@@ -75,6 +76,7 @@ addIcon("search", Search);
 addIcon("picture", pictureIcon);
 addIcon("files", filesIcon);
 addIcon("soccer", soccerIcon);
+addIcon("delete", deleteIcon);
 // remixicon
 import arrowRightSLine from "@iconify-icons/ri/arrow-right-s-line";
 import arrowLeftSLine from "@iconify-icons/ri/arrow-left-s-line";

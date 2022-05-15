@@ -17,15 +17,16 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button
-            size="small"
-            type="primary"
-            icon="search"
-            @click="onSubmit"
-          >
+          <el-button size="small" type="primary" @click="onSubmit">
+            <template #icon>
+              <iconify-icon-offline icon="search"></iconify-icon-offline>
+            </template>
             查询
           </el-button>
-          <el-button size="small" icon="refresh" @click="onReset">
+          <el-button size="small" @click="onReset">
+            <template #icon>
+              <iconify-icon-offline icon="refresh-right"></iconify-icon-offline>
+            </template>
             重置
           </el-button>
         </el-form-item>
@@ -33,7 +34,10 @@
     </div>
     <div class="gva-table-box">
       <div class="gva-btn-list">
-        <el-button size="small" type="primary" icon="plus" @click="openDialog">
+        <el-button size="small" type="primary" @click="openDialog">
+          <template #icon>
+            <iconify-icon-offline icon="plus"></iconify-icon-offline>
+          </template>
           新增
         </el-button>
         <el-popover v-model:visible="deleteVisible" placement="top" width="160">
@@ -48,12 +52,14 @@
           </div>
           <template #reference>
             <el-button
-              icon="delete"
               size="small"
               style="margin-left: 10px"
               :disabled="!multipleSelection.length"
               @click="deleteVisible = true"
             >
+              <template #icon>
+                <iconify-icon-offline icon="delete"></iconify-icon-offline>
+              </template>
               删除
             </el-button>
           </template>
@@ -82,31 +88,35 @@
             }}
           </template>
         </el-table-column>
-        <el-table-column
-          align="left"
-          label="介绍"
-          prop="introduce"
-          width="120"
-        />
+
         <el-table-column align="left" label="人数" prop="num" width="120" />
-        <el-table-column align="left" label="要求" prop="need" width="120" />
+        <el-table-column align="left" label="要求" prop="need" width="300">
+          <template #default="scope">
+            <div v-html="scope.row.need"></div>
+          </template>
+        </el-table-column>
+        <el-table-column align="left" label="介绍" prop="introduce" width="300">
+          <template #default="scope">
+            <div v-html="scope.row.introduce"></div>
+          </template>
+        </el-table-column>
         <el-table-column align="left" label="按钮组">
           <template #default="scope">
             <el-button
               type="text"
-              icon="edit"
               size="small"
               class="table-button"
               @click="updateStudentRecruitFunc(scope.row)"
             >
+              <template #icon>
+                <iconify-icon-offline icon="edit"></iconify-icon-offline>
+              </template>
               变更
             </el-button>
-            <el-button
-              type="text"
-              icon="delete"
-              size="small"
-              @click="deleteRow(scope.row)"
-            >
+            <el-button type="text" size="small" @click="deleteRow(scope.row)">
+              <template #icon>
+                <iconify-icon-offline icon="delete"></iconify-icon-offline>
+              </template>
               删除
             </el-button>
           </template>
@@ -143,13 +153,7 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item label="介绍:">
-          <el-input
-            v-model="formData.introduce"
-            clearable
-            placeholder="请输入"
-          />
-        </el-form-item>
+
         <el-form-item label="人数:">
           <el-input
             v-model.number="formData.num"
@@ -157,8 +161,23 @@
             placeholder="请输入"
           />
         </el-form-item>
+        <el-form-item label="介绍:">
+          <el-input
+            v-model="formData.introduce"
+            clearable
+            :rows="3"
+            type="textarea"
+            placeholder="请输入"
+          />
+        </el-form-item>
         <el-form-item label="要求:">
-          <el-input v-model="formData.need" clearable placeholder="请输入" />
+          <el-input
+            v-model="formData.need"
+            clearable
+            placeholder="请输入"
+            :rows="4"
+            type="textarea"
+          />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -194,13 +213,17 @@ import { timeFormatYMD } from "/@/utils/format";
 import { ElMessage, ElMessageBox } from "element-plus";
 import { GetCompetitionTimeList } from "/@/api/pre_home";
 import { ref } from "vue";
-
+import { storageLocal } from "/@/utils/storage/index";
+import { UserBaseInfo } from "/@/views/base";
+//获取用户id
+const userinfo: UserBaseInfo = storageLocal.getItem("Info");
+const uid = ref(userinfo.ID);
 // 自动化生成的字典（可能为空）以及字段
 const formData = ref({
   title: "",
-  comId: 0,
+  comId: undefined,
   entryId: 0,
-  uId: 0,
+  uId: uid.value,
   introduce: "",
   num: 0,
   need: ""
@@ -242,7 +265,8 @@ const getTableData = async () => {
   const table = await getStudentRecruitList({
     page: page.value,
     pageSize: pageSize.value,
-    ...searchInfo.value
+    ...searchInfo.value,
+    uId: uid.value
   });
   if (table.code === 0) {
     tableData.value = table.data.list;
@@ -353,9 +377,9 @@ const closeDialog = () => {
   dialogFormVisible.value = false;
   formData.value = {
     title: "",
-    comId: 0,
+    comId: undefined,
     entryId: 0,
-    uId: 0,
+    uId: uid.value,
     introduce: "",
     num: 0,
     need: ""
@@ -363,6 +387,8 @@ const closeDialog = () => {
 };
 // 弹窗确定
 const enterDialog = async () => {
+  formData.value.need = preText(formData.value.need);
+  formData.value.introduce = preText(formData.value.introduce);
   let res;
   switch (type.value) {
     case "create":
@@ -401,6 +427,12 @@ const get_com_selectList = async () => {
   options.value = data.data.list;
 };
 get_com_selectList();
+function preText(pretext) {
+  return pretext
+    .replace(/\r\n/g, "<br/>")
+    .replace(/\n/g, "<br/>")
+    .replace(/\s/g, "&nbsp;");
+}
 </script>
 
 <style lang="scss" scoped>
