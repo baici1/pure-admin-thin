@@ -91,7 +91,7 @@ findRecruitByID(route.params.id);
       <el-form
         ref="ruleFormRef"
         :rules="rules"
-        :model="formData"
+        :model="formData.producer"
         label-position="right"
         label-width="80px"
       >

@@ -64,6 +64,7 @@ import {
   ElResult,
   ElSteps,
   ElStep,
+  ElAutocomplete,
   // 指令
   ElLoading,
   ElInfiniteScroll
@@ -135,6 +136,7 @@ const components = [
   ElSteps,
   ElStep,
   ElCheckbox,
+  ElAutocomplete,
   ElCollapseItem,
   ElTreeV2
 ];

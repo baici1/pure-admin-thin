@@ -7,12 +7,61 @@ import {
   tableDataStu,
   getTableDataStu,
   handleCurrentChangeStu,
-  searchInfoStu
+  get_competition_time_list,
+  times
 } from "./index";
+import { ref, onMounted } from "vue";
 const init = async () => {
   getTableDataStu();
 };
 init();
+//==================学生比赛搜索区域================
+interface RestaurantItem {
+  value: number;
+  label: string;
+}
+const comID = ref(undefined);
+
+const restaurants = ref<RestaurantItem[]>([]);
+const querySearch = (queryString: string, cb: any) => {
+  const results = queryString
+    ? restaurants.value.filter(createFilter(queryString))
+    : restaurants.value;
+  // call callback function to return suggestions
+  cb(results);
+};
+const createFilter = (queryString: string) => {
+  return (restaurant: RestaurantItem) => {
+    return (
+      restaurant.label.toLowerCase().indexOf(queryString.toLowerCase()) === 0
+    );
+  };
+};
+const loadAll = () => {
+  get_competition_time_list();
+  let lists = [] as Array<RestaurantItem>;
+  for (let item of times.value) {
+    lists.push({
+      value: item.ID,
+      label: item?.base_info.cName
+    } as RestaurantItem);
+  }
+  console.log(
+    "%c 🍓 lists: ",
+    "font-size:20px;background-color: #E41A6A;color:#fff;",
+    lists
+  );
+  return lists;
+};
+
+const handleSelect = (item: RestaurantItem) => {
+  getTableDataStu(item.value);
+};
+
+onMounted(() => {
+  let data = loadAll();
+  restaurants.value.push(...data);
+});
 </script>
 
 <template>
@@ -30,20 +79,27 @@ init();
                   <el-row>
                     <el-col :span="3"> <span>学生组队</span></el-col>
                     <el-col :span="10">
-                      <el-input
-                        v-model="searchInfoStu"
-                        placeholder="Please input"
+                      <el-autocomplete
+                        v-model="comID"
+                        :fetch-suggestions="querySearch"
+                        clearable
+                        class="inline-input w-100"
+                        placeholder="Please Input"
+                        @select="handleSelect"
+                        value-key="label"
+                        highlight-first-item
                       >
                         <template #append>
-                          <el-button>
+                          <el-button @click="init">
                             <template #icon>
                               <iconify-icon-offline
                                 icon="search"
                               ></iconify-icon-offline>
                             </template>
                           </el-button>
-                        </template> </el-input
-                    ></el-col>
+                        </template>
+                      </el-autocomplete>
+                    </el-col>
                   </el-row>
                 </div>
               </template>

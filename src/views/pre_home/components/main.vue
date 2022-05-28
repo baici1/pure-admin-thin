@@ -1,10 +1,19 @@
 <script setup lang="ts">
 import { ReSvgIcon } from "/@/components/ReIcon/index";
-import { get_show_swipers, swipers } from "../utils/homeBody";
+import {
+  get_show_swipers,
+  swipers,
+  get_show_swipers_student,
+  get_show_swipers_teacher,
+  swipersTeacher,
+  swipersStudent
+} from "../utils/homeBody";
 import newsVue from "./news.vue";
 import timelineVue from "./timeline.vue";
 const init = async () => {
-  await get_show_swipers(1);
+  await get_show_swipers();
+  await get_show_swipers_teacher();
+  await get_show_swipers_student();
 };
 init();
 </script>
@@ -51,9 +60,17 @@ init();
         <div class="text-center mb-20px text-2xl">优秀教师</div>
       </el-col>
       <el-col :xl="16" :lg="16" :md="16" :xs="24">
-        <el-carousel :interval="4000" type="card" height="200px">
-          <el-carousel-item v-for="item in 6" :key="item">
-            <h3>{{ item }}</h3>
+        <el-carousel :interval="4000" type="card" height="320px">
+          <el-carousel-item
+            v-for="(item, index) in swipersTeacher"
+            :key="index"
+            class="h-300px"
+          >
+            <el-image :src="item.swiperPicture">
+              <template #error>
+                <ReSvgIcon name="undraw_page_not_found_re_e9o6"></ReSvgIcon>
+              </template>
+            </el-image>
           </el-carousel-item>
         </el-carousel>
       </el-col>
@@ -63,9 +80,17 @@ init();
         <div class="text-center mb-20px text-2xl">优秀团队</div>
       </el-col>
       <el-col :xl="16" :lg="16" :md="16" :xs="24">
-        <el-carousel :interval="4000" type="card" height="200px">
-          <el-carousel-item v-for="item in 6" :key="item">
-            <h3>{{ item }}</h3>
+        <el-carousel :interval="4000" type="card" height="320px">
+          <el-carousel-item
+            v-for="(item, index) in swipersStudent"
+            :key="index"
+            class="h-300px"
+          >
+            <el-image :src="item.swiperPicture" fit="cover">
+              <template #error>
+                <ReSvgIcon name="undraw_page_not_found_re_e9o6"></ReSvgIcon>
+              </template>
+            </el-image>
           </el-carousel-item>
         </el-carousel>
       </el-col>

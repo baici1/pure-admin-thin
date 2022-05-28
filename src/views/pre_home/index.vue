@@ -9,8 +9,8 @@ setOptions();
 <template>
   <div>
     <el-container>
-      <el-header class="p-0 border-solid border"
-        ><ReHeader :index="1"
+      <el-header class="p-0 border-solid border">
+        <ReHeader :index="1"
       /></el-header>
       <el-main class="p-0 bg-[rgba(211,220,230,0.2)]">
         <mainVue></mainVue>

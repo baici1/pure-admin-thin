@@ -44,7 +44,11 @@ export const formData = ref({
     wechat: undefined,
     introduction: undefined
   },
-  comsumer: recruitData.value
+  comsumer: {
+    ID: undefined,
+    email: undefined,
+    key: undefined
+  }
 });
 
 // 弹窗控制标记
@@ -72,7 +76,11 @@ export const closeDialog = () => {
       wechat: undefined,
       introduction: undefined
     },
-    comsumer: recruitData.value
+    comsumer: {
+      ID: undefined,
+      email: undefined,
+      key: undefined
+    }
   };
 };
 // 弹窗确定
@@ -80,6 +88,11 @@ export const enterDialog = async (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   await formEl.validate(async valid => {
     if (valid) {
+      formData.value.comsumer = {
+        ID: recruitData.value.ID,
+        email: recruitData.value.member.email,
+        key: "student"
+      };
       const res = await SendStudentRecruitByUser(formData.value);
       if (res.code === 0) {
         ElMessage({

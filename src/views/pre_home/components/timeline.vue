@@ -17,6 +17,15 @@ const get_competition_time_list = async () => {
     data
   );
   times.value = data.data.list;
+  for (let item of times.value) {
+    if (checkComStatus(item.startTime, item.endTime) == 1) {
+      item.type = "success";
+    } else if (checkComStatus(item.startTime, item.endTime) == 2) {
+      item.type = "primary";
+    } else {
+      item.type = "warning";
+    }
+  }
 };
 get_competition_time_list();
 </script>
@@ -30,6 +39,7 @@ get_competition_time_list();
         :timestamp="`${timeFormatYMD(time.startTime)}~${timeFormatYMD(
           time.endTime
         )}`"
+        :type="time.type"
       >
         <el-tooltip
           class="box-item"

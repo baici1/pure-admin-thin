@@ -37,6 +37,7 @@ export interface TimeList {
   rStartTime: string;
   rEndTime: string;
   base_info: Base_info;
+  type?: string;
 }
 
 export interface Base_info {

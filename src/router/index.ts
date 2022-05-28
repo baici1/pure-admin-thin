@@ -48,7 +48,9 @@ const whiteList = [
   "/page/detail/:id",
   "/preGame/home",
   "/display/user/:id",
-  "/display/game/:id"
+  "/display/game/:id",
+  "/recruit/all",
+  "/recruit/detail/:id"
 ];
 
 router.beforeEach((to: toRouteType, _from, next) => {
@@ -173,7 +175,7 @@ router.beforeEach((to: toRouteType, _from, next) => {
     }
   } else {
     if (to.path !== "/login") {
-      const regu = /^\/[(page)(display)]/;
+      const regu = /^\/[(page)(display)(recruit)]/;
       console.log(regu.test(to.path));
       console.log(
         "%c 🍓 to.path: ",
