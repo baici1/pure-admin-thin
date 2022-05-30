@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import { ReSearch } from "/@/components/ReSearch/index";
+import useBoolean from "./useBoolean";
 const router = useRouter();
 // const activeIndex = ref("1");
 const handleSelect = (key: string, keyPath: string[]) => {
@@ -26,6 +28,11 @@ const props = defineProps({
     default: 1
   }
 });
+
+const { bool: show, toggle } = useBoolean();
+function handleSearch() {
+  toggle();
+}
 </script>
 
 <template>
@@ -46,10 +53,16 @@ const props = defineProps({
         <el-menu-item index="4">管理中心</el-menu-item>
       </el-menu>
     </el-col>
+    <el-col :span="4">
+      <div class="search-container" @click="handleSearch">
+        <IconifyIconOffline icon="search" />
+      </div>
+      <ReSearch v-model:value="show" />
+    </el-col>
   </el-row>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .layout-theme-default
   body[layout="vertical"]
   .el-menu--horizontal
@@ -62,5 +75,18 @@ const props = defineProps({
   .el-menu--horizontal
   .el-menu-item:hover {
   color: #000000 !important;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 59px;
+  width: 40px;
+  cursor: pointer;
+
+  &:hover {
+    background: #8dc1f5;
+  }
 }
 </style>

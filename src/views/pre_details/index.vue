@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { ReHeader, ReFooter } from "/@/components/ReComon";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { GetAArticle } from "/@/api/pre_home";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { timeFormatYMD, getDictFunc, filterDict } from "/@/utils/format";
 import { ArticlesItem } from "/@/api/model/pre";
 import { ElMessage } from "element-plus";
+const router = useRouter();
 // 获取id
 const route = useRoute();
 const id = route.params.id;
@@ -31,6 +32,10 @@ let get_a_article = async () => {
   }
 };
 get_a_article();
+//监听，当路由发生变化时刷新页面，解决路由跳转不刷新的问题
+watch(router.currentRoute, () => {
+  get_a_article(); //获取列表数据方法
+});
 </script>
 
 <template>
@@ -39,7 +44,7 @@ get_a_article();
       <el-header class="p-0 border-solid border"
         ><ReHeader :index="0"
       /></el-header>
-      <el-main class="p-0 bg-[rgba(211,220,230,0.2)]">
+      <el-main class="bg-[rgba(211,220,230,0.2)] pb-15">
         <el-row justify="center">
           <el-col :span="16" :xs="22">
             <div class="title">

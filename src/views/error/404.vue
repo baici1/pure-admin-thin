@@ -42,7 +42,7 @@ import noExist from "/@/assets/status/404.svg?component";
       </p>
       <el-button
         type="primary"
-        @click="$router.push('/')"
+        @click="$router.push('/pre_home')"
         v-motion
         :initial="{
           opacity: 0,

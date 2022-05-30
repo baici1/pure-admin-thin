@@ -11,7 +11,7 @@ import { BaseModel, ListModel } from "./model/base";
 export function GetShowSwiper(params?: object) {
   return http.request<BaseModel<ListModel<swiper>>>(
     "get",
-    "http://127.0.0.1:8888/swiper/getSwiperList",
+    "/swiper/getSwiperList",
     {
       params
     }
@@ -21,7 +21,7 @@ export function GetShowSwiper(params?: object) {
 export function GetSpecificArticles(params?: object) {
   return http.request<BaseModel<ListModel<ArticlesItem>>>(
     "get",
-    "http://127.0.0.1:8888/api/article/getArticleList",
+    "/api/article/getArticleList",
     {
       params
     }
@@ -30,7 +30,7 @@ export function GetSpecificArticles(params?: object) {
 export function GetCompetitionTimeList(params?: object) {
   return http.request<BaseModel<ListModel<TimeList>>>(
     "get",
-    "http://127.0.0.1:8888/api/sche/getList",
+    "/api/sche/getList",
     {
       params
     }
@@ -38,17 +38,25 @@ export function GetCompetitionTimeList(params?: object) {
 }
 
 export function GetAArticle(params?: object) {
-  return http.request<BaseModel<Page>>(
-    "get",
-    "http://127.0.0.1:8888/api/article/findArticle",
-    { params }
-  );
+  return http.request<BaseModel<Page>>("get", "/api/article/findArticle", {
+    params
+  });
 }
 
 export function GetCompetitions(params?: object) {
   return http.request<BaseModel<ListModel<CompetitionItem>>>(
     "get",
-    "http://127.0.0.1:8888/api/sche/getList",
+    "/api/sche/getList",
+    {
+      params
+    }
+  );
+}
+
+export function GetSearchArticlesByEs(params?: object) {
+  return http.request<BaseModel<ListModel<ArticlesItem>>>(
+    "get",
+    "/api/article/matchArticle",
     {
       params
     }

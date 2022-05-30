@@ -23,34 +23,22 @@ export const getVerify = (): userType => {
 // @Param data body {username:"string",password:"string"}
 // @Router /base/captcha [post]
 export const captcha = data => {
-  return http.request<BaseModel<Captcha>>(
-    "post",
-    "http://127.0.0.1:8888/base/captcha",
-    {
-      data
-    }
-  );
+  return http.request<BaseModel<Captcha>>("post", "/base/captcha", {
+    data
+  });
 };
 
 // 登录
 export const getLogin = (data: object) => {
-  return http.request<BaseModel<LoginRes>>(
-    "post",
-    "http://127.0.0.1:8888/api/user/login",
-    {
-      data
-    }
-  );
+  return http.request<BaseModel<LoginRes>>("post", "/api/user/login", {
+    data
+  });
 };
 //注册
 export const getRegister = (data: object) => {
-  return http.request<BaseRes>(
-    "post",
-    "http://127.0.0.1:8888/api/user/register",
-    {
-      data
-    }
-  );
+  return http.request<BaseRes>("post", "/api/user/register", {
+    data
+  });
 };
 // 刷新token
 export const refreshToken = (data: object) => {
@@ -64,7 +52,7 @@ export const refreshToken = (data: object) => {
 export const getStudentInfo = (params?: object) => {
   return http.request<BaseModel<RestudentInfo>>(
     "get",
-    "http://127.0.0.1:8888/api/student/findStudentInfo",
+    "/api/student/findStudentInfo",
     {
       params
     }
@@ -72,13 +60,9 @@ export const getStudentInfo = (params?: object) => {
 };
 //修改学生详情信息
 export const updateStudentInfo = (data: Object) => {
-  return http.request(
-    "put",
-    "http://127.0.0.1:8888/api/student/updateStudentInfo",
-    {
-      data
-    }
-  );
+  return http.request("put", "/api/student/updateStudentInfo", {
+    data
+  });
 };
 
 // @Tags jwt
@@ -89,27 +73,20 @@ export const updateStudentInfo = (data: Object) => {
 // @Success 200 {string} string "{"success":true,"data":{},"msg":"拉黑成功"}"
 // @Router /jwt/jsonInBlacklist [post]
 export const jsonInBlacklist = () => {
-  return http.request<BaseRes>(
-    "post",
-    "http://127.0.0.1:8888/jwt/jsonInBlacklist"
-  );
+  return http.request<BaseRes>("post", "/jwt/jsonInBlacklist");
 };
 
 export const GetIDByPhone = (params: Object) => {
-  return http.request<BaseModel<number>>(
-    "get",
-    "http://127.0.0.1:8888/api/user/findID",
-    {
-      params
-    }
-  );
+  return http.request<BaseModel<number>>("get", "/api/user/findID", {
+    params
+  });
 };
 //===============老师=================
 //获取学生详情信息
 export const findTeacherInfo = (params?: object) => {
   return http.request<BaseModel<ReteacherInfo>>(
     "get",
-    "http://127.0.0.1:8888/teacherInfo/findTeacherInfo",
+    "/teacherInfo/findTeacherInfo",
     {
       params
     }
@@ -119,7 +96,7 @@ export const findTeacherInfo = (params?: object) => {
 export const getTeacherInfoList = params => {
   return http.request<BaseModel<ListModel<TeacherInfo>>>(
     "get",
-    "http://127.0.0.1:8888/teacherInfo/getTeacherInfoList",
+    "/teacherInfo/getTeacherInfoList",
     { params }
   );
 };

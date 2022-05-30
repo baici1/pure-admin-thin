@@ -22,7 +22,7 @@ const defaultConfig: AxiosRequestConfig = {
   //     ? VITE_PROXY_DOMAIN_REAL
   //     : VITE_PROXY_DOMAIN,
   // 当前使用mock模拟请求，将baseURL制空，如果你的环境用到了http请求，请删除下面的baseURL启用上面的baseURL，并将11行、16行代码注释取消
-  baseURL: "",
+  baseURL: "http://127.0.0.1:8888", //106.12.133.12:8888
   timeout: 10000,
   headers: {
     Accept: "application/json, text/plain, */*",
@@ -212,7 +212,6 @@ function httpErrorStatusHandle(error) {
   if (error.message.includes("timeout")) message = "网络请求超时！";
   if (error.message.includes("Network"))
     message = window.navigator.onLine ? "服务端异常！" : "您断网了！";
-
   ElMessage({
     type: "error",
     message

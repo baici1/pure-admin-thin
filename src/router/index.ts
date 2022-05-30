@@ -42,15 +42,19 @@ export const router: Router = createRouter({
 
 // 路由白名单
 const whiteList = [
+  "/",
   "/login",
   "/pre_home",
   "/list",
-  "/page/detail/:id",
+  "/page/detail",
   "/preGame/home",
-  "/display/user/:id",
-  "/display/game/:id",
+  "/display/user",
+  "/display/game",
   "/recruit/all",
-  "/recruit/detail/:id"
+  "/recruit/detail",
+  "/error/403",
+  "/error/404",
+  "/error/500"
 ];
 
 router.beforeEach((to: toRouteType, _from, next) => {
@@ -170,19 +174,36 @@ router.beforeEach((to: toRouteType, _from, next) => {
           router.push(to.fullPath);
         });
       }
-
       next();
     }
   } else {
     if (to.path !== "/login") {
-      const regu = /^\/[(page)(display)(recruit)]/;
-      console.log(regu.test(to.path));
+      const regNumber = /^[\d]+$/;
+      const str = to.path.split("/");
+      console.log(
+        "%c 🍼️ str: ",
+        "font-size:20px;background-color: #4b4b4b;color:#fff;",
+        str
+      );
+      let path = "";
+      if (regNumber.test(str[str.length - 1])) {
+        if (+str[str.length - 1] == 0) {
+          next({ path: "/error/404" });
+        }
+        str.pop();
+        path = str.join("/");
+        console.log(
+          "%c 🥟 path: ",
+          "font-size:20px;background-color: #F5CE50;color:#fff;",
+          path
+        );
+      }
       console.log(
         "%c 🍓 to.path: ",
         "font-size:20px;background-color: #F5CE50;color:#fff;",
         to.path
       );
-      if (whiteList.indexOf(to.path) !== -1 || regu.test(to.path)) {
+      if (whiteList.indexOf(to.path) !== -1 || whiteList.indexOf(path) !== -1) {
         next();
       } else {
         next({ path: "/login" });

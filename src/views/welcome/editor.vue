@@ -91,7 +91,7 @@ const header = ref({
                 <el-form-item label="avatar">
                   <el-upload
                     class="avatar-uploader"
-                    action="http://127.0.0.1:8888/fileUploadAndDownload/upload"
+                    action="/fileUploadAndDownload/upload"
                     :show-file-list="false"
                     :on-success="handleAvatarSuccess"
                     :before-upload="beforeAvatarUpload"

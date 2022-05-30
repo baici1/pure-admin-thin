@@ -3,17 +3,6 @@ const Layout = () => import("/@/layout/index.vue");
 
 const remainingRouter = [
   {
-    path: "/login",
-    name: "login",
-    component: () => import("/@/views/login/login.vue"),
-    meta: {
-      title: $t("menus.hslogin"),
-      showLink: false,
-      i18n: true,
-      rank: 101
-    }
-  },
-  {
     path: "/pre_home",
     name: "PreHome",
     component: () => import("/@/views/pre_home/index.vue"),
@@ -22,6 +11,17 @@ const remainingRouter = [
       showLink: false,
       i18n: true,
       rank: 202
+    }
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("/@/views/login/login.vue"),
+    meta: {
+      title: $t("menus.hslogin"),
+      showLink: false,
+      i18n: true,
+      rank: 101
     }
   },
   {
@@ -91,6 +91,33 @@ const remainingRouter = [
     meta: {
       title: $t("menus.hsRecruitDsplay"),
       showLink: false,
+      i18n: true
+    }
+  },
+  {
+    path: "/error/403",
+    name: "403",
+    component: () => import("/@/views/error/403.vue"),
+    meta: {
+      title: $t("menus.hsfourZeroOne"),
+      i18n: true
+    }
+  },
+  {
+    path: "/error/404",
+    name: "404",
+    component: () => import("/@/views/error/404.vue"),
+    meta: {
+      title: $t("menus.hsfourZeroFour"),
+      i18n: true
+    }
+  },
+  {
+    path: "/error/500",
+    name: "500",
+    component: () => import("/@/views/error/500.vue"),
+    meta: {
+      title: $t("menus.hsFive"),
       i18n: true
     }
   },

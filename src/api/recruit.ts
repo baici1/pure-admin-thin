@@ -5,7 +5,7 @@ import { ListModel, BaseModel, BaseRes } from "./model/base";
 export const getStudentRecruitList = (params?: object) => {
   return http.request<BaseModel<ListModel<RecruitList>>>(
     "get",
-    "http://127.0.0.1:8888/api/studentRecruit/getStudentRecruitList",
+    "/api/studentRecruit/getStudentRecruitList",
     {
       params
     }
@@ -15,7 +15,7 @@ export const getStudentRecruitList = (params?: object) => {
 export const findStudentRecruitInfo = (params?: object) => {
   return http.request<BaseModel<RecruitInfo>>(
     "get",
-    "http://127.0.0.1:8888/api/studentRecruit/findStudentRecruit",
+    "/api/studentRecruit/findStudentRecruit",
     {
       params
     }
@@ -23,39 +23,31 @@ export const findStudentRecruitInfo = (params?: object) => {
 };
 
 export const SendStudentRecruitByUser = (data?: object) => {
-  return http.request<BaseRes>(
-    "post",
-    "http://127.0.0.1:8888/api/studentRecruit/send",
-    { data }
-  );
+  return http.request<BaseRes>("post", "/api/studentRecruit/send", { data });
 };
 
 export const createStudentRecruit = (data?: object) => {
-  return http.request<BaseRes>(
-    "post",
-    "http://127.0.0.1:8888/studentRecruit/createStudentRecruit",
-    { data }
-  );
+  return http.request<BaseRes>("post", "/studentRecruit/createStudentRecruit", {
+    data
+  });
 };
 
 export const deleteStudentRecruit = (data?: object) => {
   return http.request<BaseRes>(
     "delete",
-    "http://127.0.0.1:8888/studentRecruit/deleteStudentRecruit",
+    "/studentRecruit/deleteStudentRecruit",
     { data }
   );
 };
 export const deleteStudentRecruitByIds = data => {
   return http.request<BaseRes>(
     "delete",
-    "http://127.0.0.1:8888/studentRecruit/deleteStudentRecruitByIds",
+    "/studentRecruit/deleteStudentRecruitByIds",
     { data }
   );
 };
 export const updateStudentRecruit = data => {
-  return http.request<BaseRes>(
-    "put",
-    "http://127.0.0.1:8888/studentRecruit/updateStudentRecruit",
-    { data }
-  );
+  return http.request<BaseRes>("put", "/studentRecruit/updateStudentRecruit", {
+    data
+  });
 };
