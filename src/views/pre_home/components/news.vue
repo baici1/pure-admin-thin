@@ -21,9 +21,14 @@ const articles = ref([] as ArticlesItem[]);
 const get_specific_articles = async (type: number) => {
   const data = await GetSpecificArticles({
     page: 1,
-    pageSize: 3,
+    pageSize: 10,
     type: type
   });
+  console.log(
+    "%c 🍐 data: ",
+    "font-size:20px;background-color: #3F7CFF;color:#fff;",
+    data
+  );
   articles.value = data.data.list;
   isEmpty.value = false;
 };

@@ -3,13 +3,31 @@ import { ref } from "vue";
 // import { useRenderIcon } from "/@/components/ReIcon/src/hooks";
 import { GetCompetitionTimeList } from "/@/api/pre_home";
 import { TimeList } from "/@/api/model/pre";
-import { timeFormatYMD, checkComStatus, filterDict } from "/@/utils/format";
+import {
+  timeFormatYMD,
+  checkComStatus,
+  filterDict,
+  getRecentMonthToN
+} from "/@/utils/format";
 import { competitionStatusOptions } from "../utils/homeBody";
 const times = ref([] as TimeList[]);
 const get_competition_time_list = async () => {
+  let [recent, future] = getRecentMonthToN(6);
+  console.log(
+    "%c 🥞 future: ",
+    "font-size:20px;background-color: #E41A6A;color:#fff;",
+    future
+  );
+  console.log(
+    "%c 🌰 recent: ",
+    "font-size:20px;background-color: #33A5FF;color:#fff;",
+    recent
+  );
   const data = await GetCompetitionTimeList({
     page: 1,
-    pageSize: 10
+    pageSize: 10,
+    startTime: recent,
+    endTime: future
   });
   console.log(
     "%c 🌯 data: ",

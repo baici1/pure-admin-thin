@@ -15,6 +15,15 @@ export function getYear() {
   return [dayjs().startOf("year"), dayjs().endOf("year")];
 }
 
+export function getRecentMonthToN(n) {
+  const recent = dayjs();
+  const future = recent.add(n, "month");
+  return [
+    recent.format("YYYY-MM-01T00:00:00Z"),
+    future.format("YYYY-MM-01T00:00:00Z")
+  ];
+}
+
 export function timeFormat(time, format): string {
   return dayjs(time).format(format);
 }

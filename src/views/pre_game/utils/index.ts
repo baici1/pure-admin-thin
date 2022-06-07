@@ -7,37 +7,44 @@ interface param {
   page: number;
   pageSize: number;
   ctype: number;
-  search: string;
+  searchInfo: string;
 }
 // 获取文章列表
 export const comParams = ref({
   page: 1,
-  pageSize: 10,
+  pageSize: 3,
   ctype: 0,
-  search: ""
+  searchInfo: ""
 } as param);
 //搜索
 export const getSearchStr = search => {
-  comParams.value.search = search;
+  comParams.value.searchInfo = search;
   get_competition(true);
 };
 
 export const competition = ref([] as CompetitionItem[]);
 export const loading = ref(false);
 export const isMore = ref(true);
+const total = ref(undefined);
 //获取比赛信息
 export const get_competition = async (flag?: Boolean) => {
   try {
     isMore.value = true;
     loading.value = true;
     const data = await GetCompetitions(comParams.value);
+    console.log(
+      "%c 🍊 data: ",
+      "font-size:20px;background-color: #FFDD4D;color:#fff;",
+      data
+    );
+    total.value = data.data.total;
     competition.value.push(...data.data.list);
     // 判断当前菜单是否发生变化
     if (flag) {
       competition.value = data.data.list;
     }
     // 判断是否需要继续加载
-    if (competition.value.length >= data.data.total) {
+    if (competition.value.length >= total.value) {
       isMore.value = false;
     }
   } catch (error) {

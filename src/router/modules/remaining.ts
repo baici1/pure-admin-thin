@@ -100,6 +100,7 @@ const remainingRouter = [
     component: () => import("/@/views/error/403.vue"),
     meta: {
       title: $t("menus.hsfourZeroOne"),
+      showLink: false,
       i18n: true
     }
   },
@@ -109,6 +110,7 @@ const remainingRouter = [
     component: () => import("/@/views/error/404.vue"),
     meta: {
       title: $t("menus.hsfourZeroFour"),
+      showLink: false,
       i18n: true
     }
   },
@@ -118,6 +120,7 @@ const remainingRouter = [
     component: () => import("/@/views/error/500.vue"),
     meta: {
       title: $t("menus.hsFive"),
+      showLink: false,
       i18n: true
     }
   },

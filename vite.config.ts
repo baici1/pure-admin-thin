@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { resolve } from "path";
 import pkg from "./package.json";
-import { warpperEnv, regExps } from "./build";
+import { warpperEnv } from "./build";
 import { getPluginsList } from "./build/plugins";
 import { UserConfigExport, ConfigEnv, loadEnv } from "vite";
 
@@ -26,13 +26,24 @@ const __APP_INFO__ = {
 };
 
 export default ({ command, mode }: ConfigEnv): UserConfigExport => {
-  const {
-    VITE_PORT,
-    VITE_LEGACY,
-    VITE_PUBLIC_PATH,
-    VITE_PROXY_DOMAIN,
-    VITE_PROXY_DOMAIN_REAL
-  } = warpperEnv(loadEnv(mode, root));
+  const { VITE_PORT, VITE_LEGACY, VITE_PUBLIC_PATH } = warpperEnv(
+    loadEnv(mode, root)
+  );
+  console.log(
+    "%c 🥔 VITE_PORT: ",
+    "font-size:20px;background-color: #2EAFB0;color:#fff;",
+    VITE_PORT
+  );
+  console.log(
+    "%c 🍧 VITE_PUBLIC_PATH: ",
+    "font-size:20px;background-color: #FCA650;color:#fff;",
+    VITE_PUBLIC_PATH
+  );
+  console.log(
+    "%c 🍓 mode: ",
+    "font-size:20px;background-color: #ED9EC7;color:#fff;",
+    mode
+  );
   return {
     base: VITE_PUBLIC_PATH,
     root,
@@ -62,19 +73,19 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
       https: false,
       // 端口号
       port: VITE_PORT,
-      host: "0.0.0.0",
+      host: "0.0.0.0"
       // 本地跨域代理
-      proxy:
-        VITE_PROXY_DOMAIN_REAL.length > 0
-          ? {
-              [VITE_PROXY_DOMAIN]: {
-                target: VITE_PROXY_DOMAIN_REAL,
-                // ws: true,
-                changeOrigin: true,
-                rewrite: (path: string) => regExps(path, VITE_PROXY_DOMAIN)
-              }
-            }
-          : null
+      // proxy:
+      //   VITE_PROXY_DOMAIN_REAL.length > 0
+      //     ? {
+      //         [VITE_PROXY_DOMAIN]: {
+      //           target: VITE_PROXY_DOMAIN_REAL,
+      //           // ws: true,
+      //           changeOrigin: true,
+      //           rewrite: (path: string) => regExps(path, VITE_PROXY_DOMAIN)
+      //         }
+      //       }
+      //     : null
     },
     plugins: getPluginsList(command, VITE_LEGACY),
     optimizeDeps: {
