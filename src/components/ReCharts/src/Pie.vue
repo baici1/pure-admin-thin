@@ -37,10 +37,10 @@ function initechartInstance() {
         radius: "60%",
         center: ["40%", "50%"],
         data: [
-          { value: 1079, name: "watchers" },
-          { value: 1079, name: "star" },
-          { value: 204, name: "forks" },
-          { value: 3, name: "open_issues" }
+          { value: 1079, name: "A类" },
+          { value: 1079, name: "B类" },
+          { value: 204, name: "大创" },
+          { value: 3, name: "小挑" }
         ],
         emphasis: {
           itemStyle: {

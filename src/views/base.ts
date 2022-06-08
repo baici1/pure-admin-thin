@@ -1,5 +1,7 @@
 export interface UserBaseInfo {
   ID: number;
+  avatar: string;
+  realName: string;
   CreatedAt: string;
   UpdatedAt: string;
   phone: string;

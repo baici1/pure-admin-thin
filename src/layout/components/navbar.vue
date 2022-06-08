@@ -5,7 +5,6 @@ import { useRoute, useRouter } from "vue-router";
 import Search from "./search/index.vue";
 import Notice from "./notice/index.vue";
 import mixNav from "./sidebar/mixNav.vue";
-import avatars from "/@/assets/avatars.jpg";
 import Hamburger from "./sidebar/hamBurger.vue";
 import { watch, getCurrentInstance } from "vue";
 import Breadcrumb from "./sidebar/breadCrumb.vue";
@@ -13,6 +12,8 @@ import { deviceDetection } from "/@/utils/deviceDetection";
 import screenfull from "../components/screenfull/index.vue";
 import globalization from "/@/assets/svg/globalization.svg?component";
 
+import { storageLocal } from "/@/utils/storage";
+import { UserBaseInfo } from "/@/views/base";
 const route = useRoute();
 const router = useRouter();
 const { locale, t } = useI18n();
@@ -24,7 +25,6 @@ const {
   changeTitle,
   toggleSideBar,
   pureApp,
-  usename,
   getDropdownItemStyle
 } = useNav();
 
@@ -47,6 +47,9 @@ function translationEn() {
 const auth_update = async () => {
   router.push("/info/update");
 };
+
+//获取个人id
+const info: UserBaseInfo = storageLocal.getItem("Info");
 </script>
 
 <template>
@@ -94,10 +97,10 @@ const auth_update = async () => {
         </template>
       </el-dropdown>
       <!-- 退出登陆 -->
-      <el-dropdown trigger="click">
+      <el-dropdown trigger="click" id="dropdown-link">
         <span class="el-dropdown-link">
-          <img :src="avatars" />
-          <p>{{ usename }}</p>
+          <img :src="info?.avatar" />
+          <p>{{ info?.realName }}</p>
         </span>
         <template #dropdown>
           <el-dropdown-menu class="logout">

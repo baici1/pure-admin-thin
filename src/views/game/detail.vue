@@ -38,7 +38,8 @@ import {
   enterDialogAchievement,
   formDataAchievement,
   GetAchievementFile,
-  TeachersOption
+  TeachersOption,
+  isEditByOwn
 } from "./utils/details";
 import {
   competitionTypeOptions,
@@ -148,7 +149,10 @@ init();
       <el-card class="detail-card" shadow="never">
         <el-descriptions title="项目信息" :column="2">
           <template #extra>
-            <el-button type="primary" @click="OpenDialogProject(Info)"
+            <el-button
+              type="primary"
+              @click="OpenDialogProject(Info)"
+              v-if="isEditByOwn"
               >编辑</el-button
             >
           </template>
@@ -184,7 +188,11 @@ init();
         <template #header>
           <div class="card-header">
             <div class="card-title">队员信息</div>
-            <el-button type="primary" @click="openDialogMember">
+            <el-button
+              type="primary"
+              @click="openDialogMember"
+              v-if="isEditByOwn"
+            >
               新增队员
             </el-button>
           </div>
@@ -209,6 +217,7 @@ init();
                 size="small"
                 @click="updateEntryMemberFunc(scope.row)"
                 :disabled="scope.$index == 0"
+                v-if="isEditByOwn"
               >
                 更改
               </el-button>
@@ -217,6 +226,7 @@ init();
                 size="small"
                 @click="deleteEntryMemberFunc(scope.row)"
                 :disabled="scope.$index == 0"
+                v-if="isEditByOwn"
               >
                 删除
               </el-button>
@@ -229,7 +239,11 @@ init();
         <template #header>
           <div class="card-header">
             <div class="card-title">指导老师信息</div>
-            <el-button type="primary" @click="openDialogTeacher">
+            <el-button
+              type="primary"
+              @click="openDialogTeacher"
+              v-if="isEditByOwn"
+            >
               新增老师
             </el-button>
           </div>
@@ -262,6 +276,7 @@ init();
                 type="text"
                 size="small"
                 @click="deleteEntryTeacherFunc(scope.row)"
+                v-if="isEditByOwn"
               >
                 删除
               </el-button>
@@ -274,7 +289,11 @@ init();
         <template #header>
           <div class="card-header">
             <div class="card-title">获奖信息</div>
-            <el-button type="primary" @click="openDialogAchievement">
+            <el-button
+              type="primary"
+              @click="openDialogAchievement"
+              v-if="isEditByOwn"
+            >
               新增获奖
             </el-button>
           </div>
@@ -305,10 +324,17 @@ init();
           </el-table-column>
           <el-table-column label="审核">
             <template #default="scope">
-              {{ scope.row.check }}
+              <el-tag :type="scope.row.check ? 'success' : 'warning'">
+                {{ scope.row.check ? "通过" : "未通过" }}</el-tag
+              >
             </template>
           </el-table-column>
-          <el-table-column fixed="right" label="Operations" width="180">
+          <el-table-column
+            fixed="right"
+            label="Operations"
+            width="180"
+            v-if="isEditByOwn"
+          >
             <template #default="scope">
               <el-button
                 type="text"

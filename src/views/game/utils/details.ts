@@ -32,10 +32,15 @@ import {
   Achievement
 } from "/@/api/model/game";
 import { getFileInfo, DeleteFileInfo } from "/@/api/file";
+import { storageLocal } from "/@/utils/storage/index";
+import { UserBaseInfo } from "/@/views/base";
+const userinfo: UserBaseInfo = storageLocal.getItem("Info");
+const uid = ref(userinfo.ID);
+export const isEditByOwn = ref(false);
 export const greetings = ref("参赛表详情");
 
 export const Info = ref<Entry>({
-  ID: 1,
+  ID: undefined,
   CreatedAt: "",
   name: "",
   cmpId: 0,
@@ -49,7 +54,7 @@ export const Info = ref<Entry>({
     endTime: "",
     year: 0,
     base_info: {
-      ID: 1,
+      ID: undefined,
       CreatedAt: "",
       cName: "",
       cType: 0,
@@ -181,6 +186,9 @@ export const getMembersInfo = async id => {
     const data = await getStudentInfo({
       ID: item.uId
     });
+    if (uid.value == item.uId && item.identify == 1) {
+      isEditByOwn.value = true;
+    }
     item.name = data.data.restudentInfo.realName;
     item.phone = data.data.restudentInfo.phone;
   }
@@ -312,6 +320,11 @@ export const getTableDataTeacher = async () => {
   }
   for (const item of tableDataTeacher.value) {
     const res = await findTeacherInfo({ ID: item.tId });
+    console.log(
+      "%c 🌰 res: ",
+      "font-size:20px;background-color: #ED9EC7;color:#fff;",
+      res
+    );
     if (res.code === 0) {
       item.phone = res.data.reteacherInfo.phone;
       item.realName = res.data.reteacherInfo.realName;

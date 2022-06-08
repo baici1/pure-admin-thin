@@ -10,9 +10,12 @@ import {
   get_competition_time_list,
   times
 } from "./index";
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 const init = async () => {
-  getTableDataStu();
+  await getTableDataStu();
+  await get_competition_time_list();
+  let data = loadAll();
+  restaurants.value.push(...data);
 };
 init();
 //==================学生比赛搜索区域================
@@ -38,8 +41,12 @@ const createFilter = (queryString: string) => {
   };
 };
 const loadAll = () => {
-  get_competition_time_list();
   let lists = [] as Array<RestaurantItem>;
+  console.log(
+    "%c 🥒 times: ",
+    "font-size:20px;background-color: #7F2B82;color:#fff;",
+    times.value
+  );
   for (let item of times.value) {
     lists.push({
       value: item.ID,
@@ -57,11 +64,6 @@ const loadAll = () => {
 const handleSelect = (item: RestaurantItem) => {
   getTableDataStu(item.value);
 };
-
-onMounted(() => {
-  let data = loadAll();
-  restaurants.value.push(...data);
-});
 </script>
 
 <template>
@@ -78,6 +80,91 @@ onMounted(() => {
                 <div class="card-header">
                   <el-row>
                     <el-col :span="3"> <span>学生组队</span></el-col>
+                    <el-col :span="10">
+                      <el-autocomplete
+                        v-model="comID"
+                        :fetch-suggestions="querySearch"
+                        clearable
+                        class="inline-input w-100"
+                        placeholder="请输入比赛"
+                        @select="handleSelect"
+                        value-key="label"
+                        highlight-first-item
+                      >
+                        <template #append>
+                          <el-button @click="init">
+                            <template #icon>
+                              <iconify-icon-offline
+                                icon="search"
+                              ></iconify-icon-offline>
+                            </template>
+                          </el-button>
+                        </template>
+                      </el-autocomplete>
+                    </el-col>
+                  </el-row>
+                </div>
+              </template>
+              <el-row :gutter="30">
+                <el-col
+                  :span="4"
+                  v-for="(item, index) in tableDataStu"
+                  :key="index"
+                >
+                  <el-card
+                    class="stu-recruit"
+                    shadow="hover"
+                    :body-style="{ padding: '10px' }"
+                  >
+                    <router-link
+                      class="w-full h-full"
+                      :to="{
+                        name: 'PreRecuritDetail',
+                        params: { id: item.ID }
+                      }"
+                    >
+                      <div class="flex justify-between">
+                        <div>{{ item.title }}</div>
+                        <div class="text-red-500">还需 {{ item.num }} 人</div>
+                      </div>
+                      <div
+                        class="mt-2 mb-5"
+                        style="font-size: 12px; color: rgb(187, 187, 187)"
+                      >
+                        {{ item.competition.base_info.cName }}
+                      </div>
+                      <div class="pusher">
+                        <div>
+                          <el-avatar :src="item.member.avatar" />
+                        </div>
+                        <div class="ml-3">
+                          {{ item.member.realName }}
+                        </div>
+                      </div>
+                    </router-link>
+                  </el-card>
+                </el-col>
+              </el-row>
+              <div class="mt-5">
+                <el-pagination
+                  layout="total, prev, pager, next, jumper"
+                  :current-page="pageStu"
+                  :page-size="pageSizeStu"
+                  :total="totalStu"
+                  @current-change="handleCurrentChangeStu"
+                />
+              </div>
+            </el-card>
+          </el-col>
+        </el-row>
+
+        <el-row justify="center" class="mt-5">
+          <el-col :span="22">
+            <el-card shadow="never">
+              <template #header>
+                <div class="card-header">
+                  <el-row>
+                    <el-col :span="3"> <span>老师项目</span></el-col>
                     <el-col :span="10">
                       <el-autocomplete
                         v-model="comID"
@@ -153,12 +240,6 @@ onMounted(() => {
                 />
               </div>
             </el-card>
-          </el-col>
-        </el-row>
-
-        <el-row justify="center">
-          <el-col :span="22">
-            <el-card> 2.块部分是老师项目的招聘卡片</el-card>
           </el-col>
         </el-row>
       </el-main>

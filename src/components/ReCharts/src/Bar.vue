@@ -45,7 +45,7 @@ function initechartInstance() {
           // width: "70",
           // overflow: "truncate"
         },
-        data: ["open_issues", "forks", "watchers", "star"]
+        data: ["A类", "B类", "大创", "小挑"]
       }
     ],
     yAxis: [
@@ -57,7 +57,7 @@ function initechartInstance() {
       {
         name: "GitHub信息",
         type: "bar",
-        data: [3, 204, 1079, 1079]
+        data: [3, 3, 2, 1]
       }
     ]
   });

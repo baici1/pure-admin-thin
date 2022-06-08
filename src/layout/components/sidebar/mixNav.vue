@@ -4,7 +4,6 @@ import Search from "../search/index.vue";
 import Notice from "../notice/index.vue";
 import { useNav } from "../../hooks/nav";
 import { templateRef } from "@vueuse/core";
-import avatars from "/@/assets/avatars.jpg";
 import { transformI18n } from "/@/plugins/i18n";
 import screenfull from "../screenfull/index.vue";
 import { useRoute, useRouter } from "vue-router";
@@ -15,7 +14,8 @@ import { getParentPaths, findRouteByPath } from "/@/router/utils";
 import { usePermissionStoreHook } from "/@/store/modules/permission";
 import globalization from "/@/assets/svg/globalization.svg?component";
 import { ref, watch, nextTick, onMounted, getCurrentInstance } from "vue";
-
+import { storageLocal } from "/@/utils/storage";
+import { UserBaseInfo } from "/@/views/base";
 const route = useRoute();
 const { locale, t } = useI18n();
 const routers = useRouter().options.routes;
@@ -32,7 +32,6 @@ const {
   menuSelect,
   resolvePath,
   pureApp,
-  usename,
   getDropdownItemStyle
 } = useNav();
 
@@ -80,6 +79,8 @@ function translationEn() {
   locale.value = "en";
   handleResize(menuRef.value);
 }
+//获取个人id
+const info: UserBaseInfo = storageLocal.getItem("Info");
 </script>
 
 <template>
@@ -166,10 +167,10 @@ function translationEn() {
         </template>
       </el-dropdown>
       <!-- 退出登陆 -->
-      <el-dropdown trigger="click">
+      <el-dropdown trigger="click" id="dropdown-link">
         <span class="el-dropdown-link">
-          <img :src="avatars" />
-          <p>{{ usename }}</p>
+          <img :src="info?.avatar" />
+          <p>{{ info?.realName }}</p>
         </span>
         <template #dropdown>
           <el-dropdown-menu class="logout">

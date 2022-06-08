@@ -11,7 +11,7 @@
             <el-option
               v-for="item in options"
               :key="item.ID"
-              :label="item.base_info.cName"
+              :label="`${item.year} - ${item.base_info.cName}`"
               :value="item.ID"
             />
           </el-select>
@@ -82,7 +82,7 @@
         <el-table-column align="left" label="标题" prop="title" width="120" />
         <el-table-column align="left" label="比赛" prop="comId" width="120">
           <template #default="scope">
-            {{
+            {{ options.filter(item => item.ID == scope.row.comId)[0].year }} -{{
               options.filter(item => item.ID == scope.row.comId)[0].base_info
                 .cName
             }}
@@ -146,7 +146,7 @@
         <el-form-item label="比赛:">
           <el-select v-model="formData.comId" class="ml-2" placeholder="Select">
             <el-option
-              v-for="item in options"
+              v-for="item in options.filter(item => item.publish == true)"
               :key="item.ID"
               :label="item.base_info.cName"
               :value="item.ID"

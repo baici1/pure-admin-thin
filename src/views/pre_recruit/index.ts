@@ -8,7 +8,8 @@ export const times = ref([] as TimeList[]);
 export const get_competition_time_list = async () => {
   const data = await GetCompetitionTimeList({
     page: 1,
-    pageSize: 10
+    pageSize: 10,
+    publish: true
   });
   console.log(
     "%c 🌯 data: ",

@@ -1,7 +1,7 @@
 <template>
   <el-upload
     class="upload-demo"
-    action="/fileUploadAndDownload/upload"
+    action="http://127.0.0.1:8888/fileUploadAndDownload/upload"
     :on-preview="handlePreview"
     :on-remove="handleRemove"
     :before-remove="beforeRemove"
@@ -20,7 +20,7 @@
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";
-import { ElMessageBox } from "element-plus";
+import { ElMessage, ElMessageBox } from "element-plus";
 import type { UploadProps, UploadFile, UploadInstance } from "element-plus";
 import { DeleteFileInfo } from "/@/api/file";
 // 声明事件
@@ -44,6 +44,8 @@ const handleSuccess: UploadProps["onSuccess"] = (
   );
   if (response.code == 0) {
     emit("uploadURL", response.data.file.ID);
+  } else {
+    ElMessage.error(response.msg);
   }
   console.log(uploadFile);
 };

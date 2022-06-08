@@ -7,6 +7,7 @@ import { getDictFunc } from "/@/utils/format";
 import { GetCompetitionTimeList } from "/@/api/pre_home";
 const userinfo: UserBaseInfo = storageLocal.getItem("Info");
 const uid = ref(userinfo.ID);
+
 //参赛表的表单
 export const entry = ref<EntryInfo>({
   name: undefined,
@@ -40,7 +41,8 @@ export const options = ref([]);
 export const get_com_selectList = async () => {
   const data = await GetCompetitionTimeList({
     page: 1,
-    pageSize: 20
+    pageSize: 20,
+    publish: true
   });
   console.log(
     "%c 🥩 data: ",
@@ -62,9 +64,10 @@ export const setOptions = async () => {
 export const dialogVisible = ref(false);
 
 export function handleClose() {
-  ElMessageBox.alert("请保持你进行的修改", "是否取消", {
+  ElMessageBox.alert("请保存你的修改", "是否取消", {
     confirmButtonText: "OK",
     callback: () => {
+      EntryInit();
       dialogVisible.value = false;
       ElMessage({
         type: "info",
